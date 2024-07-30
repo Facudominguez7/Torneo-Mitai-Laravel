@@ -56,7 +56,7 @@ class ControladorEquipo extends Controller
             $request->foto->move(public_path('fotos/equipos'), $filename);
         }
         Equipo::create($data);
-        return to_route('equipo.index', ['idEdicion' => $request->idEdicion]);
+        return to_route('equipo.index', ['idEdicion' => $request->idEdicion])->with('status', 'Equipo Creado');
     }
 
     /**
@@ -98,7 +98,7 @@ class ControladorEquipo extends Controller
         } 
         
         $equipo->update($data);
-        return to_route('equipo.index', ['idEdicion' => $request->idEdicion]);
+        return to_route('equipo.index', ['idEdicion' => $request->idEdicion])->with('status', 'Equipo Actualizado');
     }
 
     /**
@@ -107,6 +107,6 @@ class ControladorEquipo extends Controller
     public function destroy(Request $request, Equipo $equipo)
     {
         $equipo->delete();
-        return to_route('equipo.index', ['idEdicion' => $request->idEdicion]);
+        return to_route('equipo.index', ['idEdicion' => $request->idEdicion])->with('status', 'Equipo Eliminado');
     }
 }
