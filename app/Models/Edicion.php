@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Edicion extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $table = 'ediciones';
     protected $fillable = ['nombre'];
 
