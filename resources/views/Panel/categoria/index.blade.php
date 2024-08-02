@@ -65,17 +65,24 @@
                             <span
                                 class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Accion
                             </span>
-                            <div class="lg:flex lg:justify-center lg:space-x-4">
-                                <a href="{{ route('categoria.edit', $c) }}"
-                                    class="text-blue-400 hover:text-blue-600 underline">Editar</a>
-                                <a href="{{ route('categoria.show', ['categorium' => $c, 'idEdicion' => $c->idEdicion]) }}"
-                                    class="text-blue-400 hover:text-blue-600 underline">Detalle</a>
-                                <form action="{{ route('categoria.destroy', $c) }}"
-                                    class="text-blue-400 hover:text-blue-600 underline" method="post">
+                            <div class="lg:flex lg:justify-center lg:space-x-4 lg:flex-row flex justify-center flex-col">
+                                <button class="mb-1 lg:mb-0">
+                                    <a href="{{ route('categoria.edit', $c) }}" class="btn btn-editar">
+                                        Editar
+                                    </a>
+                                </button>
+                                <button class="mb-1 lg:mb-0">
+                                    <a href="{{ route('categoria.show', ['categorium' => $c, 'idEdicion' => $c->idEdicion]) }}"
+                                        class="btn btn-detalle">
+                                        Detalle
+                                    </a>
+                                </button>
+                                <form action="{{ route('categoria.destroy', $c) }}" method="post">
                                     @method('DELETE')
                                     @csrf
-                                    <input type="number" id="idEdicion" name="idEdicion" class="hidden" value="{{$c->idEdicion}}">
-                                    <button type="submit">Eliminar</button>
+                                    <input type="number" id="idEdicion" name="idEdicion" class="hidden"
+                                        value="{{ $c->idEdicion }}">
+                                    <button class="btn btn-eliminar" type="submit">Eliminar</button>
                                 </form>
                             </div>
                         </td>
