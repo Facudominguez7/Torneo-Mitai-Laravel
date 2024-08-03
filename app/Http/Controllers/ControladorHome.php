@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Categoria;
 use App\Models\Edicion;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ControladorHome extends Controller
@@ -16,21 +17,17 @@ class ControladorHome extends Controller
         $idCategoria = $request->query('idCategoria');
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
         $categorias = Categoria::query();
+        $roles = User::pluck('rol');
         if ($EdicionSeleccionada) {
             $categorias = $categorias->where('idEdicion', $idEdicion)->orderBy('nombreCategoria', 'desc')->get();
         }
     
-        return view('welcome', compact('ediciones', 'EdicionSeleccionada', 'categorias', 'idEdicion', 'idCategoria'));
+        return view('welcome', compact('ediciones', 'EdicionSeleccionada', 'categorias', 'idEdicion', 'idCategoria', 'roles'));
     }
 
-    public function admin(Request $request)
+    public function admin()
     {
-        $idEdicion = $request->query('idEdicion');
-    
         $ediciones = Edicion::all();
-        $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
-        
-    
-        return view('Panel.admin', compact('EdicionSeleccionada', 'ediciones', 'idEdicion'));
+        return view('Panel.admin', compact('ediciones'));
     }
 }

@@ -23,3 +23,6 @@
 .btn-detalle {
     @apply bg-yellow-600 hover:bg-yellow-800 border-yellow-600
 }
+.card {
+    @apply p-6 rounded shadow-sm
+}
