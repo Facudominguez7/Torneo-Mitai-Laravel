@@ -33,10 +33,16 @@
                 </a>
             @endif
         </div>
-        <div class="mt-8 flex justify-center text-lg text-black">
+        <div class="mt-8 flex justify-center flex-col items-center text-lg text-black">
             <x-primary-button>
                 {{ __('Iniciar Sesión') }}
             </x-primary-button>
+            <span class="mx-2 text-white text-4xl">o</span>
+            <hr class="w-full border-white my-5" />
+            <a href="socialite/google" class="mt-5 bg-white hover:bg-gray-100 border border-gray-300 rounded-lg p-2 shadow-sm">
+                Iniciar sesión con Google
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/24px-Google_%22G%22_Logo.svg.png" alt="Google" class="w-4 h-4 ml-2">
+            </a>
         </div>
 
         <!-- Remember Me
