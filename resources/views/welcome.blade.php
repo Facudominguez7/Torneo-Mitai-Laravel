@@ -35,7 +35,7 @@
                     </h1>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:grid-cols-4 ">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:grid-cols-3  xl:grid-cols-4 ">
                     <div class="p-2 sm:p-10 text-center cursor-pointer">
                         <div
                             class="py-16 max-w-sm rounded overflow-hidden shadow-lg bg-oro-500 hover:bg-oro-600 transition duration-500">

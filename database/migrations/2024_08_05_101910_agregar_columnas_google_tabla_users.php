@@ -10,9 +10,9 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('google_id')->nullable();
-            $table->string('google_email')->nullable();
-            $table->string('google_name')->nullable();
             $table->string('google_token')->nullable();
+            $table->string('google_avatar')->nullable();
+            $table->string('password')->nullable();
         });
     }
 
@@ -20,9 +20,9 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('google_id');
-            $table->dropColumn('google_email');
-            $table->dropColumn('google_name');
             $table->dropColumn('google_token');
+            $table->dropColumn('google_avatar');
+            $table->dropColumn('password');
         });
     }
 };
