@@ -7,8 +7,17 @@ use App\Http\Controllers\Panel\ControladorEquipo;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\UserAccesPanelMiddleware;
+use Laravel\Socialite\Facades\Socialite;
 
-
+Route::get('/auth/redirect', function () {
+    return Socialite::driver('google')->redirect();
+});
+ 
+Route::get('/auth/google/callback', function () {
+    $user_google = Socialite::driver('google')->stateless()->user();
+    dd($user_google);
+    // $user->token
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -25,5 +34,7 @@ Route::group(['prefix' => 'Panel', 'middleware' => ['auth', 'verified', UserAcce
     Route::get('/admin', [ControladorHome::class, 'admin'])
     ->name('admin'); 
 });
+
+
 
 require __DIR__.'/auth.php';
