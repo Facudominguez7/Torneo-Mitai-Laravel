@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Edicion;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,9 +17,11 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        $idEdicion = $request->query('idEdicion');
+        $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
+        $user = $request->user();
+
+        return view('profile.edit', compact('EdicionSeleccionada', 'user'));
     }
 
     /**
@@ -42,19 +45,21 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
-
         $user = $request->user();
-
+    
+        if (!isset($user->google_id)) {
+            $request->validateWithBag('userDeletion', [
+                'password' => ['required', 'current_password'],
+            ]);
+        }
+    
         Auth::logout();
-
+    
         $user->delete();
-
+    
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
+    
         return Redirect::to('/');
     }
 }

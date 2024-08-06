@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\ControladorHome;
 use App\Http\Controllers\Google\LoginController;
 use App\Http\Controllers\Panel\ControladorCategoria;
@@ -19,6 +20,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/', [ControladorHome::class, 'index'])->name('home');
+Route::get('forgot-password/{restablecer?}', [PasswordResetLinkController::class, 'create'])->name('password.request');
+
 
 Route::group(['prefix' => 'Panel', 'middleware' => ['auth', 'verified', UserAccesPanelMiddleware::class]], function () {
     Route::resource('equipo', ControladorEquipo::class);

@@ -24,10 +24,22 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
-
+        $credentials = $request->only(['email', 'password']);
+    
+        if (!Auth::attempt($credentials)) {
+            return back()->withErrors(['email' => 'Invalid credentials']);
+        }
+    
+        // Verificar si el usuario necesita restablecer su contraseña
+        $user = Auth::user();
+        
+        if ($user->restablecer_password === 'necesario') {
+            Auth::logout();
+            return redirect()->route('password.request', ['restablecer' => 'Si']);
+        }
+    
         $request->session()->regenerate();
-
+    
         return redirect()->intended(route('home', absolute: false));
     }
 

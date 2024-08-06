@@ -44,7 +44,7 @@
                 <span class="text-white text-2xl">O</span>
                 <hr class="w-64 border-white ml-2" />
             </div>
-            <a href="socialite/google" class="mt-3 bg-white hover:bg-gray-100 border border-gray-300 rounded-lg p-2 shadow-sm">
+            <a href="/auth/redirect" class="mt-3 bg-white hover:bg-gray-100 border border-gray-300 rounded-lg p-2 shadow-sm">
                 Registrarse con Google
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/24px-Google_%22G%22_Logo.svg.png" alt="Google" class="w-4 h-4 ml-2">
             </a>

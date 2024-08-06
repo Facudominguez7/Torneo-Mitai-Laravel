@@ -1,6 +1,10 @@
 <x-guest-layout>
     <div class="mb-4 mt-2 text-sm text-white">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+        @if (isset($restablecer) == 'Si')
+            {{ __('Por su seguridad es necesario que restablezca su contraseña, simplemente déjanos saber su dirección de correo electrónico y le enviaremos un enlace pra restablecer la contraseña que le permitirá elegir una nueva. ') }}
+        @else
+            {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+        @endif
     </div>
 
     <!-- Session Status -->

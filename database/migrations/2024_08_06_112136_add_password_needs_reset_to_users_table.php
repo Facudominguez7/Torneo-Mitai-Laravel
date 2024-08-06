@@ -9,18 +9,14 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('google_id')->nullable();
-            $table->string('google_token')->nullable();
-            $table->string('google_avatar')->nullable();
+            $table->enum('restablecer_password', ["necesario", "innecesario"])->default("necesario");
         });
     }
 
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('google_id');
-            $table->dropColumn('google_token');
-            $table->dropColumn('google_avatar');
+            $table->dropColumn('restablecer_password');
         });
     }
 };
