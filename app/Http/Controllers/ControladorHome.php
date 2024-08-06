@@ -25,9 +25,11 @@ class ControladorHome extends Controller
         return view('welcome', compact('ediciones', 'EdicionSeleccionada', 'categorias', 'idEdicion', 'idCategoria', 'roles'));
     }
 
-    public function admin()
+    public function admin(Request $request)
     {
         $ediciones = Edicion::all();
-        return view('Panel.admin', compact('ediciones'));
+        $idEdicion = $request->query('idEdicion');
+        $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
+        return view('Panel.admin', compact('ediciones', 'EdicionSeleccionada'));
     }
 }

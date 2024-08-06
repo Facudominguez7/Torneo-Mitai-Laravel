@@ -63,7 +63,7 @@
                     <ul id="dropdown-example" class="hidden py-2 space-y-2">
                         @foreach ($ediciones as $edicion)
                             <li>
-                                <a href="{{ route('admin', ['idEdicion' => $edicion]) }}"
+                                <a href="{{ route('admin', ['idEdicion' => $edicion->id]) }}"
                                     class="block px-4 py-2 hover:bg-gray-100">
                                     {{ $edicion->nombre }}
                                 </a>
