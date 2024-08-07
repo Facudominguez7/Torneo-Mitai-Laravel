@@ -72,7 +72,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="{{ route('edicion.index') }}"
+                    <a href="{{ route('edicion.index', (isset($EdicionSeleccionada) ? ['idEdicion' => $EdicionSeleccionada] : [])) }}"
                         class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                         <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900"
                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -82,9 +82,8 @@
                         <span class="flex-1 ms-3 whitespace-nowrap">Tabla Ediciones</span>
                     </a>
                 </li>
-                @if (isset($EdicionSeleccionada))
                     <li>
-                        <a href="{{ route('equipo.index', ['idEdicion' => $EdicionSeleccionada]) }}"
+                        <a href="{{ route('equipo.index', (isset($EdicionSeleccionada) ? ['idEdicion' => $EdicionSeleccionada] : [])) }}"
                             class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                             <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900"
                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -95,7 +94,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('categoria.index', ['idEdicion' => $EdicionSeleccionada]) }}"
+                        <a href="{{ route('categoria.index', (isset($EdicionSeleccionada) ? ['idEdicion' => $EdicionSeleccionada] : [])) }}"
                             class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                             <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900"
                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -105,7 +104,18 @@
                             <span class="flex-1 ms-3 whitespace-nowrap">Tabla Categorias</span>
                         </a>
                     </li>
-                @endif
+                    <li>
+                        <a href="{{ route('campeon.index', (isset($EdicionSeleccionada) ? ['idEdicion' => $EdicionSeleccionada] : [])) }}"
+                            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                            <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                <path
+                                    d="M64 256l0-96 160 0 0 96L64 256zm0 64l160 0 0 96L64 416l0-96zm224 96l0-96 160 0 0 96-160 0zM448 256l-160 0 0-96 160 0 0 96zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32z" />
+                            </svg>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Tabla Campeones</span>
+                        </a>
+                    </li>
+                
                 <li>
                     <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                         <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900"

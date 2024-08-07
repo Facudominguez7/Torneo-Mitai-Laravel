@@ -14,7 +14,9 @@ class ControladorEdicion extends Controller
     public function index(Request $request)
     {
         $ediciones = Edicion::all();
-        return view('panel.edicion.index', compact('ediciones'));
+        $idEdicion = $request->idEdicion;
+        $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
+        return view('panel.edicion.index', compact('ediciones', 'EdicionSeleccionada'));
     }
 
     /**

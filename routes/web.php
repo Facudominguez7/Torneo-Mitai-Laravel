@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\ControladorHome;
 use App\Http\Controllers\Google\LoginController;
+use App\Http\Controllers\Panel\ControladorCampeon;
 use App\Http\Controllers\Panel\ControladorCategoria;
 use App\Http\Controllers\Panel\ControladorEdicion;
 use App\Http\Controllers\Panel\ControladorEquipo;
@@ -27,6 +28,8 @@ Route::group(['prefix' => 'Panel', 'middleware' => ['auth', 'verified', UserAcce
     Route::resource('equipo', ControladorEquipo::class);
     Route::resource('categoria', ControladorCategoria::class);
     Route::resource('edicion', ControladorEdicion::class);
+    Route::resource('campeon', ControladorCampeon::class);
+    Route::get('/seleccionar-categoria', [ControladorCampeon::class,'seleccionarCategoria'])->name('seleccionar-categoria');
     Route::get('/admin', [ControladorHome::class, 'admin'])
     ->name('admin'); 
 });

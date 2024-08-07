@@ -20,4 +20,8 @@ class Categoria extends Model
     {
         return $this->hasMany(Equipo::class, 'idCategoria');
     }
+    public function campeones()
+    {
+        return $this->hasMany(Campeon::class, 'idCategoria');
+    }
 }

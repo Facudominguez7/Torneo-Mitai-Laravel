@@ -1,0 +1,110 @@
+<?php
+
+namespace App\Http\Controllers\Panel;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Campeon\StoreRequest;
+use App\Models\Campeon;
+use App\Models\Categoria;
+use App\Models\Copa;
+use App\Models\Edicion;
+use App\Models\Equipo;
+use Illuminate\Http\Request;
+
+class ControladorCampeon extends Controller
+{
+    public function index(Request $request)
+    {
+        $ediciones = Edicion::all();
+        $idEdicion = $request->idEdicion;
+        $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
+        $campeones = Campeon::join('ediciones as ed', 'campeones.idEdicion', '=', 'ed.id')
+            ->join('equipos as e', 'campeones.idEquipo', '=', 'e.id')
+            ->join('copas as co', 'campeones.idCopa', '=', 'co.id')
+            ->join('categorias as cat', 'campeones.idCategoria', '=', 'cat.id')
+            ->select('campeones.*', 'e.nombre as nombreEquipo', 'cat.nombreCategoria as nombreCategoria', 'co.nombre as nombreCopa', 'e.id as idEquipo')
+            ->where('campeones.idEdicion', $idEdicion)
+            ->orderBy('cat.nombreCategoria', 'desc')
+            ->paginate(7);
+        $campeones->appends(['idEdicion' => $idEdicion]);
+        return view('panel.campeon.index', compact('ediciones', 'EdicionSeleccionada', 'campeones'));
+    }
+
+    public function seleccionarCategoria(Request $request){
+        $idEdicion = $request->idEdicion;
+        $categorias = Categoria::all()->where('idEdicion', $idEdicion);
+        return view('panel.seleccionar-categoria', compact('categorias'));
+    }
+
+    public function create(Request $request)
+    {
+        $ediciones = Edicion::all();
+        $campeon = new Campeon();
+        $ediciones = Edicion::all();
+        $idEdicion = $request->idEdicion;
+        $idCategoria =  $request->idCategoria;
+        $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
+        $equipos = Equipo::where('idEdicion', $idEdicion)
+            ->where('idCategoria', $idCategoria)
+            ->get();
+        $copas = Copa::all();
+        return view('panel.campeon.create', compact('ediciones', 'campeon', 'EdicionSeleccionada', 'equipos', 'copas'));
+    }
+
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreRequest $request)
+    {
+        $data = $request->validated();
+        Campeon::create($data);
+        return to_route('campeon.index', ['idEdicion' => $request->idEdicion])->with('status', 'Equipo Creado');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Request $request, Campeon $campeon)
+    {
+        $ediciones = Edicion::all();
+        $idEdicion = $request->idEdicion;
+        $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
+        return view('Panel.campeon.show', compact('ediciones', 'campeon', 'EdicionSeleccionada'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Campeon $campeon)
+    {
+        $ediciones = Edicion::all();
+        $idEdicion = $campeon->idEdicion;
+        $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
+        $idCategoria = $campeon->idCategoria;
+        $equipos = Equipo::where('idEdicion', $idEdicion)
+            ->where('idCategoria', $idCategoria)
+            ->get();
+        $copas = Copa::all();
+        return view('panel.campeon.edit', compact('ediciones', 'campeon', 'equipos', 'copas'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(StoreRequest $request, Campeon $campeon)
+    {
+        $data = $request->validated();
+        $campeon->update($data);
+        return to_route('campeon.index', ['idEdicion' => $request->idEdicion])->with('status', 'Equipo Actualizado');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Request $request, Campeon $campeon)
+    {
+        $campeon->delete();
+        return to_route('campeon.index', ['idEdicion' => $request->idEdicion])->with('status', 'Equipo Eliminado');
+    }
+}

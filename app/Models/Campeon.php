@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Equipo extends Model
+class Campeon extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $fillable = ['nombre', 'foto', 'idCategoria', 'idEdicion', 'foto'];
+    protected $table = 'campeones';
+    protected $fillable = ['idEquipo', 'idCopa', 'idCategoria', 'idEdicion'];
 
     function categoria()
     {
@@ -19,8 +20,12 @@ class Equipo extends Model
     {
         return $this->belongsTo(Edicion::class, 'idEdicion');
     }
-    public function campeon()
+    public function equipo()
     {
-        return $this->hasOne(Campeon::class, 'idEquipo');
+        return $this->belongsTo(Equipo::class, 'idEquipo');
+    }
+    public function copa()
+    {
+        return $this->belongsTo(Copa::class, 'idCopa');
     }
 }
