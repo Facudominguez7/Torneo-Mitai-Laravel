@@ -31,9 +31,13 @@ class ControladorCampeon extends Controller
     }
 
     public function seleccionarCategoria(Request $request){
+        $ediciones = Edicion::all();
         $idEdicion = $request->idEdicion;
-        $categorias = Categoria::all()->where('idEdicion', $idEdicion);
-        return view('panel.seleccionar-categoria', compact('categorias'));
+        $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
+        $categorias = Categoria::where('idEdicion', $idEdicion)
+                ->orderBy('nombreCategoria', 'desc')
+                ->get();
+        return view('panel.seleccionar-categoria', compact('categorias', 'ediciones', 'EdicionSeleccionada'));
     }
 
     public function create(Request $request)
@@ -41,14 +45,15 @@ class ControladorCampeon extends Controller
         $ediciones = Edicion::all();
         $campeon = new Campeon();
         $ediciones = Edicion::all();
-        $idEdicion = $request->idEdicion;
-        $idCategoria =  $request->idCategoria;
+        $idEdicion = $request->input('idEdicion');
+        $idCategoria = $request->input('idCategoria');
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
+        $CategoriaSeleccionada = $idCategoria ? Categoria::find($idCategoria) : null;
         $equipos = Equipo::where('idEdicion', $idEdicion)
             ->where('idCategoria', $idCategoria)
             ->get();
         $copas = Copa::all();
-        return view('panel.campeon.create', compact('ediciones', 'campeon', 'EdicionSeleccionada', 'equipos', 'copas'));
+        return view('panel.campeon.create', compact('ediciones', 'campeon', 'EdicionSeleccionada', 'equipos', 'copas', 'CategoriaSeleccionada'));
     }
 
 
@@ -86,7 +91,7 @@ class ControladorCampeon extends Controller
             ->where('idCategoria', $idCategoria)
             ->get();
         $copas = Copa::all();
-        return view('panel.campeon.edit', compact('ediciones', 'campeon', 'equipos', 'copas'));
+        return view('panel.campeon.edit', compact('ediciones', 'campeon', 'equipos', 'copas', 'idCategoria', 'EdicionSeleccionada'));
     }
 
     /**

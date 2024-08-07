@@ -25,6 +25,7 @@ class StoreRequest extends FormRequest
             'idEdicion' => 'int|required',
             'idEquipo' => 'int|required',
             'idCopa' => 'int|required',
+            'idCategoria' => 'int|required',
         ];
     }
 }

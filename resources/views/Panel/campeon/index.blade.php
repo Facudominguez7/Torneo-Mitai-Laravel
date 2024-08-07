@@ -93,12 +93,6 @@
                                         Editar
                                     </a>
                                 </button>
-                                <button class="mb-1 lg:mb-0">
-                                    <a href="{{ route('campeon.show', ['campeon' => $c, 'idEdicion' => $c->idEdicion]) }}"
-                                        class="btn btn-detalle">
-                                        Detalle
-                                    </a>
-                                </button>
                                 <form action="{{ route('campeon.destroy', $c) }}" method="post">
                                     @method('DELETE')
                                     @csrf

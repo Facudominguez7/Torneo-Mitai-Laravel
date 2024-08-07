@@ -29,7 +29,7 @@ Route::group(['prefix' => 'Panel', 'middleware' => ['auth', 'verified', UserAcce
     Route::resource('categoria', ControladorCategoria::class);
     Route::resource('edicion', ControladorEdicion::class);
     Route::resource('campeon', ControladorCampeon::class);
-    Route::get('/seleccionar-categoria', [ControladorCampeon::class,'seleccionarCategoria'])->name('seleccionar-categoria');
+    Route::get('seleccionar-categoria', [ControladorCampeon::class, 'seleccionarCategoria'])->name('seleccionar-categoria');
     Route::get('/admin', [ControladorHome::class, 'admin'])
     ->name('admin'); 
 });
