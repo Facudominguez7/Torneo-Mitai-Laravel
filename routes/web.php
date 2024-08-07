@@ -5,6 +5,7 @@ use App\Http\Controllers\ControladorHome;
 use App\Http\Controllers\Google\LoginController;
 use App\Http\Controllers\Panel\ControladorCampeon;
 use App\Http\Controllers\Panel\ControladorCategoria;
+use App\Http\Controllers\Panel\ControladorCopa;
 use App\Http\Controllers\Panel\ControladorEdicion;
 use App\Http\Controllers\Panel\ControladorEquipo;
 use App\Http\Controllers\ProfileController;
@@ -29,6 +30,7 @@ Route::group(['prefix' => 'Panel', 'middleware' => ['auth', 'verified', UserAcce
     Route::resource('categoria', ControladorCategoria::class);
     Route::resource('edicion', ControladorEdicion::class);
     Route::resource('campeon', ControladorCampeon::class);
+    Route::resource('copa', ControladorCopa::class);
     Route::get('seleccionar-categoria', [ControladorCampeon::class, 'seleccionarCategoria'])->name('seleccionar-categoria');
     Route::get('/admin', [ControladorHome::class, 'admin'])
     ->name('admin'); 
