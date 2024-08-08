@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Copa;
+namespace App\Http\Requests\Fecha;
 
 use Illuminate\Foundation\Http\FormRequest;
 

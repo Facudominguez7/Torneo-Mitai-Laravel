@@ -10,7 +10,7 @@ class Copa extends Model
     use HasFactory;
     public $timestamps = false;
     protected $table = 'copas';
-    protected $fillable = ['nombre'];
+    protected $fillable = ['nombre', 'idEdicion'];
 
     public function campeones()
     {

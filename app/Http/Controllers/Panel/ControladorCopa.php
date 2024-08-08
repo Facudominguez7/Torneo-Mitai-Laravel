@@ -16,7 +16,7 @@ class ControladorCopa extends Controller
     {
         $ediciones = Edicion::all();
         $idEdicion = $request->idEdicion;
-        $copas = Copa::all( );
+        $copas = Copa::where('idEdicion', $idEdicion)->get();
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
         return view('panel.copa.index', compact('ediciones', 'EdicionSeleccionada', 'copas'));
     }
@@ -66,19 +66,19 @@ class ControladorCopa extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request_edicion, StoreRequest $request, Copa $copa)
+    public function update(StoreRequest $request, Copa $copa)
     {
         $data = $request->validated();
         $copa->update($data);
-        return to_route('copa.index', ['idEdicion' => $request_edicion->idEdicion]);
+        return to_route('copa.index', ['idEdicion' => $copa->idEdicion]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, Copa $copa)
+    public function destroy(Copa $copa)
     {
         $copa->delete();
-        return to_route('copa.index', ['idEdicion' => $request->idEdicion]);
+        return to_route('copa.index', ['idEdicion' => $copa->idEdicion])->with('status', 'Copa Eliminada');
     }
 }

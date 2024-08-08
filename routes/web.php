@@ -8,6 +8,7 @@ use App\Http\Controllers\Panel\ControladorCategoria;
 use App\Http\Controllers\Panel\ControladorCopa;
 use App\Http\Controllers\Panel\ControladorEdicion;
 use App\Http\Controllers\Panel\ControladorEquipo;
+use App\Http\Controllers\Panel\ControladorFecha;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\UserAccesPanelMiddleware;
@@ -31,6 +32,7 @@ Route::group(['prefix' => 'Panel', 'middleware' => ['auth', 'verified', UserAcce
     Route::resource('edicion', ControladorEdicion::class);
     Route::resource('campeon', ControladorCampeon::class);
     Route::resource('copa', ControladorCopa::class);
+    Route::resource('fecha', ControladorFecha::class);
     Route::get('seleccionar-categoria', [ControladorCampeon::class, 'seleccionarCategoria'])->name('seleccionar-categoria');
     Route::get('/admin', [ControladorHome::class, 'admin'])
     ->name('admin'); 

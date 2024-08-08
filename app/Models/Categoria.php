@@ -24,4 +24,8 @@ class Categoria extends Model
     {
         return $this->hasMany(Campeon::class, 'idCategoria');
     }
+    public function fechas()
+    {
+        return $this->hasMany(Fecha::class, 'idCategoria');
+    }
 }
