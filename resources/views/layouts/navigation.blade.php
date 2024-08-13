@@ -1,8 +1,18 @@
 <nav class="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="" class="flex items-center space-x-3 rtl:space-x-reverse">
-            <img src="{{ asset('fotos/Logo_Mitai_SinFondo.png') }}" class="h-10 w-10" alt="MITAI Logo">
-            <span class="self-center text-lg font-semibold whitespace-nowrap dark:text-white">Torneos Mitaí</span>
+        @if (isset($EdicionSeleccionada))
+            <a href="{{ route('home', ['idEdicion' => $EdicionSeleccionada]) }}"
+                class="flex items-center space-x-3 rtl:space-x-reverse">
+                <img src="{{ asset('fotos/Logo_Mitai_SinFondo.png') }}" class="h-10 w-10" alt="MITAI Logo">
+                <span
+                    class="self-center text-lg font-semibold whitespace-nowrap dark:text-white">{{ $EdicionSeleccionada->nombre }}</span>
+            @else
+                <a href="{{ route('home') }}"
+                    class="flex items-center space-x-3 rtl:space-x-reverse">
+                    <img src="{{ asset('fotos/Logo_Mitai_SinFondo.png') }}" class="h-10 w-10" alt="MITAI Logo">
+                    <span class="self-center text-lg font-semibold whitespace-nowrap dark:text-white">Torneos
+                        Mita'í</span>
+        @endif
         </a>
         <button data-collapse-toggle="navbar-dropdown" type="button"
             class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
@@ -18,7 +28,7 @@
             <ul
                 class="flex flex-col font-medium p-4 lg:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 lg:space-x-8 rtl:space-x-reverse lg:flex-row lg:mt-0 lg:border-0 lg:bg-white dark:bg-gray-800 lg:dark:bg-gray-900 dark:border-gray-700">
                 <li>
-                    <a href="{{ url('/') }}"
+                    <a href="home"
                         class="block py-2 px-3 text-white bg-gray-800 lg:bg-white lg:text-black  rounded lg:bg-transparentlg:text-blue-700 lg:p-0 lg:dark:text-blue-500 dark:bg-blue-600 lg:dark:bg-transparent"
                         aria-current="page">Inicio</a>
                 </li>

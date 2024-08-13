@@ -18,7 +18,7 @@ class ControladorFecha extends Controller
     {
         $ediciones = Edicion::all();
         $idEdicion = $request->idEdicion;
-        $fechas = Fecha::where('idEdicion', $idEdicion)->orderBy('id', 'desc')->take(2)->paginate(7);
+        $fechas = Fecha::where('idEdicion', $idEdicion)->with('categoria')->orderBy('id', 'desc')->paginate(7);
         $fechas->appends(['idEdicion' => $idEdicion]);
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
         return view('panel.fecha.index', compact('ediciones', 'EdicionSeleccionada', 'fechas'));
@@ -72,22 +72,28 @@ class ControladorFecha extends Controller
      */
     public function edit(Fecha $fecha)
     {
-        //
+        $ediciones = Edicion::all();
+        $idEdicion = $fecha->idEdicion;
+        $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
+        return view('Panel.fecha.edit', compact('ediciones', 'fecha', 'EdicionSeleccionada'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Fecha $fecha)
+    public function update(StoreRequest $request, Fecha $fecha)
     {
-        //
+        $data = $request->validated();
+        $fecha->update($data);
+        return to_route('fecha.index', ['idEdicion' => $data['idEdicion']])->with('status', 'Fecha Actualizada');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Fecha $fecha)
+    public function destroy(Request $request , Fecha $fecha)
     {
-        //
+        $fecha->delete();
+        return to_route('fecha.index', ['idEdicion' => $request->idEdicion])->with('status', 'Fecha Eliminada');
     }
 }

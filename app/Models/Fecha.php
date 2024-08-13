@@ -14,7 +14,7 @@ class Fecha extends Model
 
     public function categoria()
     {
-        return $this->belongsToMany(Categoria::class, 'idCategoria');
+        return $this->belongsTo(Categoria::class, 'idCategoria');
     }
 
     public function edicion()

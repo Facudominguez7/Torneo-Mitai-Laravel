@@ -23,6 +23,9 @@
                     Nombre
                 </th>
                 <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">
+                    Categoria
+                </th>
+                <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">
                     Accion
                 </th>
             </tr>
@@ -47,6 +50,11 @@
                     </span>
                     {{ $f->nombre }}
                 </td>
+                <td class="w-full lg:w-1/3 p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
+                    <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">nombre
+                    </span>
+                    {{ $f->categoria->nombreCategoria }}
+                </td>
                 <td class="w-full lg:w-full p-3 text-gray-800 text-center border border-b  block lg:table-cell relative lg:static">
                     <span class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Accion
                     </span>
@@ -59,6 +67,8 @@
                         <form action="{{ route('fecha.destroy', $f) }}" method="post">
                             @method('DELETE')
                             @csrf
+                            <input type="number" id="idEdicion" name="idEdicion" class="hidden"
+                                        value="{{ $EdicionSeleccionada->id }}">
                             <button class="btn btn-eliminar" type="submit">Eliminar</button>
                         </form>
                     </div>

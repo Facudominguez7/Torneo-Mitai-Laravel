@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/', [ControladorHome::class, 'index'])->name('home');
+Route::get('/campeones', [ControladorHome::class, 'campeones'])->name('campeones');
 Route::get('forgot-password/{restablecer?}', [PasswordResetLinkController::class, 'create'])->name('password.request');
 
 
