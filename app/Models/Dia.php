@@ -10,7 +10,7 @@ class Dia extends Model
     use HasFactory;
     public $timestamps = false;
     protected $table = 'dias';
-    protected $fillable = ['nombre'];
+    protected $fillable = ['diaPartido', 'idEdicion'];
 
     public function edicion()
     {

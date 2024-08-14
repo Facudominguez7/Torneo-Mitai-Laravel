@@ -47,7 +47,7 @@
                         <div class="flex justify-center items-center flex-col">
                             <i class="fa-solid fa-medal text-black" style="font-size:48px;"></i>
                             <div class="px-6 py-4">
-                                <div class="font-bold text-xl mb-2 text-black">Campeones</div>
+                                <div class="font-bold text-xl mb-2 text-black">Subcampeones</div>
                                 @if (isset($EdicionSeleccionada))
                                     <a href="{{ route('subcampeones', ['idEdicion' => $EdicionSeleccionada]) }}"
                                         class="bg-gray-600 hover:bg-gray-700 text-black font-bold py-2 px-4 rounded">
