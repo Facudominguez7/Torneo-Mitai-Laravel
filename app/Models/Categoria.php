@@ -28,4 +28,8 @@ class Categoria extends Model
     {
         return $this->hasMany(Fecha::class, 'idCategoria');
     }
+    public function goleadores()
+    {
+        return $this->hasMany(Goleador::class, 'idCategoria');
+    }
 }

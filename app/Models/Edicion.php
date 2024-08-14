@@ -28,4 +28,8 @@ class Edicion extends Model
     {
         return $this->hasMany(Dia::class, 'idEdicion');
     }
+    public function goleadores()
+    {
+        return $this->hasMany(Goleador::class, 'idEdicion');
+    }
 }

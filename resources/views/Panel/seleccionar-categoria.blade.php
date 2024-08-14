@@ -3,7 +3,7 @@
 @section('contenido')
 <div class="mb-5">
     <label for="idCategoria" class="block text-base font-medium text-white mb-3">
-        Selecciona la categoría para agregar el campeón
+        Selecciona la categoría
     </label>
     <form action="{{ route('campeon.create') }}" method="GET" id="seleccionar-categoria-form">
         <input type="hidden" name="idEdicion" value="{{ $EdicionSeleccionada->id }}">

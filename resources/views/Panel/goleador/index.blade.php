@@ -5,10 +5,10 @@
         @if (isset($EdicionSeleccionada))
             <div class="flex flex-row justify-center mb-2">
                 <div>
-                    <a href="{{ route('seleccionar-categoria', ['idEdicion' => $EdicionSeleccionada, 'tipo' => $tipo]) }}">
+                <a href="{{ route('seleccionar-categoria', ['idEdicion' => $EdicionSeleccionada, 'tipo' => $tipo]) }}">
                         <button
                             class="bg-gray-800 hover:bg-gray-900 mt-2 mb-2 text-white py-2 px-4 rounded-full transition-all duration-300 md:py-3 md:px-6 md:rounded-lg">
-                            Agregar Campeon
+                            Agregar Goleador
                         </button>
                     </a>
                 </div>
@@ -29,7 +29,7 @@
                     </th>
                     <th
                         class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">
-                        Copa
+                        Equipo
                     </th>
                     <th
                         class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">
@@ -42,7 +42,7 @@
                 </tr>
             </thead>
             <tbody>
-                @if ($campeones->isempty())
+                @if ($goleadores->isempty())
                     <tr
                         class="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0">
                         <td colspan="5"
@@ -51,7 +51,7 @@
                         </td>
                     </tr>
                 @endif
-                @foreach ($campeones as $c)
+                @foreach ($goleadores as $g)
                     <tr
                         class="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0">
                         <td
@@ -59,28 +59,28 @@
                             <span
                                 class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Id
                             </span>
-                            {{ $c->idEquipo }}
+                            {{ $g->id }}
+                        </td>
+                        <td
+                            class="w-full lg:w-1/3 p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
+                            <span
+                                class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Nombre
+                            </span>
+                            {{ $g->nombre }}
                         </td>
                         <td
                             class="w-full lg:w-1/3 p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
                             <span
                                 class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">nombre
                             </span>
-                            {{ $c->nombreEquipo }}
-                        </td>
-                        <td
-                            class="w-full lg:w-1/3 p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
-                            <span
-                                class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Copa
-                            </span>
-                            {{ $c->nombreCopa }}
+                            {{ $g->nombreEquipo }}
                         </td>
                         <td
                             class="w-full lg:w-1/3 p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
                             <span
                                 class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Categoria
                             </span>
-                            {{ $c->nombreCategoria }}
+                            {{ $g->nombreCategoria }}
                         </td>
                         <td
                             class="w-full lg:w-full p-3 text-gray-800 text-center border border-b  block lg:table-cell relative lg:static">
@@ -89,15 +89,15 @@
                             </span>
                             <div class="lg:flex lg:justify-center lg:space-x-4 lg:flex-row flex justify-center flex-col">
                                 <button class="mb-1 lg:mb-0">
-                                    <a href="{{ route('campeon.edit', $c) }}" class="btn btn-editar">
+                                    <a href="{{ route('goleador.edit', $g) }}" class="btn btn-editar">
                                         Editar
                                     </a>
                                 </button>
-                                <form action="{{ route('campeon.destroy', $c) }}" method="post">
+                                <form action="{{ route('goleador.destroy', $g) }}" method="post">
                                     @method('DELETE')
                                     @csrf
                                     <input type="number" id="idEdicion" name="idEdicion" class="hidden"
-                                        value="{{ $c->idEdicion }}">
+                                        value="{{ $g->idEdicion }}">
                                     <button class="btn btn-eliminar" type="submit">Eliminar</button>
                                 </form>
                             </div>
@@ -108,6 +108,6 @@
         </table>
     </div>
     <div class="flex justify-center">
-        {{ $campeones->links() }}
+        {{ $goleadores->links() }}
     </div>
 @endsection

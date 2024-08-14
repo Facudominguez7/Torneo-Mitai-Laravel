@@ -23,4 +23,9 @@ class Equipo extends Model
     {
         return $this->hasOne(Campeon::class, 'idEquipo');
     }
+    public function goleador()
+    {
+        return $this->hasOne(Goleador::class, 'idEquipo');
+    }
+
 }

@@ -30,14 +30,14 @@ class ControladorCampeon extends Controller
             ->orderBy('cat.nombreCategoria', 'desc')
             ->paginate(7);
         $campeones->appends(['idEdicion' => $idEdicion]);
-        return view('panel.campeon.index', compact('ediciones', 'EdicionSeleccionada', 'campeones'));
+        $tipo = 'campeon';
+        return view('panel.campeon.index', compact('ediciones', 'EdicionSeleccionada', 'campeones', 'tipo'));
     }
 
     public function create(Request $request)
     {
         $ediciones = Edicion::all();
         $campeon = new Campeon();
-        $ediciones = Edicion::all();
         $idEdicion = $request->input('idEdicion');
         $idCategoria = $request->input('idCategoria');
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;

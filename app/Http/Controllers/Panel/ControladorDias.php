@@ -29,6 +29,7 @@ class ControladorDias extends Controller
     {
         $ediciones = Edicion::all();
         $dia = new Dia();
+
         $idEdicion = $request->idEdicion;
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
         return view('panel.dia.create', compact('ediciones', 'dia', 'EdicionSeleccionada'));

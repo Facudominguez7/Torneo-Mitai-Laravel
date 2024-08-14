@@ -12,7 +12,7 @@ use App\Models\Subcampeon;
 use App\Traits\SeleccionarCategoriaTrait;
 use Illuminate\Http\Request;
 
-class ControladorSubCampeon extends Controller
+class ControladorSubcampeon extends Controller
 {
     use SeleccionarCategoriaTrait;
     public function index(Request $request)
@@ -29,7 +29,8 @@ class ControladorSubCampeon extends Controller
             ->orderBy('cat.nombreCategoria', 'desc')
             ->paginate(7);
         $subcampeones->appends(['idEdicion' => $idEdicion]);
-        return view('panel.subcampeon.index', compact('ediciones', 'EdicionSeleccionada', 'subcampeones'));
+        $tipo = 'subcampeon';
+        return view('panel.subcampeon.index', compact('tipo', 'ediciones', 'EdicionSeleccionada', 'subcampeones'));
     }
 
     public function create(Request $request)
