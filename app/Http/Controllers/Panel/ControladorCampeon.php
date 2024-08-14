@@ -9,10 +9,13 @@ use App\Models\Categoria;
 use App\Models\Copa;
 use App\Models\Edicion;
 use App\Models\Equipo;
+use App\Traits\SeleccionarCategoriaTrait;
 use Illuminate\Http\Request;
 
 class ControladorCampeon extends Controller
 {
+    use SeleccionarCategoriaTrait;
+
     public function index(Request $request)
     {
         $ediciones = Edicion::all();
@@ -30,16 +33,6 @@ class ControladorCampeon extends Controller
         return view('panel.campeon.index', compact('ediciones', 'EdicionSeleccionada', 'campeones'));
     }
 
-    public function seleccionarCategoria(Request $request){
-        $ediciones = Edicion::all();
-        $idEdicion = $request->idEdicion;
-        $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
-        $categorias = Categoria::where('idEdicion', $idEdicion)
-                ->orderBy('nombreCategoria', 'desc')
-                ->get();
-        return view('panel.seleccionar-categoria', compact('categorias', 'ediciones', 'EdicionSeleccionada'));
-    }
-
     public function create(Request $request)
     {
         $ediciones = Edicion::all();
@@ -52,7 +45,7 @@ class ControladorCampeon extends Controller
         $equipos = Equipo::where('idEdicion', $idEdicion)
             ->where('idCategoria', $idCategoria)
             ->get();
-        $copas = Copa::all();
+        $copas = Copa::where('idEdicion', $idEdicion)->get();
         return view('panel.campeon.create', compact('ediciones', 'campeon', 'EdicionSeleccionada', 'equipos', 'copas', 'CategoriaSeleccionada'));
     }
 

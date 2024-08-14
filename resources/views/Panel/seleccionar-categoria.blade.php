@@ -16,7 +16,7 @@
         <div class="flex justify-center">
             <button type="submit"
                 class="bg-gray-800 hover:bg-gray-900 text-white py-2 px-4 rounded-full transition-all duration-300 md:py-3 md:px-6 md:rounded-lg">
-                Agregar Campeon
+                Continuar
             </button>
         </div>
     </form>

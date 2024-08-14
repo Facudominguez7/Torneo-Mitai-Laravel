@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Campeon;
 use App\Models\Categoria;
 use App\Models\Edicion;
+use App\Models\Subcampeon;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -44,18 +45,46 @@ class ControladorHome extends Controller
             $categorias = $categorias->where('idEdicion', $idEdicion)->orderBy('nombreCategoria', 'desc')->get();
         }
         $campeonesOro = Campeon::where('campeones.idEdicion', $idEdicion)
-            ->where('idCopa', 1)
+            ->join('copas', 'campeones.idCopa', '=', 'copas.id')
+            ->where('copas.nombre', 'Copa de Oro')
             ->with(['equipo', 'categoria'])
             ->join('categorias', 'campeones.idCategoria', '=', 'categorias.id')
             ->orderBy('categorias.nombreCategoria', 'desc')
             ->get();
 
         $campeonesPlata = Campeon::where('campeones.idEdicion', $idEdicion)
-            ->where('idCopa', 2)
+            ->join('copas', 'campeones.idCopa', '=', 'copas.id')
+            ->where('copas.nombre', 'Copa de Plata')
             ->with(['equipo', 'categoria'])
             ->join('categorias', 'campeones.idCategoria', '=', 'categorias.id')
             ->orderBy('categorias.nombreCategoria', 'desc')
             ->get();
         return view('layouts.campeones', compact('ediciones', 'EdicionSeleccionada', 'categorias', 'campeonesOro', 'campeonesPlata'));
+    }
+
+    public function subcampeones(Request $request)
+    {
+        $ediciones = Edicion::all();
+        $idEdicion = $request->query('idEdicion');
+        $categorias = Categoria::query();
+        $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
+        if ($EdicionSeleccionada) {
+            $categorias = $categorias->where('idEdicion', $idEdicion)->orderBy('nombreCategoria', 'desc')->get();
+        }
+        $subcampeonesOro = Subcampeon::where('subcampeones.idEdicion', $idEdicion)
+            ->join('copas', 'subcampeones.idCopa', '=', 'copas.id')
+            ->where('copas.nombre', 'Copa de Oro')
+            ->with(['equipo', 'categoria'])
+            ->join('categorias', 'subcampeones.idCategoria', '=', 'categorias.id')
+            ->orderBy('categorias.nombreCategoria', 'desc')
+            ->get();
+        $subcampeonesPlata = Subcampeon::where('subcampeones.idEdicion', $idEdicion)
+            ->join('copas', 'subcampeones.idCopa', '=', 'copas.id')
+            ->where('copas.nombre', 'Copa de Plata')
+            ->with(['equipo', 'categoria'])
+            ->join('categorias', 'subcampeones.idCategoria', '=', 'categorias.id')
+            ->orderBy('categorias.nombreCategoria', 'desc')
+            ->get();
+        return view('layouts.subcampeones', compact('ediciones', 'EdicionSeleccionada', 'categorias', 'subcampeonesOro', 'subcampeonesPlata'));
     }
 }

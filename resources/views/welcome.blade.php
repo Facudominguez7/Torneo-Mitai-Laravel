@@ -43,11 +43,17 @@
                 </div>
                 <div class="p-2 sm:p-10 text-center cursor-pointer flex-1">
                     <div
-                        class="h-64 w-64 flex justify-center rounded overflow-hidden shadow-lg bg-gray-500 hover:bg-gray-600 transition duration-500">
+                        class="h-64 w-64 flex justify-center rounded overflow-hidden shadow-lg bg-gray-500  transition duration-500">
                         <div class="flex justify-center items-center flex-col">
                             <i class="fa-solid fa-medal text-black" style="font-size:48px;"></i>
                             <div class="px-6 py-4">
-                                <div class="font-bold text-xl mb-2">Subcampeones</div>
+                                <div class="font-bold text-xl mb-2 text-black">Campeones</div>
+                                @if (isset($EdicionSeleccionada))
+                                    <a href="{{ route('subcampeones', ['idEdicion' => $EdicionSeleccionada]) }}"
+                                        class="bg-gray-600 hover:bg-gray-700 text-black font-bold py-2 px-4 rounded">
+                                        Ver más
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     </div>

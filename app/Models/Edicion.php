@@ -16,7 +16,6 @@ class Edicion extends Model
     {
         return $this->hasMany(Categoria::class, 'idEdicion');
     }
-
     public function equipos()
     {
         return $this->hasMany(Equipo::class, 'idEdicion');
@@ -24,5 +23,9 @@ class Edicion extends Model
     public function fechas()
     {
         return $this->hasMany(Fecha::class, 'idEdicion');
+    }
+    public function dias()
+    {
+        return $this->hasMany(Dia::class, 'idEdicion');
     }
 }
