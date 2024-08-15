@@ -15,6 +15,7 @@ trait SeleccionarCategoriaTrait
         $categorias = Categoria::where('idEdicion', $idEdicion)
                 ->orderBy('nombreCategoria', 'desc')
                 ->get();
+        $tipo = $request->tipo;
         return view('panel.seleccionar-categoria', compact('tipo', 'categorias', 'ediciones', 'EdicionSeleccionada'));
     }
 }

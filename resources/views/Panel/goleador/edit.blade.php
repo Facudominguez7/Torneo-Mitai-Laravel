@@ -4,7 +4,7 @@
     @include('Panel.fragment._errores-formulario')
     <div class="flex items-center justify-center p-12">
         <div class="mx-auto w-full max-w-[550px]">
-            <form action="{{route('goleador.update', $campeon->id)}}" method="POST">
+            <form action="{{route('goleador.update', $goleador->id)}}" method="POST">
                 @method('PATCH')
                 @include('Panel.goleador._form')
                 <div>

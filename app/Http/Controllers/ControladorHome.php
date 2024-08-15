@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Campeon;
 use App\Models\Categoria;
 use App\Models\Edicion;
+use App\Models\Goleador;
 use App\Models\Subcampeon;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -86,5 +87,20 @@ class ControladorHome extends Controller
             ->orderBy('categorias.nombreCategoria', 'desc')
             ->get();
         return view('layouts.subcampeones', compact('ediciones', 'EdicionSeleccionada', 'categorias', 'subcampeonesOro', 'subcampeonesPlata'));
+    }
+    public function goleadores(Request $request)
+    {
+        $ediciones = Edicion::all();
+        $idEdicion = $request->query('idEdicion');
+        $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
+        // Obtener los datos de los goleadores
+        $goleadores = Goleador::where('goleadores.idEdicion', $idEdicion)
+            ->join('equipos', 'goleadores.idEquipo', '=', 'equipos.id')
+            ->join('categorias', 'goleadores.idCategoria', '=', 'categorias.id')
+            ->select('goleadores.nombre as nombre_jugador', 'equipos.nombre as nombre_equipo', 'equipos.foto as foto_equipo', 'categorias.nombreCategoria as categoria_nombre')
+            ->orderBy('categoria_nombre', 'desc')
+            ->get();
+
+        return view('layouts.goleadores', compact('ediciones', 'EdicionSeleccionada', 'goleadores'));
     }
 }

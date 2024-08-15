@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Goleador\StoreRequest;
 use App\Models\Categoria;
 use App\Models\Edicion;
 use App\Models\Equipo;
@@ -53,7 +54,7 @@ class ControladorGoleador extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         $data = $request->validated();
         Goleador::create($data);
@@ -86,7 +87,7 @@ class ControladorGoleador extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Goleador $goleador)
+    public function update(StoreRequest $request, Goleador $goleador)
     {
         $data = $request->validated();
         $goleador->update($data);
