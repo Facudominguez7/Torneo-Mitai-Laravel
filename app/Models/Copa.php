@@ -16,4 +16,9 @@ class Copa extends Model
     {
         return $this->hasMany(Campeon::class, 'idCopa');
     }
+    public function subcampeones()
+    {
+        return $this->hasMany(Subcampeon::class, 'idCopa');
+    }
+    
 }

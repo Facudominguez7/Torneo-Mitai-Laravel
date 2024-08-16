@@ -12,6 +12,7 @@ use App\Http\Controllers\Panel\ControladorEquipo;
 use App\Http\Controllers\Panel\ControladorFecha;
 use App\Http\Controllers\Panel\ControladorGoleador;
 use App\Http\Controllers\Panel\ControladorSubcampeon;
+use App\Http\Controllers\Panel\ControladorValla;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\UserAccesPanelMiddleware;
@@ -29,6 +30,7 @@ Route::get('/', [ControladorHome::class, 'index'])->name('home');
 Route::get('/campeones', [ControladorHome::class, 'campeones'])->name('campeones');
 Route::get('/subcampeones', [ControladorHome::class, 'subcampeones'])->name('subcampeones');
 Route::get('/goleadores', [ControladorHome::class, 'goleadores'])->name('goleadores');
+Route::get('/vallas', [ControladorHome::class, 'vallas'])->name('vallas');
 Route::get('forgot-password/{restablecer?}', [PasswordResetLinkController::class, 'create'])->name('password.request');
 
 
@@ -42,8 +44,8 @@ Route::group(['prefix' => 'Panel', 'middleware' => ['auth', 'verified', UserAcce
     Route::resource('fecha', ControladorFecha::class);
     Route::resource('dia', ControladorDias::class);
     Route::resource('goleador', ControladorGoleador::class);
+    Route::resource('valla', ControladorValla::class);
     Route::get('seleccionar-categoria', [ControladorCampeon::class, 'seleccionarCategoria'])->name('seleccionar-categoria');
-
     Route::get('/admin', [ControladorHome::class, 'admin'])
     ->name('admin'); 
 });

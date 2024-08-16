@@ -32,4 +32,12 @@ class Categoria extends Model
     {
         return $this->hasMany(Goleador::class, 'idCategoria');
     }
+    public function subcampeones()
+    {
+        return $this->hasMany(Subcampeon::class, 'idCategoria');
+    }
+    public function vallasMenosVencidas()
+    {
+        return $this->hasMany(VallaMenosVencida::class, 'idCategoria');
+    }
 }

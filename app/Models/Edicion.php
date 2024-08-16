@@ -32,4 +32,20 @@ class Edicion extends Model
     {
         return $this->hasMany(Goleador::class, 'idEdicion');
     }
+    public function campeones()
+    {
+        return $this->hasMany(Campeon::class, 'idEdicion');
+    }
+    public function subcampeones()
+    {
+        return $this->hasMany(Subcampeon::class, 'idEdicion');
+    }
+    public function copas()
+    {
+        return $this->hasMany(Copa::class, 'idEdicion');
+    }
+    public function vallasMenosVencidas()
+    {
+        return $this->hasMany(VallaMenosVencida::class, 'idEdicion');
+    }
 }

@@ -8,6 +8,7 @@ use App\Models\Edicion;
 use App\Models\Goleador;
 use App\Models\Subcampeon;
 use App\Models\User;
+use App\Models\VallaMenosVencida;
 use Illuminate\Http\Request;
 
 class ControladorHome extends Controller
@@ -102,5 +103,20 @@ class ControladorHome extends Controller
             ->get();
 
         return view('layouts.goleadores', compact('ediciones', 'EdicionSeleccionada', 'goleadores'));
+    }
+    public function vallas(Request $request)
+    {
+        $ediciones = Edicion::all();
+        $idEdicion = $request->query('idEdicion');
+        $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
+
+        $vallas = VallaMenosVencida::where('vallas_menos_vencidas.idEdicion', $idEdicion)
+            ->join('equipos', 'vallas_menos_vencidas.idEquipo', '=', 'equipos.id')
+            ->join('categorias', 'vallas_menos_vencidas.idCategoria', '=', 'categorias.id')
+            ->select('vallas_menos_vencidas.nombre as nombre_jugador', 'equipos.nombre as nombre_equipo', 'equipos.foto as foto_equipo', 'categorias.nombreCategoria as categoria_nombre')
+            ->orderBy('categoria_nombre', 'desc')
+            ->get();
+
+        return view('layouts.vallas', compact('ediciones', 'EdicionSeleccionada', 'vallas'));
     }
 }

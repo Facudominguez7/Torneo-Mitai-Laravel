@@ -27,5 +27,13 @@ class Equipo extends Model
     {
         return $this->hasOne(Goleador::class, 'idEquipo');
     }
+    public function subcampeon()
+    {
+        return $this->hasOne(Subcampeon::class, 'idEquipo');
+    }
+    public function vallaMenosVencida()
+    {
+        return $this->hasOne(VallaMenosVencida::class, 'idEquipo');
+    }
 
 }
