@@ -55,26 +55,6 @@ botonEdiciones.addEventListener("click", function (event) {
 
     menuEdiciones.classList.toggle("hidden");
 });
-
-botonUser.addEventListener("click", function(event) {
-    const buttonRect = botonUser.getBoundingClientRect();
-
-    if (window.innerWidth < 768) {
-        menuUser.style.top = `${buttonRect.bottom}px`;
-        menuUser.style.left = "0";
-        menuUser.style.width = "100%";
-    } else {
-        const navRect = document.querySelector("nav").getBoundingClientRect();
-        const menuWidth = navRect.width * 0.1; // Ancho ajustado
-
-        menuUser.style.top = `${buttonRect.bottom}px`;
-        menuUser.style.left = `${buttonRect.left}px`; // Ajuste de posición a la izquierda del botón
-        menuUser.style.width = `${menuWidth}px`;
-    }
-
-    menuUser.classList.toggle("hidden");
-});
-
 document.addEventListener("click", function (event) {
     const isClickInsideMenuCategorias = menuCategorias.contains(event.target);
     const isClickOnButtonCategorias = event.target === botonCategorias;

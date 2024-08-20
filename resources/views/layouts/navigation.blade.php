@@ -7,8 +7,7 @@
                 <span
                     class="self-center text-lg font-semibold whitespace-nowrap dark:text-white">{{ $EdicionSeleccionada->nombre }}</span>
             @else
-                <a href="{{ route('home') }}"
-                    class="flex items-center space-x-3 rtl:space-x-reverse">
+                <a href="{{ route('home') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
                     <img src="{{ asset('fotos/Logo_Mitai_SinFondo.png') }}" class="h-10 w-10" alt="MITAI Logo">
                     <span class="self-center text-lg font-semibold whitespace-nowrap dark:text-white">Torneos
                         Mita'í</span>
@@ -27,11 +26,6 @@
         <div class="hidden w-full lg:block lg:w-auto" id="navbar-dropdown">
             <ul
                 class="flex flex-col font-medium p-4 lg:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 lg:space-x-8 rtl:space-x-reverse lg:flex-row lg:mt-0 lg:border-0 lg:bg-white dark:bg-gray-800 lg:dark:bg-gray-900 dark:border-gray-700">
-                <li>
-                    <a href="home"
-                        class="block py-2 px-3 text-white bg-gray-800 lg:bg-white lg:text-black  rounded lg:bg-transparentlg:text-blue-700 lg:p-0 lg:dark:text-blue-500 dark:bg-blue-600 lg:dark:bg-transparent"
-                        aria-current="page">Inicio</a>
-                </li>
                 <li>
                     <div class="flex flex-row items-center">
                         <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownEdiciones"
@@ -142,9 +136,15 @@
                                 </button>
                             </x-slot>
                             <x-slot name="content">
-                                <x-dropdown-link :href="route('profile.edit')">
-                                    {{ __('Profile') }}
-                                </x-dropdown-link>
+                                @if (isset($EdicionSeleccionada))
+                                    <x-dropdown-link :href="route('profile.edit', ['idEdicion' => $EdicionSeleccionada])">
+                                        {{ __('Profile') }}
+                                    </x-dropdown-link>
+                                @else
+                                    <x-dropdown-link :href="route('profile.edit')">
+                                        {{ __('Profile') }}
+                                    </x-dropdown-link>
+                                @endif
 
                                 <!-- Authentication -->
                                 <form method="POST" action="{{ route('logout') }}">

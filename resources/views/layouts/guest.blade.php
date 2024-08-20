@@ -28,9 +28,11 @@
                 class="rounded-xl bg-gray-800 bg-opacity-50 px-16 py-10 shadow-xl md:shadow-lg backdrop-blur-md max-sm:px-8">
                 <div class="text-white">
                     <div class="mb-8 flex flex-col items-center">
-                        <img src="{{ asset('fotos/Logo_Mitai_SinFondo.png') }}" width="150" alt="Logo_Mitai_SinFondo"
-                            srcset="" />
-                        <h1 class="mb-2 text-2xl">Torneos Mita'í</h1>
+                        <a href="{{ route('home') }}">
+                            <img src="{{ asset('fotos/Logo_Mitai_SinFondo.png') }}" width="150"
+                                alt="Logo_Mitai_SinFondo" srcset="" />
+                            <h1 class="mb-2 text-2xl">Torneos Mita'í</h1>
+                        </a>
                         {{ $slot }}
                     </div>
                 </div>

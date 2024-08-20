@@ -34,6 +34,7 @@ Route::get('/vallas', [ControladorHome::class, 'vallas'])->name('vallas');
 Route::get('forgot-password/{restablecer?}', [PasswordResetLinkController::class, 'create'])->name('password.request');
 
 
+
 Route::group(['prefix' => 'Panel', 'middleware' => ['auth', 'verified', UserAccesPanelMiddleware::class]], function () {
     Route::resource('equipo', ControladorEquipo::class);
     Route::resource('categoria', ControladorCategoria::class);

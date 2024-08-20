@@ -1,7 +1,7 @@
-<x-app-layout>
+<x-app-layout :idEdicion="$EdicionSeleccionada ? $EdicionSeleccionada->id : null">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-white leading-tight">
-            {{ __('Profile') }}
+            {{ __('Profile') }} 
         </h2>
     </x-slot>
 

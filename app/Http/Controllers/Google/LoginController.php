@@ -4,18 +4,22 @@ namespace App\Http\Controllers\Google;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
+
 
 class LoginController extends Controller
 {
     public function callback()
     {
         try {
+            // Limpiar el caché
+            Cache::flush();
+
             $user_google = Socialite::driver('google')->stateless()->user();
 
             // Verifica si el correo electrónico ya está en uso por un usuario registrado
@@ -50,6 +54,10 @@ class LoginController extends Controller
 
     public function redirect()
     {
+        // Limpiar el caché
+        Cache::flush();
+
         return Socialite::driver('google')->redirect();
     }
+    
 }

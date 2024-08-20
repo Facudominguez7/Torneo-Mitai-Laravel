@@ -36,7 +36,6 @@ class ControladorHome extends Controller
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
         return view('Panel.admin', compact('ediciones', 'EdicionSeleccionada'));
     }
-
     public function campeones(Request $request)
     {
         $ediciones = Edicion::all();
