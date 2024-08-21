@@ -13,6 +13,16 @@
                 </a>
             </div>
         </div>
+        <div class="flex flex-row justify-center ml-2 mb-2">
+            <div>
+                <a href="{{ route('seleccionar-categoria', ['idEdicion' => $EdicionSeleccionada, 'tipo' => 'equipogrupo']) }}">
+                    <button
+                        class="bg-gray-800 hover:bg-gray-900 mt-2 mb-2 text-white py-2 px-4 rounded-full transition-all duration-300 md:py-3 md:px-6 md:rounded-lg">
+                        Agregar Equipo a Grupo
+                    </button>
+                </a>
+            </div>
+        </div>
     @endif
 </div>
 <div class="mx-auto w-full max-w-2xl flex justify-center items-stretch pb-2 px-2 sm:px-6 lg:px-8">
@@ -65,6 +75,12 @@
                         <button class="mb-1 lg:mb-0">
                             <a href="{{ route('grupos.edit', ['grupo' => $g, 'idEdicion' => $EdicionSeleccionada]) }}" class="btn btn-editar">
                                 Editar
+                            </a>
+                        </button>
+                        <button class="mb-1 lg:mb-0">
+                            <a href="{{ route('grupos.show', ['grupo' => $g, 'idEdicion' => $EdicionSeleccionada]) }}"
+                                class="btn btn-detalle">
+                                Detalle
                             </a>
                         </button>
                         <form action="{{ route('grupos.destroy', $g) }}" method="post">

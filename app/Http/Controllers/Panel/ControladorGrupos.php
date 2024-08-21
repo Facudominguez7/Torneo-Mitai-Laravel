@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Grupo\StoreRequest;
 use App\Models\Categoria;
 use App\Models\Edicion;
+use App\Models\EquipoGrupo;
 use App\Models\Grupo;
 use App\Traits\SeleccionarCategoriaTrait;
 use Illuminate\Http\Request;
@@ -55,9 +56,20 @@ class ControladorGrupos extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request , Grupo $grupo)
     {
-        //
+        $ediciones = Edicion::all();
+        $idEdicion = $request->idEdicion;
+        $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
+        $idGrupo = $grupo->id;
+        $equiposGrupo = EquipoGrupo::join('equipos', 'equipos_grupos.idEquipo', '=', 'equipos.id')
+            ->join('grupos', 'equipos_grupos.idGrupo', '=', 'grupos.id')
+            ->where('equipos_grupos.idGrupo', $idGrupo)
+            ->select('equipos.id AS idEquipo', 'equipos.nombre AS nombreEquipo', 'equipos.foto AS fotoEquipo', 'grupos.nombre AS nombreGrupo')
+            ->get();
+        
+            $nombreGrupo = $equiposGrupo->first()->nombreGrupo ?? 'Sin Nombre';
+        return view('Panel.grupo.show', compact('EdicionSeleccionada', 'ediciones', 'equiposGrupo', 'nombreGrupo'));
     }
 
     /**

@@ -10,4 +10,9 @@ class EquipoGrupo extends Model
     use HasFactory;
     protected $table = 'equipos_grupos';
     public $timestamps = false;
+
+    protected $fillable = [
+        'idEquipo',
+        'idGrupo',
+    ];
 }

@@ -1,8 +1,10 @@
 <?php
+
 namespace App\Traits;
 
 use App\Models\Edicion;
 use App\Models\Categoria;
+use App\Models\Grupo;
 use Illuminate\Http\Request;
 
 trait SeleccionarCategoriaTrait
@@ -13,9 +15,17 @@ trait SeleccionarCategoriaTrait
         $idEdicion = $request->idEdicion;
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
         $categorias = Categoria::where('idEdicion', $idEdicion)
-                ->orderBy('nombreCategoria', 'desc')
-                ->get();
+            ->orderBy('nombreCategoria', 'desc')
+            ->get();
         $tipo = $request->tipo;
+
+        if ($tipo === 'equipogrupo') {
+            $idCategoria = $request->query('idCategoria');
+            $grupos = Grupo::where('idEdicion', $idEdicion)
+                ->where('idCategoria', $idCategoria)
+                ->get();
+            return view('panel.seleccionar-categoria', compact('tipo', 'categorias', 'ediciones', 'EdicionSeleccionada', 'grupos'));
+        }
         return view('panel.seleccionar-categoria', compact('tipo', 'categorias', 'ediciones', 'EdicionSeleccionada'));
     }
 }

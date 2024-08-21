@@ -249,7 +249,7 @@
                 <div class="flex flex-row justify-center mb-2">
                     <div>
                         <a
-                            href="{{ route('seleccionar-categoria', ['idEdicion' => $EdicionSeleccionada]) }}">
+                            href="{{ route('seleccionar-categoria', ['idEdicion' => $EdicionSeleccionada, 'tipo' => 'equipogrupo']) }}">
                             <button
                                 class="bg-gray-800 hover:bg-gray-900 mt-2 mb-2 text-white py-2 px-4 rounded-full transition-all duration-300 md:py-3 md:px-6 md:rounded-lg">
                                 Agregar Equipo a Grupo
