@@ -40,4 +40,8 @@ class Categoria extends Model
     {
         return $this->hasMany(VallaMenosVencida::class, 'idCategoria');
     }
+    public function grupos()
+    {
+        return $this->hasMany(Grupo::class, 'idCategoria');
+    }
 }

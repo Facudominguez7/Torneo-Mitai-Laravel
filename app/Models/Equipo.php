@@ -35,5 +35,9 @@ class Equipo extends Model
     {
         return $this->hasOne(VallaMenosVencida::class, 'idEquipo');
     }
+    public function grupos()
+    {
+        return $this->belongsToMany(Grupo::class, 'equipos_grupos', 'idEquipo', 'idGrupo');
+    }
 
 }
