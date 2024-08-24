@@ -62,14 +62,14 @@ class ControladorGrupos extends Controller
         $idEdicion = $request->idEdicion;
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
         $idGrupo = $grupo->id;
+        $idCategoria = $grupo->idCategoria;
         $equiposGrupo = EquipoGrupo::join('equipos', 'equipos_grupos.idEquipo', '=', 'equipos.id')
             ->join('grupos', 'equipos_grupos.idGrupo', '=', 'grupos.id')
             ->where('equipos_grupos.idGrupo', $idGrupo)
-            ->select('equipos.id AS idEquipo', 'equipos.nombre AS nombreEquipo', 'equipos.foto AS fotoEquipo', 'grupos.nombre AS nombreGrupo')
+            ->select('equipos.id AS idEquipo', 'equipos.nombre AS nombreEquipo', 'equipos.foto AS fotoEquipo', 'grupos.nombre AS nombreGrupo', 'equipos_grupos.id AS idEquipoGrupo')
             ->get();
-        
             $nombreGrupo = $equiposGrupo->first()->nombreGrupo ?? 'Sin Nombre';
-        return view('Panel.grupo.show', compact('EdicionSeleccionada', 'ediciones', 'equiposGrupo', 'nombreGrupo'));
+        return view('Panel.grupo.show', compact('EdicionSeleccionada', 'ediciones', 'equiposGrupo', 'nombreGrupo', 'idCategoria', 'idGrupo'));
     }
 
     /**

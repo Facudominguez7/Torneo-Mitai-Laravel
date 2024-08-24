@@ -60,24 +60,34 @@ class ControladorEquiposGrupos extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, EquipoGrupo $equipogrupo)
     {
-        //
+        $ediciones = Edicion::all();
+        $idEdicion = $request->idEdicion;
+        $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
+        $idCategoria = $request->idCategoria;
+        $idGrupo = $request->idGrupo;
+        $equipos = Equipo::where('idCategoria', $idCategoria)->get();
+        $CategoriaSeleccionada = $idCategoria ? Categoria::find($idCategoria) : null;
+        return view('panel.equipogrupo.edit', compact('equipos', 'equipogrupo', 'ediciones', 'EdicionSeleccionada', 'CategoriaSeleccionada', 'idGrupo'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StoreRequest $request, EquipoGrupo $equipogrupo)
     {
-        //
+        $equipogrupo->update($request->validated());
+        $grupo = $equipogrupo->idGrupo;
+        return redirect()->action([ControladorGrupos::class, 'show'], ['idEdicion' => $request->idEdicion, 'grupo' => $grupo])->with('status', 'Equipo actualizado correctamente');
     }
-
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, EquipoGrupo $equipogrupo)
     {
-        //
+        $equipogrupo->delete();
+        $grupo = $equipogrupo->idGrupo;
+        return redirect()->action([ControladorGrupos::class, 'show'], ['idEdicion' => $request->idEdicion, 'grupo' => $grupo])->with('status', 'Equipo eliminado correctamente');
     }
 }
