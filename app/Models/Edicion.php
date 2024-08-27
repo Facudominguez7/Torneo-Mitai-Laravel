@@ -48,4 +48,8 @@ class Edicion extends Model
     {
         return $this->hasMany(VallaMenosVencida::class, 'idEdicion');
     }
+    public function partidos()
+    {
+        return $this->hasMany(Partido::class, 'idEdicion');
+    }
 }

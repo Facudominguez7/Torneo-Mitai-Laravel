@@ -9,6 +9,7 @@
     @vite('resources/css/app.css')
     @vite('resources/css/admin/admin.css')
     @vite('resources/js/welcome.js')
+    @vite('resources/js/app.js')
     @vite('resources/js/admin/admin.js')
 </head>
 
@@ -246,21 +247,30 @@
                 </section>
             </div>
             @if (Route::is('admin'))
-                <div class="flex flex-row justify-center mb-2">
-                    <div>
-                        <a
-                            href="{{ route('seleccionar-categoria', ['idEdicion' => $EdicionSeleccionada, 'tipo' => 'equipogrupo']) }}">
-                            <button
-                                class="bg-gray-800 hover:bg-gray-900 mt-2 mb-2 text-white py-2 px-4 rounded-full transition-all duration-300 md:py-3 md:px-6 md:rounded-lg">
-                                Agregar Equipo a Grupo
-                            </button>
-                        </a>
-                    </div>
+            <div class="flex flex-row justify-center mb-2">
+                <div class="mr-2">
+                    <a
+                        href="{{ route('seleccionar-categoria', ['idEdicion' => $EdicionSeleccionada, 'tipo' => 'equipogrupo']) }}">
+                        <button
+                            class="bg-gray-800 hover:bg-gray-900 mt-2 mb-2 text-white py-2 px-4 rounded-full transition-all duration-300 md:py-3 md:px-6 md:rounded-lg">
+                            Agregar Equipo a Grupo
+                        </button>
+                    </a>
                 </div>
+                <div class="mr-2">
+                    <a
+                        href="{{ route('partido.index', ['idEdicion' => $EdicionSeleccionada]) }}">
+                        <button
+                            class="bg-gray-800 hover:bg-gray-900 mt-2 mb-2 text-white py-2 px-4 rounded-full transition-all duration-300 md:py-3 md:px-6 md:rounded-lg">
+                            Agregar Partido
+                        </button>
+                    </a>
+                </div>
+            </div>
             @endif
         @endif
         <div class="flex-grow flex items-center justify-center lg:pl-36 mt-0">
-            <section>
+            <section class="w-1/2">
                 @if (session('status'))
                     <div class="flex justify-center">
                         <div class="flex items-center rounded-xl bg-white p-4 shadow-lg w-1/2">

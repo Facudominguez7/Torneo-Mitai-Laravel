@@ -13,6 +13,7 @@ use App\Http\Controllers\Panel\ControladorEquiposGrupos;
 use App\Http\Controllers\Panel\ControladorFecha;
 use App\Http\Controllers\Panel\ControladorGoleador;
 use App\Http\Controllers\Panel\ControladorGrupos;
+use App\Http\Controllers\Panel\ControladorPartidos;
 use App\Http\Controllers\Panel\ControladorSubcampeon;
 use App\Http\Controllers\Panel\ControladorValla;
 use App\Http\Controllers\ProfileController;
@@ -50,6 +51,7 @@ Route::group(['prefix' => 'Panel', 'middleware' => ['auth', 'verified', UserAcce
     Route::resource('valla', ControladorValla::class);
     Route::resource('grupos', ControladorGrupos::class);
     Route::resource('equipogrupo', ControladorEquiposGrupos::class);
+    Route::resource('partido', ControladorPartidos::class);
     Route::get('seleccionar-categoria', [ControladorCampeon::class, 'seleccionarCategoria'])->name('seleccionar-categoria');
     Route::get('/admin', [ControladorHome::class, 'admin'])
     ->name('admin'); 

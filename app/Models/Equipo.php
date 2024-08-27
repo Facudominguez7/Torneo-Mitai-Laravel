@@ -39,5 +39,16 @@ class Equipo extends Model
     {
         return $this->belongsToMany(Grupo::class, 'equipos_grupos', 'idEquipo', 'idGrupo');
     }
-
+    public function partidosLocales()
+    {
+        return $this->hasMany(Partido::class, 'idEquipoLocal');
+    }
+    public function partidosVisitantes()
+    {
+        return $this->hasMany(Partido::class, 'idEquipoVisitante');
+    }
+    public function tablaPosiciones()
+    {
+        return $this->hasMany(TablaPosicion::class, 'idEquipo');
+    }
 }

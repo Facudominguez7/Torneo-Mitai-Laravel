@@ -25,4 +25,12 @@ class Grupo extends Model
     {
         return $this->belongsTo(Categoria::class, 'idCategoria');
     }
+    public function partidos()
+    {
+        return $this->hasMany(Partido::class, 'idGrupo');
+    }
+    public function tablaPosiciones()
+    {
+        return $this->hasMany(TablaPosicion::class, 'idGrupo');
+    }
 }

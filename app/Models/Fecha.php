@@ -21,4 +21,9 @@ class Fecha extends Model
     {
         return $this->belongsTo(Edicion::class, 'idEdicion');
     }
+    
+    public function partidos()
+    {
+        return $this->hasMany(Partido::class, 'idFechas');
+    }
 }

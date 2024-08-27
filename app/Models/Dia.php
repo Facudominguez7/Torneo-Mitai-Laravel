@@ -16,4 +16,8 @@ class Dia extends Model
     {
         return $this->belongsTo(Edicion::class, 'idEdicion');
     }
+    public function partidos()
+    {
+        return $this->hasMany(Partido::class, 'idDia');
+    }
 }
