@@ -15,7 +15,7 @@
                     </option>
                 @endforeach
             </select>
-            @if ($tipo === 'equipogrupo')
+            @if ($tipo === 'equipogrupo' || $tipo === 'partido')
                 <select name="idGrupo" id="idGrupo"
                     class="w-full rounded-md border border-gray-200 bg-white py-3 px-6 text-base font-medium text-gray-600 outline-none focus:border-indigo-500 focus:shadow-md mb-3">
                     @foreach ($grupos as $grupo)

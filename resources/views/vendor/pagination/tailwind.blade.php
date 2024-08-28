@@ -29,8 +29,6 @@
         <div class="sm:flex-1 sm:flex sm:items-center sm:justify-between mt-0 mb-4 lg:mb-0">
             <div>
                 <span class="relative z-0 inline-flex rtl:flex-row-reverse  shadow-sm rounded-md">
-
-
                     @if (request()->route()->getName() !== 'partido.index')
                         {{-- Previous Page Link --}}
                         @if ($paginator->onFirstPage())
@@ -109,8 +107,6 @@
                             </span>
                         @endif
                     @endif
-
-
                 </span>
             </div>
         </div>

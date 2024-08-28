@@ -19,7 +19,7 @@ trait SeleccionarCategoriaTrait
             ->get();
         $tipo = $request->tipo;
 
-        if ($tipo === 'equipogrupo') {
+        if ($tipo === 'equipogrupo' || $tipo === 'partido') {
             $idCategoria = $request->query('idCategoria');
             $grupos = Grupo::where('idEdicion', $idEdicion)
                 ->where('idCategoria', $idCategoria)

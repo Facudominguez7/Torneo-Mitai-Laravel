@@ -4,14 +4,19 @@ namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Partido\StoreRequest;
+use App\Models\Categoria;
 use App\Models\Edicion;
+use App\Models\Fecha;
+use App\Models\Grupo;
 use App\Models\Partido;
 use App\Services\PartidoService;
+use App\Traits\SeleccionarCategoriaTrait;
 use Illuminate\Http\Request;
 
 class ControladorPartidos extends Controller
 {
     protected $partidoService;
+    use SeleccionarCategoriaTrait;
 
     public function __construct(PartidoService $partidoService)
     {
@@ -22,18 +27,70 @@ class ControladorPartidos extends Controller
     {
         $ediciones = Edicion::all();
         $idEdicion = $request->idEdicion;
+        $idFecha = $request->idFecha;
+        $idGrupo = $request->idGrupo;
+        $idCategoria = $request->idCategoria;
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
-        $partidos = Partido::where('idEdicion', $idEdicion)
-        ->with([
-            'equipoLocal:id,nombre',
-            'equipoVisitante:id,nombre',
-            'fecha:id,nombre', 
-            'dia:id,diaPartido', 
-        ])
-        ->select('id', 'idFechas', 'idEquipoLocal', 'idEquipoVisitante', 'idGrupo', 'idEdicion', 'golesEquipoLocal', 'golesEquipoVisitante', 'horario', 'cancha', 'idDia', 'jugado')
-        ->paginate(7);
-        $partidos->appends(['idEdicion' => $idEdicion]);
-        return view('panel.partido.index', compact('partidos', 'ediciones', 'EdicionSeleccionada'));
+    
+        $query = Partido::where('partidos.idEdicion', $idEdicion);
+    
+        if ($idFecha) {
+            $query->where('partidos.idFechas', $idFecha);
+        }
+    
+        if ($idGrupo) {
+            $query->where('partidos.idGrupo', $idGrupo);
+        }
+    
+        $partidos = $query
+            ->with([
+                'equipoLocal:id,nombre,foto',
+                'equipoVisitante:id,nombre,foto',
+                'fecha:id,nombre',
+                'dia:id,diaPartido',
+            ])
+            ->select('partidos.*')
+            ->orderByDesc('partidos.id')
+            ->paginate(7);
+    
+        $partidos->appends([
+            'idEdicion' => $idEdicion,
+            'idFecha' => $idFecha,
+            'idGrupo' => $idGrupo,
+            'idCategoria' => $idCategoria
+        ]);
+    
+        $categorias = Categoria::where('idEdicion', $idEdicion)
+            ->select('id', 'nombreCategoria')
+            ->orderBy('nombreCategoria', 'desc')
+            ->get();
+    
+        $fechas = Fecha::where('idEdicion', $idEdicion)
+            ->where('idCategoria', $idCategoria)
+            ->select('id', 'nombre')
+            ->orderByDesc('id')
+            ->distinct('nombre')
+            ->get();
+        
+        $grupos = Grupo::where('idEdicion', $idEdicion)
+            ->select('id', 'nombre')
+            ->where('idCategoria', $idCategoria)
+            ->get();
+        
+        $fechas = $fechas->unique('nombre');
+        
+        if (isset($idFecha) || isset($idGrupo) || isset($idCategoria)) {
+            $fecha = $fechas->firstWhere('id', $idFecha);
+            $nombreFecha = $fecha ? $fecha->nombre : null;
+            $grupo = $grupos->firstWhere('id', $idGrupo);
+            $nombreGrupo = $grupo ? $grupo->nombre : null;
+            $categoria = $categorias->firstWhere('id', $idCategoria);
+            $nombreCategoria = $categoria ? $categoria->nombreCategoria : null;
+        
+            return view('panel.partido.index', compact('partidos', 'ediciones', 'EdicionSeleccionada', 'fechas', 'categorias', 'grupos', 'idCategoria', 'idGrupo', 'nombreFecha', 'nombreGrupo', 'nombreCategoria'));
+        }
+        
+        return view('panel.partido.index', compact('partidos', 'ediciones', 'EdicionSeleccionada', 'fechas', 'categorias', 'grupos' , 'idCategoria' , 'idGrupo'));
     }
 
     public function create()
