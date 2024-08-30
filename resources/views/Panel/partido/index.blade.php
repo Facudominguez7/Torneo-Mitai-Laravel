@@ -4,7 +4,7 @@
     @if (isset($EdicionSeleccionada))
         <div class="flex flex-row justify-center mb-2">
             <div>
-                <a href="{{ route('partido.create', ['idEdicion' => $EdicionSeleccionada]) }}">
+                <a href="{{ route('seleccionar-categoria', ['idEdicion' => $EdicionSeleccionada, 'tipo' => 'partido']) }}">
                     <button
                         class="bg-gray-800 hover:bg-gray-900 mt-2 mb-2 text-white py-2 px-4 rounded-full transition-all duration-300 md:py-3 md:px-6 md:rounded-lg">
                         Agregar Partido
@@ -185,6 +185,7 @@
     <div class="flex justify-center mt-5">
         {{ $partidos->links() }}
     </div>
+   
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var idEdicion = "{{ $EdicionSeleccionada->id }}";

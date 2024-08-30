@@ -259,10 +259,10 @@
                 </div>
                 <div class="mr-2">
                     <a
-                        href="{{ route('seleccionar-categoria', ['idEdicion' => $EdicionSeleccionada, 'tipo' => 'partido']) }}">
+                        href="{{ route('partido.index', ['idEdicion' => $EdicionSeleccionada]) }}">
                         <button
                             class="bg-gray-800 hover:bg-gray-900 mt-2 mb-2 text-white py-2 px-4 rounded-full transition-all duration-300 md:py-3 md:px-6 md:rounded-lg">
-                            Partido
+                            Partidos
                         </button>
                     </a>
                 </div>

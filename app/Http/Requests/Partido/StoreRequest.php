@@ -21,10 +21,11 @@ class StoreRequest extends FormRequest
             'idEdicion' => 'required|exists:ediciones,id',
             'golesEquipoLocal' => 'nullable|integer|min:0',
             'golesEquipoVisitante' => 'nullable|integer|min:0',
-            'horario' => 'required|date_format:H:i',
+            'horario' => 'required|string',
             'cancha' => 'required|string',
-            'idDia' => 'required|date',
-            'jugado' => 'required|boolean',
+            'idDia' => 'required|integer',
+            'idCategoria' => 'required|integer',
+            'jugado' => 'nullable|integer',
         ];
     }
 }

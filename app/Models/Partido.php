@@ -22,6 +22,7 @@ class Partido extends Model
         'cancha',
         'idDia',
         'jugado',
+        'idCategoria',
     ];
 
     public function equipoLocal()
