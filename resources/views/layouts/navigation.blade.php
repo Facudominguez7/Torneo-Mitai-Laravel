@@ -16,7 +16,6 @@
         <button data-collapse-toggle="navbar-dropdown" type="button"
             class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
             aria-controls="navbar-dropdown" aria-expanded="false">
-            <span class="sr-only">Categorias</span>
             <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 17 14">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -36,46 +35,6 @@
                                     stroke-width="2" d="m1 1 4 4 4-4" />
                             </svg>
                         </button>
-
-                        <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownCategorias"
-                            class="flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 lg:w-auto dark:text-white lg:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 lg:dark:hover:bg-transparent">Categorias
-                            <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 10 6">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="m1 1 4 4 4-4" />
-                            </svg>
-                        </button>
-                    </div>
-                    <!-- Dropdown menu -->
-                    <div id="dropdownCategorias"
-                        class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600 absolute top-full left-0 mt-2">
-                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-400">
-                            @if (isset($EdicionSeleccionada))
-                                @if (is_null($EdicionSeleccionada))
-                                    <li>
-                                        <a href="{{ url('/') }}"
-                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Debe
-                                            seleccionar una Edicion
-                                        </a>
-                                    </li>
-                                @elseif (isset($categorias) && $categorias->isEmpty())
-                                    <li>
-                                        <a href="{{ url('/') }}"
-                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Por
-                                            el momento no se agregaron categorías</a>
-                                    </li>
-                                @elseif (isset($categorias))
-                                    @foreach ($categorias as $categoria)
-                                        <li>
-                                            <a href="{{ url('/?idEdicion=' . $categoria->idEdicion . '&idCategoria=' . $categoria->id) }}"
-                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                                {{ $categoria->nombreCategoria }}
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                @endif
-                            @endif
-                        </ul>
                     </div>
                     <div id="dropdownEdiciones"
                         class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600 absolute top-full left-0 mt-2">

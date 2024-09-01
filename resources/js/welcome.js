@@ -1,40 +1,17 @@
 const button = document.querySelector(
     '[data-collapse-toggle="navbar-dropdown"]'
 );
-const botonCategorias = document.querySelector(
-    '[data-dropdown-toggle="dropdownCategorias"]'
-);
 const botonEdiciones = document.querySelector(
     '[data-dropdown-toggle="dropdownEdiciones"]'
 );
 const botonUser = document.querySelector('[data-dropdown-toggle="dropdownUser"]');
 
 const menu = document.getElementById("navbar-dropdown");
-const menuCategorias = document.getElementById("dropdownCategorias");
 const menuEdiciones = document.getElementById("dropdownEdiciones");
 const menuUser = document.getElementById("dropdownUser");
 
 button.addEventListener("click", function () {
     menu.classList.toggle("hidden");
-});
-
-botonCategorias.addEventListener("click", function (event) {
-    const buttonRect = botonCategorias.getBoundingClientRect();
-
-    if (window.innerWidth < 768) {
-        menuCategorias.style.top = `${buttonRect.bottom}px`;
-        menuCategorias.style.left = "0";
-        menuCategorias.style.width = "100%";
-    } else {
-        const navRect = document.querySelector("nav").getBoundingClientRect();
-        const menuWidth = navRect.width * 0.1; // Ancho ajustado
-
-        menuCategorias.style.top = `${buttonRect.bottom}px`;
-        menuCategorias.style.left = `${buttonRect.left}px`; // Ajuste de posición a la izquierda del botón
-        menuCategorias.style.width = `${menuWidth}px`;
-    }
-
-    menuCategorias.classList.toggle("hidden");
 });
 
 botonEdiciones.addEventListener("click", function (event) {

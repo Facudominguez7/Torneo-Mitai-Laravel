@@ -34,6 +34,7 @@ Route::get('/campeones', [ControladorHome::class, 'campeones'])->name('campeones
 Route::get('/subcampeones', [ControladorHome::class, 'subcampeones'])->name('subcampeones');
 Route::get('/goleadores', [ControladorHome::class, 'goleadores'])->name('goleadores');
 Route::get('/vallas', [ControladorHome::class, 'vallas'])->name('vallas');
+Route::get('/fixture', [ControladorHome::class, 'fixture'])->name('fixture');
 Route::get('forgot-password/{restablecer?}', [PasswordResetLinkController::class, 'create'])->name('password.request');
 
 

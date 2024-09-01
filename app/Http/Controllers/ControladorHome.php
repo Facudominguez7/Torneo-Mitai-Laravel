@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Campeon;
 use App\Models\Categoria;
 use App\Models\Edicion;
+use App\Models\Fecha;
 use App\Models\Goleador;
+use App\Models\Grupo;
+use App\Models\Partido;
 use App\Models\Subcampeon;
 use App\Models\User;
 use App\Models\VallaMenosVencida;
@@ -36,7 +39,7 @@ class ControladorHome extends Controller
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
         return view('Panel.admin', compact('ediciones', 'EdicionSeleccionada'));
     }
-    
+
     public function campeones(Request $request)
     {
         $ediciones = Edicion::all();
@@ -118,5 +121,61 @@ class ControladorHome extends Controller
             ->get();
 
         return view('layouts.vallas', compact('ediciones', 'EdicionSeleccionada', 'vallas'));
+    }
+
+    public function fixture(Request $request)
+    {
+        $ediciones = Edicion::all();
+        $idEdicion = $request->idEdicion;
+        $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
+        $idCategoria = $request->idCategoria;
+        $CategoriaSeleccionada = $idCategoria ? Categoria::find($idCategoria) : null;
+        $idFecha = $request->idFecha;
+
+        if (isset($EdicionSeleccionada)) {
+            $categorias = Categoria::where('idEdicion', $idEdicion)
+                ->select('id', 'nombreCategoria')
+                ->orderBy('nombreCategoria', 'desc')
+                ->get();
+        }
+
+        $fechas = null;
+        $grupos = null;
+        $partidos = collect();
+
+        if (isset($CategoriaSeleccionada)) {
+            $fechas = Fecha::where('idEdicion', $idEdicion)
+                ->where('idCategoria', $idCategoria)
+                ->select('id', 'nombre')
+                ->orderByDesc('id')
+                ->distinct('nombre')
+                ->get();
+
+            $grupos = Grupo::where('idCategoria', $idCategoria)
+                ->select('id', 'nombre')
+                ->distinct('nombre')
+                ->get();
+
+            if (isset($idFecha)) {
+                $partidos = Partido::select('partidos.*', 'el.nombre as nombre_local', 'ev.nombre as nombre_visitante', 'el.foto as foto_local', 'ev.foto as foto_visitante', 'd.diaPartido as dia')
+                    ->join('equipos as el', 'partidos.idEquipoLocal', '=', 'el.id')
+                    ->join('equipos as ev', 'partidos.idEquipoVisitante', '=', 'ev.id')
+                    ->join('dias as d', 'partidos.idDia', '=', 'd.id')
+                    ->where('partidos.idFechas', $idFecha)
+                    ->where('partidos.idEdicion', $idEdicion)
+                    ->get();
+            } else {
+                $partidos = Partido::select('partidos.*', 'el.nombre as nombre_local', 'ev.nombre as nombre_visitante', 'el.foto as foto_local', 'ev.foto as foto_visitante', 'd.diaPartido as dia')
+                    ->join('equipos as el', 'partidos.idEquipoLocal', '=', 'el.id')
+                    ->join('equipos as ev', 'partidos.idEquipoVisitante', '=', 'ev.id')
+                    ->join('dias as d', 'partidos.idDia', '=', 'd.id')
+                    ->where('partidos.idEdicion', $idEdicion)
+                    ->orderByDesc('partidos.id')
+                    ->get();
+            }
+            
+        }
+
+        return view('layouts.fixture', compact('grupos', 'ediciones', 'EdicionSeleccionada', 'categorias', 'idCategoria', 'CategoriaSeleccionada', 'fechas', 'partidos'));
     }
 }
