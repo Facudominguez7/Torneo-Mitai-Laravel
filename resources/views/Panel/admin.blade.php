@@ -1,17 +1,5 @@
-<!DOCTYPE html>
-<html lang="es">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Panel de Administración</title>
-    @vite('resources/css/app.css')
-    @vite('resources/css/admin/admin.css')
-    @vite('resources/js/welcome.js')
-    @vite('resources/js/app.js')
-    @vite('resources/js/admin/admin.js')
-</head>
+@include('head')
 
 <body class="bg-[--color-primary]  font-[Poppins]">
     <button data-drawer-target="sidebar-multi-level-sidebar" data-drawer-toggle="sidebar-multi-level-sidebar"
@@ -247,26 +235,77 @@
                 </section>
             </div>
             @if (Route::is('admin'))
-            <div class="flex flex-row justify-center mb-2">
-                <div class="mr-2">
-                    <a
-                        href="{{ route('seleccionar-categoria', ['idEdicion' => $EdicionSeleccionada, 'tipo' => 'equipogrupo']) }}">
-                        <button
-                            class="bg-gray-800 hover:bg-gray-900 mt-2 mb-2 text-white py-2 px-4 rounded-full transition-all duration-300 md:py-3 md:px-6 md:rounded-lg">
-                            Agregar Equipo a Grupo
-                        </button>
-                    </a>
+                <div class="flex flex-row justify-center mb-2">
+                    <div class="mr-2">
+                        <a
+                            href="{{ route('seleccionar-categoria', ['idEdicion' => $EdicionSeleccionada, 'tipo' => 'equipogrupo']) }}">
+                            <button
+                                class="bg-gray-800 hover:bg-gray-900 mt-2 mb-2 text-white py-2 px-4 rounded-full transition-all duration-300 md:py-3 md:px-6 md:rounded-lg">
+                                Agregar Equipo a Grupo
+                            </button>
+                        </a>
+                    </div>
+                    <div class="mr-2">
+                        <a href="{{ route('partido.index', ['idEdicion' => $EdicionSeleccionada]) }}">
+                            <button
+                                class="bg-gray-800 hover:bg-gray-900 mt-2 mb-2 text-white py-2 px-4 rounded-full transition-all duration-300 md:py-3 md:px-6 md:rounded-lg">
+                                Partidos
+                            </button>
+                        </a>
+                    </div>
                 </div>
-                <div class="mr-2">
-                    <a
-                        href="{{ route('partido.index', ['idEdicion' => $EdicionSeleccionada]) }}">
-                        <button
-                            class="bg-gray-800 hover:bg-gray-900 mt-2 mb-2 text-white py-2 px-4 rounded-full transition-all duration-300 md:py-3 md:px-6 md:rounded-lg">
-                            Partidos
-                        </button>
-                    </a>
+                @foreach ($partidos as $p)
+                    <div class="flex justify-center">
+                        <div class="grid gap-6 p-1 md:p-6 bg-gray-50 w-full md:w-1/2 mb-5">
+                            <div class="bg-white rounded-lg shadow-lg overflow-x-auto md:overflow-x-visible">
+                                <div
+                                    class="flex flex-col md:flex-row items-center justify-between md:px-6 py-4 border-b">
+                                    <div class="flex items-center gap-4">
+                                        <img src="{{ asset('fotos/equipos/' . $p->foto_local) }}" width="40"
+                                            height="40" alt="" class="rounded-full object-cover" />
+                                        <div class="font-medium text-lg">{{ $p->nombre_local }}</div>
+                                        <div class="text-gray-500">vs</div>
+                                        <img src="{{ asset('fotos/equipos/' . $p->foto_visitante) }}" width="40"
+                                            height="40" alt="" class="rounded-full object-cover" />
+                                        <div class="font-medium text-lg">{{ $p->nombre_visitante }}</div>
+                                    </div>
+                                    <div class="text-2xl font-bold mt-4 md:mt-0 text-center text-[--color-primary]">
+                                        {{ $p->golesEquipoLocal }} - {{ $p->golesEquipoVisitante }}</div>
+                                </div>
+                                <div
+                                    class="flex flex-col md:flex-row items-center justify-between px-6 py-2 text-gray-600">
+                                    <div class="flex items-center gap-2 mb-2 md:mb-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1"
+                                            viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd"
+                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1 1 0 011-1z" />
+                                        </svg>
+                                        <span class="whitespace-nowrap">{{ $p->horario }} PM</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 mb-2 md:mb-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1"
+                                            viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd"
+                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1 1 0 011-1z" />
+                                        </svg>
+                                        <span class="whitespace-nowrap">{{ $p->dia }}</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1"
+                                            viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd"
+                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1-1z" />
+                                        </svg>
+                                        <span class="whitespace-nowrap">Cancha {{ $p->cancha }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+                <div class="flex justify-center">
+                    {{ $partidos->links() }}
                 </div>
-            </div>
             @endif
         @endif
         <div class="flex-grow flex items-center justify-center lg:pl-36 mt-0">

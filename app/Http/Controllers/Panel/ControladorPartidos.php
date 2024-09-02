@@ -163,9 +163,19 @@ class ControladorPartidos extends Controller
 
     public function cargarResultado(Request $request, Partido $partido)
     {
+        $ediciones = Edicion::all();
+        $idEdicion = $request->idEdicion;
+        $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
+        $idPartido = $request->idPartido;
+        $partido = Partido::find($idPartido);
         $golesEquipoLocal = $request->input('golesEquipoLocal');
         $golesEquipoVisitante = $request->input('golesEquipoVisitante');
-        $this->partidoService->actualizarResultado($partido, $golesEquipoLocal, $golesEquipoVisitante);
-        return redirect()->route('partidos.show', $partido)->with('status', 'Resultado cargado con éxito.');
+        
+        if(isset($golesEquipoLocal) && isset($golesEquipoVisitante)){
+            $this->partidoService->actualizarResultado($partido, $golesEquipoLocal, $golesEquipoVisitante);
+            return to_route('partido.index', ['idEdicion' => $idEdicion])->with('status', 'Resultado cargado con éxito.');
+        }
+
+        return view('Panel.cargar-resultado', compact('partido', 'ediciones', 'EdicionSeleccionada'));
     }
 }

@@ -171,11 +171,19 @@
                             <span>Cancha {{ $p->cancha }}</span>
                         </div>
                     </div>
-
                     <div class="px-6 py-2 text-muted-foreground">
-                        <div class="font-medium">{{$p->fecha->nombre}}</div>
+                        <div class="font-medium">{{ $p->fecha->nombre }}</div>
                     </div>
-
+                    @if ($p->golesEquipoLocal === null && $p->golesEquipoVisitante === null)
+                        <div class="px-6 py-4 flex justify-center">
+                            <a
+                                href="{{ route('cargar-resultado', ['idPartido' => $p->id, 'idEdicion' => $EdicionSeleccionada->id]) }}">
+                                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                                    Cargar Resultado
+                                </button>
+                            </a>
+                        </div>
+                    @endif
 
                 </div>
             </div>
@@ -185,30 +193,30 @@
     <div class="flex justify-center mt-5">
         {{ $partidos->links() }}
     </div>
-   
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var idEdicion = "{{ $EdicionSeleccionada->id }}";
             var idCategoria = new URLSearchParams(window.location.search).get('idCategoria') || '';
             var idFecha = new URLSearchParams(window.location.search).get('idFecha') || '';
             var idGrupo = new URLSearchParams(window.location.search).get('idGrupo') || '';
-    
+
             var url = "{{ route('partido.index') }}";
-    
+
             // Mostrar u ocultar filtros
             function toggleFiltersVisibility() {
                 const fechaFilterContainer = document.querySelector('.filtro-fecha');
                 const grupoFilterContainer = document.querySelector('.filtro-grupo');
                 const categoriaFilterSelected = idCategoria.trim() !== '';
                 const grupoFilterSelected = idGrupo.trim() !== '';
-    
+
                 // Mostrar el filtro de grupo solo si se ha seleccionado una categoría
                 grupoFilterContainer.classList.toggle('hidden', !categoriaFilterSelected);
-                
+
                 // Mostrar el filtro de fecha solo si se ha seleccionado una categoría y un grupo
                 fechaFilterContainer.classList.toggle('hidden', !(categoriaFilterSelected && grupoFilterSelected));
             }
-    
+
             // Actualizar la URL con los filtros seleccionados
             function updateUrl(params) {
                 var newUrl = new URL(url);
@@ -221,7 +229,7 @@
                 });
                 window.location.href = newUrl;
             }
-    
+
             // Añadir eventos a cada filtro de "Categoria"
             document.querySelectorAll('.filtro-categoria [data-id]').forEach(function(item) {
                 item.addEventListener('click', function() {
@@ -239,7 +247,7 @@
                     });
                 });
             });
-    
+
             // Añadir eventos a cada filtro de "Fecha"
             document.querySelectorAll('.filtro-fecha [data-id]').forEach(function(item) {
                 item.addEventListener('click', function() {
@@ -252,7 +260,7 @@
                     });
                 });
             });
-    
+
             // Añadir eventos a cada filtro de "Grupo"
             document.querySelectorAll('.filtro-grupo [data-id]').forEach(function(item) {
                 item.addEventListener('click', function() {
@@ -265,7 +273,7 @@
                     });
                 });
             });
-    
+
             // Añadir evento al botón de eliminar filtros
             document.getElementById('reset-filters').addEventListener('click', function() {
                 updateUrl({
@@ -275,10 +283,9 @@
                     idGrupo: ''
                 });
             });
-    
+
             // Inicializar el estado de visibilidad de los filtros
             toggleFiltersVisibility();
         });
     </script>
-    
 @endsection

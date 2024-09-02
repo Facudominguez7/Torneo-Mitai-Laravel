@@ -35,6 +35,7 @@ Route::get('/subcampeones', [ControladorHome::class, 'subcampeones'])->name('sub
 Route::get('/goleadores', [ControladorHome::class, 'goleadores'])->name('goleadores');
 Route::get('/vallas', [ControladorHome::class, 'vallas'])->name('vallas');
 Route::get('/fixture', [ControladorHome::class, 'fixture'])->name('fixture');
+Route::get('/tabla de posiciones', [ControladorHome::class, 'tablaPosiciones'])->name('tabla-posiciones');
 Route::get('forgot-password/{restablecer?}', [PasswordResetLinkController::class, 'create'])->name('password.request');
 
 
@@ -53,6 +54,7 @@ Route::group(['prefix' => 'Panel', 'middleware' => ['auth', 'verified', UserAcce
     Route::resource('grupos', ControladorGrupos::class);
     Route::resource('equipogrupo', ControladorEquiposGrupos::class);
     Route::resource('partido', ControladorPartidos::class);
+    Route::match(['get', 'post'], 'cargar-resultado', [ControladorPartidos::class, 'cargarResultado'])->name('cargar-resultado');
     Route::get('seleccionar-categoria', [ControladorCampeon::class, 'seleccionarCategoria'])->name('seleccionar-categoria');
     Route::get('/admin', [ControladorHome::class, 'admin'])
     ->name('admin'); 

@@ -33,8 +33,6 @@ botonEdiciones.addEventListener("click", function (event) {
     menuEdiciones.classList.toggle("hidden");
 });
 document.addEventListener("click", function (event) {
-    const isClickInsideMenuCategorias = menuCategorias.contains(event.target);
-    const isClickOnButtonCategorias = event.target === botonCategorias;
     const isClickInsideEdiciones = menuEdiciones.contains(event.target);
     const isClickOnButtonEdiciones = event.target === botonEdiciones;
     const isClickInsideMenuUser = menuUser.contains(event.target);

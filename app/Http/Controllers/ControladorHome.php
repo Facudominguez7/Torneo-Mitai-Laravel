@@ -37,7 +37,17 @@ class ControladorHome extends Controller
         $ediciones = Edicion::all();
         $idEdicion = $request->query('idEdicion');
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
-        return view('Panel.admin', compact('ediciones', 'EdicionSeleccionada'));
+
+        $partidos = Partido::select('partidos.*', 'el.nombre as nombre_local', 'ev.nombre as nombre_visitante', 'el.foto as foto_local', 'ev.foto as foto_visitante', 'd.diaPartido as dia')
+            ->join('equipos as el', 'partidos.idEquipoLocal', '=', 'el.id')
+            ->join('equipos as ev', 'partidos.idEquipoVisitante', '=', 'ev.id')
+            ->join('dias as d', 'partidos.idDia', '=', 'd.id')
+            ->where('partidos.idEdicion', $idEdicion)
+            ->orderByDesc('partidos.id')
+            ->paginate(20);
+
+        $partidos->appends(['idEdicion' => $idEdicion]);
+        return view('Panel.admin', compact('ediciones', 'EdicionSeleccionada', 'partidos'));
     }
 
     public function campeones(Request $request)
@@ -141,6 +151,8 @@ class ControladorHome extends Controller
 
         $fechas = null;
         $grupos = null;
+        $nombreFecha = null;
+        $nombreCategoria = null;
         $partidos = collect();
 
         if (isset($CategoriaSeleccionada)) {
@@ -164,6 +176,8 @@ class ControladorHome extends Controller
                     ->where('partidos.idFechas', $idFecha)
                     ->where('partidos.idEdicion', $idEdicion)
                     ->get();
+                $fecha = Fecha::find($idFecha);
+                $nombreFecha = $fecha->nombre;
             } else {
                 $partidos = Partido::select('partidos.*', 'el.nombre as nombre_local', 'ev.nombre as nombre_visitante', 'el.foto as foto_local', 'ev.foto as foto_visitante', 'd.diaPartido as dia')
                     ->join('equipos as el', 'partidos.idEquipoLocal', '=', 'el.id')
@@ -173,9 +187,11 @@ class ControladorHome extends Controller
                     ->orderByDesc('partidos.id')
                     ->get();
             }
-            
         }
-
-        return view('layouts.fixture', compact('grupos', 'ediciones', 'EdicionSeleccionada', 'categorias', 'idCategoria', 'CategoriaSeleccionada', 'fechas', 'partidos'));
+        if (isset($idCategoria)) {
+            $categoria = Categoria::find($idCategoria);
+            $nombreCategoria = $categoria->nombreCategoria;
+        }
+        return view('layouts.fixture', compact('nombreFecha', 'nombreCategoria', 'grupos', 'ediciones', 'EdicionSeleccionada', 'categorias', 'idCategoria', 'CategoriaSeleccionada', 'fechas', 'partidos'));
     }
 }

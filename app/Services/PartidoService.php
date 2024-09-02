@@ -12,7 +12,7 @@ class PartidoService
         $partido->update([
             'golesEquipoLocal' => $golesEquipoLocal,
             'golesEquipoVisitante' => $golesEquipoVisitante,
-            'jugado' => true,
+            'jugado' => 1,
         ]);
 
         $this->actualizarTablaPosiciones($partido, $golesEquipoLocal, $golesEquipoVisitante);
@@ -25,16 +25,40 @@ class PartidoService
         $equipoVisitante = $partido->equipoVisitante;
 
         // Actualizar estadísticas del equipo local
-        $tablaLocal = TablaPosicion::firstOrCreate([
-            'idGrupo' => $partido->idGrupo,
-            'idEquipo' => $equipoLocal->id,
-        ]);
+        $tablaLocal = TablaPosicion::firstOrCreate(
+            [
+                'idGrupo' => $partido->idGrupo,
+                'idEquipo' => $equipoLocal->id,
+            ],
+            [
+                'golesFavor' => 0,
+                'golesContra' => 0,
+                'diferenciaGoles' => 0,
+                'jugado' => 0,
+                'ganado' => 0,
+                'empatado' => 0,
+                'perdido' => 0,
+                'puntos' => 0,
+            ]
+        );
 
         // Actualizar estadísticas del equipo visitante
-        $tablaVisitante = TablaPosicion::firstOrCreate([
-            'idGrupo' => $partido->idGrupo,
-            'idEquipo' => $equipoVisitante->id,
-        ]);
+        $tablaVisitante = TablaPosicion::firstOrCreate(
+            [
+                'idGrupo' => $partido->idGrupo,
+                'idEquipo' => $equipoVisitante->id,
+            ],
+            [
+                'golesFavor' => 0,
+                'golesContra' => 0,
+                'diferenciaGoles' => 0,
+                'jugado' => 0,
+                'ganado' => 0,
+                'empatado' => 0,
+                'perdido' => 0,
+                'puntos' => 0,
+            ]
+        );
 
         // Actualizar lógica de puntos, goles, partidos jugados, etc.
         $this->actualizarEstadisticasEquipo($tablaLocal, $golesEquipoLocal, $golesEquipoVisitante);
