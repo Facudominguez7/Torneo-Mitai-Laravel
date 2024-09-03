@@ -37,4 +37,5 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         server-dir: ${{ secrets.FTP_DESTINATION }}
         timeout: 10800
+        protocol: ftpes
         transfer-mode: active
