@@ -1,7 +1,7 @@
 
 @include('head')
 
-<body class="bg-cover bg-no-repeat" style="background-image:url({{ asset('fotos/fondo_en_cancha_gpt.webp') }})">
+<body class="bg-cover md:bg-no-repeat" style="background-image:url({{ asset('fotos/fondo_en_cancha_gpt.webp') }})">
     <div class="flex mb-10 h-auto w-auto mx-auto items-center justify-center">
         <div class="container h-auto mx-auto px-4 md:w-1/2 mt-10">
             <div
