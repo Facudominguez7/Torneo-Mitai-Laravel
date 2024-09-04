@@ -31,7 +31,7 @@ class ControladorGoleador extends Controller
             ->paginate(7);
         $goleadores->appends(['idEdicion' => $idEdicion]);
         $tipo = 'goleador';
-        return view('panel.goleador.index', compact('tipo', 'ediciones', 'EdicionSeleccionada', 'goleadores'));
+        return view('Panel.goleador.index', compact('tipo', 'ediciones', 'EdicionSeleccionada', 'goleadores'));
     }
 
     /**
@@ -48,7 +48,7 @@ class ControladorGoleador extends Controller
         $equipos = Equipo::where('idEdicion', $idEdicion)
             ->where('idCategoria', $idCategoria)
             ->get();
-        return view('panel.goleador.create', compact('ediciones', 'goleador', 'EdicionSeleccionada', 'equipos', 'CategoriaSeleccionada'));
+        return view('Panel.goleador.create', compact('ediciones', 'goleador', 'EdicionSeleccionada', 'equipos', 'CategoriaSeleccionada'));
     }
 
     /**
@@ -81,7 +81,7 @@ class ControladorGoleador extends Controller
         $equipos = Equipo::where('idEdicion', $idEdicion)
             ->where('idCategoria', $idCategoria)
             ->get();
-        return view('panel.goleador.edit', compact('ediciones', 'goleador', 'equipos','idCategoria', 'EdicionSeleccionada'));
+        return view('Panel.goleador.edit', compact('ediciones', 'goleador', 'equipos','idCategoria', 'EdicionSeleccionada'));
     }
 
     /**

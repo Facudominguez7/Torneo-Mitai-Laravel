@@ -37,7 +37,7 @@ class ControladorEquiposGrupos extends Controller
         $CategoriaSeleccionada = $idCategoria ? Categoria::find($idCategoria) : null;
         $GrupoSeleccionado = $idGrupo ? Grupo::find($idGrupo) : null;
         $equipogrupo = new EquipoGrupo();
-        return view('panel.equipogrupo.create', compact('equipos', 'equipogrupo', 'ediciones', 'EdicionSeleccionada', 'CategoriaSeleccionada', 'GrupoSeleccionado'));    
+        return view('Panel.equipogrupo.create', compact('equipos', 'equipogrupo', 'ediciones', 'EdicionSeleccionada', 'CategoriaSeleccionada', 'GrupoSeleccionado'));    
     }
 
     /**
@@ -69,7 +69,7 @@ class ControladorEquiposGrupos extends Controller
         $idGrupo = $request->idGrupo;
         $equipos = Equipo::where('idCategoria', $idCategoria)->get();
         $CategoriaSeleccionada = $idCategoria ? Categoria::find($idCategoria) : null;
-        return view('panel.equipogrupo.edit', compact('equipos', 'equipogrupo', 'ediciones', 'EdicionSeleccionada', 'CategoriaSeleccionada', 'idGrupo'));
+        return view('Panel.equipogrupo.edit', compact('equipos', 'equipogrupo', 'ediciones', 'EdicionSeleccionada', 'CategoriaSeleccionada', 'idGrupo'));
     }
 
     /**

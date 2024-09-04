@@ -93,10 +93,10 @@ class ControladorPartidos extends Controller
             $categoria = $categorias->firstWhere('id', $idCategoria);
             $nombreCategoria = $categoria ? $categoria->nombreCategoria : null;
 
-            return view('panel.partido.index', compact('partidos', 'ediciones', 'EdicionSeleccionada', 'fechas', 'categorias', 'grupos', 'idCategoria', 'idGrupo', 'nombreFecha', 'nombreGrupo', 'nombreCategoria'));
+            return view('Panel.partido.index', compact('partidos', 'ediciones', 'EdicionSeleccionada', 'fechas', 'categorias', 'grupos', 'idCategoria', 'idGrupo', 'nombreFecha', 'nombreGrupo', 'nombreCategoria'));
         }
 
-        return view('panel.partido.index', compact('partidos', 'ediciones', 'EdicionSeleccionada', 'fechas', 'categorias', 'grupos', 'idCategoria', 'idGrupo'));
+        return view('Panel.partido.index', compact('partidos', 'ediciones', 'EdicionSeleccionada', 'fechas', 'categorias', 'grupos', 'idCategoria', 'idGrupo'));
     }
 
     public function create(Request $request)
@@ -127,7 +127,7 @@ class ControladorPartidos extends Controller
             ->get();
         $grupo = Grupo::where('id', $idGrupo)->select('id', 'nombre')->get();
         $partido = new Partido();
-        return view('panel.partido.create', compact('ediciones','partido', 'EdicionSeleccionada','GrupoSeleccionado', 'fechas', 'equipos', 'dias', 'grupo', 'idGrupo', 'idCategoria', 'CategoriaSeleccionada'));
+        return view('Panel.partido.create', compact('ediciones','partido', 'EdicionSeleccionada','GrupoSeleccionado', 'fechas', 'equipos', 'dias', 'grupo', 'idGrupo', 'idCategoria', 'CategoriaSeleccionada'));
     }
 
     public function store(StoreRequest $request)
