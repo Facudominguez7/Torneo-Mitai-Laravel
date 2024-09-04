@@ -24,8 +24,8 @@ trait SeleccionarCategoriaTrait
             $grupos = Grupo::where('idEdicion', $idEdicion)
                 ->where('idCategoria', $idCategoria)
                 ->get();
-            return view('panel.seleccionar-categoria', compact('tipo', 'categorias', 'ediciones', 'EdicionSeleccionada', 'grupos'));
+            return view('Panel.seleccionar-categoria', compact('tipo', 'categorias', 'ediciones', 'EdicionSeleccionada', 'grupos'));
         }
-        return view('panel.seleccionar-categoria', compact('tipo', 'categorias', 'ediciones', 'EdicionSeleccionada'));
+        return view('Panel.seleccionar-categoria', compact('tipo', 'categorias', 'ediciones', 'EdicionSeleccionada'));
     }
 }
