@@ -1,4 +1,4 @@
-@extends('panel.admin')
+@extends('Panel.admin')
 
 @section('contenido')
     <div class="mb-5">
