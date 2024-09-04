@@ -21,7 +21,7 @@
                 </div>
                 <p class="text-sm tracking-widest text-white">Torneos</p>
                 <h1 class="font-bold text-5xl text-white mb-5">
-                    Mita'íi
+                    Mita'í
                 </h1>
                 @if (isset($EdicionSeleccionada))
                     <a href="{{ route('fixture', ['idEdicion' => $EdicionSeleccionada]) }}"
