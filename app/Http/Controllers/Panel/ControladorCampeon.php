@@ -31,7 +31,7 @@ class ControladorCampeon extends Controller
             ->paginate(7);
         $campeones->appends(['idEdicion' => $idEdicion]);
         $tipo = 'campeon';
-        return view('panel.campeon.index', compact('ediciones', 'EdicionSeleccionada', 'campeones', 'tipo'));
+        return view('Panel.campeon.index', compact('ediciones', 'EdicionSeleccionada', 'campeones', 'tipo'));
     }
 
     public function create(Request $request)
@@ -46,7 +46,7 @@ class ControladorCampeon extends Controller
             ->where('idCategoria', $idCategoria)
             ->get();
         $copas = Copa::where('idEdicion', $idEdicion)->get();
-        return view('panel.campeon.create', compact('ediciones', 'campeon', 'EdicionSeleccionada', 'equipos', 'copas', 'CategoriaSeleccionada'));
+        return view('Panel.campeon.create', compact('ediciones', 'campeon', 'EdicionSeleccionada', 'equipos', 'copas', 'CategoriaSeleccionada'));
     }
 
 
@@ -84,7 +84,7 @@ class ControladorCampeon extends Controller
             ->where('idCategoria', $idCategoria)
             ->get();
         $copas = Copa::all();
-        return view('panel.campeon.edit', compact('ediciones', 'campeon', 'equipos', 'copas', 'idCategoria', 'EdicionSeleccionada'));
+        return view('Panel.campeon.edit', compact('ediciones', 'campeon', 'equipos', 'copas', 'idCategoria', 'EdicionSeleccionada'));
     }
 
     /**

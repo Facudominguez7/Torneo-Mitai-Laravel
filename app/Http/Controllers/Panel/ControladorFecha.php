@@ -21,7 +21,7 @@ class ControladorFecha extends Controller
         $fechas = Fecha::where('idEdicion', $idEdicion)->with('categoria')->orderBy('id', 'desc')->paginate(7);
         $fechas->appends(['idEdicion' => $idEdicion]);
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
-        return view('panel.fecha.index', compact('ediciones', 'EdicionSeleccionada', 'fechas'));
+        return view('Panel.fecha.index', compact('ediciones', 'EdicionSeleccionada', 'fechas'));
     }
 
     /**
@@ -33,7 +33,7 @@ class ControladorFecha extends Controller
         $idEdicion = $request->idEdicion;
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
         $fecha = new Fecha();
-        return view('panel.fecha.create', compact('ediciones', 'EdicionSeleccionada', 'fecha'));
+        return view('Panel.fecha.create', compact('ediciones', 'EdicionSeleccionada', 'fecha'));
     }
 
     /**

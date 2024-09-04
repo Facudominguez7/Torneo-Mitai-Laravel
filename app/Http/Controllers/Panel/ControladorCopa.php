@@ -18,7 +18,7 @@ class ControladorCopa extends Controller
         $idEdicion = $request->idEdicion;
         $copas = Copa::where('idEdicion', $idEdicion)->get();
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
-        return view('panel.copa.index', compact('ediciones', 'EdicionSeleccionada', 'copas'));
+        return view('Panel.copa.index', compact('ediciones', 'EdicionSeleccionada', 'copas'));
     }
 
     /**
@@ -30,7 +30,7 @@ class ControladorCopa extends Controller
         $copa = new Copa();
         $idEdicion = $request->idEdicion;
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
-        return view('panel.copa.create', compact('ediciones', 'copa', 'EdicionSeleccionada'));
+        return view('Panel.copa.create', compact('ediciones', 'copa', 'EdicionSeleccionada'));
     }
 
     /**
@@ -60,7 +60,7 @@ class ControladorCopa extends Controller
         $ediciones = Edicion::all();
         $idEdicion = $request->idEdicion;
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
-        return view('panel.copa.edit', compact('ediciones', 'copa', 'EdicionSeleccionada'));
+        return view('Panel.copa.edit', compact('ediciones', 'copa', 'EdicionSeleccionada'));
     }
 
     /**

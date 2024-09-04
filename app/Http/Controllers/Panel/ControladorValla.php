@@ -28,7 +28,7 @@ class ControladorValla extends Controller
             ->paginate(7);
         $vallas->appends(['idEdicion' => $idEdicion]);
         $tipo = 'goleador';
-        return view('panel.valla.index', compact('tipo', 'ediciones', 'EdicionSeleccionada', 'vallas'));
+        return view('Panel.valla.index', compact('tipo', 'ediciones', 'EdicionSeleccionada', 'vallas'));
     }
 
     /**
@@ -45,7 +45,7 @@ class ControladorValla extends Controller
         $equipos = Equipo::where('idEdicion', $idEdicion)
             ->where('idCategoria', $idCategoria)
             ->get();
-        return view('panel.valla.create', compact('ediciones', 'valla', 'EdicionSeleccionada', 'equipos', 'CategoriaSeleccionada'));
+        return view('Panel.valla.create', compact('ediciones', 'valla', 'EdicionSeleccionada', 'equipos', 'CategoriaSeleccionada'));
     }
 
     /**
@@ -78,7 +78,7 @@ class ControladorValla extends Controller
         $equipos = Equipo::where('idEdicion', $idEdicion)
             ->where('idCategoria', $idCategoria)
             ->get();
-        return view('panel.valla.edit', compact('ediciones', 'valla', 'equipos', 'idCategoria', 'EdicionSeleccionada'));
+        return view('Panel.valla.edit', compact('ediciones', 'valla', 'equipos', 'idCategoria', 'EdicionSeleccionada'));
     }
 
     /**

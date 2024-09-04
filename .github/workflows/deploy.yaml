@@ -18,16 +18,16 @@ jobs:
       with:
         php-version: '8.3'
 
-    - name: Install dependencies
-      run: composer install --no-dev --prefer-dist --no-scripts --no-progress --no-suggest
+    #- name: Install dependencies
+     # run: composer install --no-dev --prefer-dist --no-scripts --no-progress --no-suggest
 
-    - name: Configure env
-      env:
-        FTP_HOST: ${{ secrets.FTP_HOST }}
-        FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
-        FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-        TP_DESTINATION: ${{ secrets.FTP_DESTINATION }}
-      run: php artisan config:cache
+    #- name: Configure env
+     # env:
+      #  FTP_HOST: ${{ secrets.FTP_HOST }}
+       # FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+        #FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        #TP_DESTINATION: ${{ secrets.FTP_DESTINATION }}
+     # run: php artisan config:cache
 
     - name: Deploy to shared hosting
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -38,4 +38,3 @@ jobs:
         server-dir: ${{ secrets.FTP_DESTINATION }}
         timeout: 10800
         protocol: ftps
-        transfer-mode: active

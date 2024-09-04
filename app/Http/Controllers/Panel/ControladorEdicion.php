@@ -16,7 +16,7 @@ class ControladorEdicion extends Controller
         $ediciones = Edicion::all();
         $idEdicion = $request->idEdicion;
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
-        return view('panel.edicion.index', compact('ediciones', 'EdicionSeleccionada'));
+        return view('Panel.edicion.index', compact('ediciones', 'EdicionSeleccionada'));
     }
 
     /**
@@ -26,7 +26,7 @@ class ControladorEdicion extends Controller
     {
         $ediciones = Edicion::all();
         $edicion = new Edicion();
-        return view('panel.edicion.create', compact('ediciones', 'edicion'));
+        return view('Panel.edicion.create', compact('ediciones', 'edicion'));
     }
 
     /**
@@ -54,7 +54,7 @@ class ControladorEdicion extends Controller
     public function edit(Edicion $edicion)
     {
         $ediciones = Edicion::all();
-        return view('panel.edicion.edit', compact('ediciones', 'edicion'));
+        return view('Panel.edicion.edit', compact('ediciones', 'edicion'));
     }
 
     /**

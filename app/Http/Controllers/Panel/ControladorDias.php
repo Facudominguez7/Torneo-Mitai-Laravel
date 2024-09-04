@@ -19,7 +19,7 @@ class ControladorDias extends Controller
         $dias = Dia::where('idEdicion', $idEdicion)->orderBy('id', 'desc')->paginate(7);
         $dias->appends(['idEdicion' => $idEdicion]);
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
-        return view('panel.dia.index', compact('ediciones', 'EdicionSeleccionada', 'dias'));
+        return view('Panel.dia.index', compact('ediciones', 'EdicionSeleccionada', 'dias'));
     }
 
     /**
@@ -32,7 +32,7 @@ class ControladorDias extends Controller
 
         $idEdicion = $request->idEdicion;
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
-        return view('panel.dia.create', compact('ediciones', 'dia', 'EdicionSeleccionada'));
+        return view('Panel.dia.create', compact('ediciones', 'dia', 'EdicionSeleccionada'));
     }
 
     /**
@@ -53,7 +53,7 @@ class ControladorDias extends Controller
         $dia = $dium;
         $idEdicion = $request->idEdicion;
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
-        return view('panel.dia.edit', compact('ediciones', 'dia', 'EdicionSeleccionada'));
+        return view('Panel.dia.edit', compact('ediciones', 'dia', 'EdicionSeleccionada'));
     }
 
     /**
