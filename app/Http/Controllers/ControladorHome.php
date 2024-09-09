@@ -21,15 +21,19 @@ class ControladorHome extends Controller
         // Recuperar todas las ediciones de la base de datos
         $ediciones = Edicion::all();
         $idEdicion = $request->query('idEdicion');
+        $ultimaEdicion = null;
+        if(is_null($idEdicion)){
+            $ultimaEdicion = Edicion::latest('id')->first();
+        }
         $idCategoria = $request->query('idCategoria');
-        $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
+        $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;       
         $categorias = Categoria::query();
         $roles = User::pluck('rol');
         if ($EdicionSeleccionada) {
             $categorias = $categorias->where('idEdicion', $idEdicion)->orderBy('nombreCategoria', 'desc')->get();
         }
 
-        return view('welcome', compact('ediciones', 'EdicionSeleccionada', 'categorias', 'idEdicion', 'idCategoria', 'roles'));
+        return view('welcome', compact('ediciones', 'ultimaEdicion', 'EdicionSeleccionada', 'categorias', 'idEdicion', 'idCategoria', 'roles'));
     }
 
     public function admin(Request $request)

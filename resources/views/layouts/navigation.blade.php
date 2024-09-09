@@ -7,10 +7,11 @@
                 <span
                     class="self-center text-lg font-semibold whitespace-nowrap dark:text-white">{{ $EdicionSeleccionada->nombre }}</span>
             @else
-                <a href="{{ route('home') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
+                <a href="{{ route('home' , ['idEdicion', $ultimaEdicion]) }}" class="flex items-center space-x-3 rtl:space-x-reverse">
                     <img src="{{ asset('fotos/Logo_Mitai_SinFondo.png') }}" class="h-10 w-10" alt="MITAI Logo">
-                    <span class="self-center text-lg font-semibold whitespace-nowrap dark:text-white">Torneos
-                        Mita'í</span>
+                    <span class="self-center text-lg font-semibold whitespace-nowrap dark:text-white">
+                        {{$ultimaEdicion->nombre}}
+                    </span>
         @endif
         </a>
         <button data-collapse-toggle="navbar-dropdown" type="button"
