@@ -4,6 +4,18 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Torneo Mitai</title>
     <link rel="shortcut icon" type="image/png" href="{{ asset('fotos/Logo_Mitai_SinFondo.png') }}">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H0PZ81M69T"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-H0PZ81M69T');
+    </script>
     @vite('resources/css/app.css')
     @vite('resources/js/welcome.js')
     @vite('resources/js/app.js')
