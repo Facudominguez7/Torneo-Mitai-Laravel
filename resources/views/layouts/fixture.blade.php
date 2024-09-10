@@ -1,5 +1,5 @@
 @include('head')
-<div class="bg-white w-full min-h-screen text-foreground">
+<div class="bg-[--color-secondary] w-full min-h-screen text-foreground">
     @include('layouts.navigation')
 
     <!-- Encabezado -->
@@ -8,7 +8,7 @@
         <h1 class="text-2xl mt-1 md:mt-0 md:ml-10 font-semibold tracking-wide md:text-3xl">{{ $nombreFecha }}</h1>
     </div>
 
-    <div class="flex flex-wrap justify-center bg-[--color-secondary] text-white py-4 px-6 gap-4">
+    <div class="flex flex-wrap justify-center bg-[--color-primary] text-white py-4 px-6 gap-4">
         <!-- Contenedor de Filtros -->
         <div class="flex flex-col md:flex-row gap-4 w-full justify-center">
             <!-- Filtro de Categoría -->
@@ -72,20 +72,17 @@
     </div>
 
     <!-- Grupo -->
-    @if (!is_null($grupos))
+    @if (!is_null($grupos) && $partidos->isNotEmpty())
         @foreach ($grupos as $g)
-            <div class="flex flex-row justify-center items-center">
-                <div class="text-center p-3">
-                    <h2 class="text-2xl font-semibold mb-4">{{ $g->nombre }}</h2>
-                    <div class="flex justify-center">
-                        <a href=""
-                            class="bg-[--color-primary] text-white px-4 py-2 rounded-md hover:bg-[--color-secondary] transition-colors duration-300">Ir
-                            a la tabla de posiciones</a>
-                    </div>
-                </div>
+            <div class="flex flex-col md:flex-row md:justify-evenly items-center bg-[--color-primary] p-3">
+                <h2 class="text-2xl text-white font-semibold mb-4">{{ $g->nombre }}</h2>
+                <a href="{{route('tabla-posiciones', ['idCategoria' => $idCategoria, 'idGrupo' => $g->id , 'idEdicion' => $EdicionSeleccionada->id])}}"
+                    class="bg-[--color-secondary] text-white px-4 py-2 rounded-md hover:bg-white hover:text-black transition-colors duration-300">
+                    Tabla de posiciones
+                </a>
             </div>
             @foreach ($partidos->where('idGrupo', $g->id) as $p)
-                <div class="grid gap-6 p-1 md:p-6 bg-gray-50 w-full md:w-auto">
+                <div class="grid gap-6 p-1 md:p-6 bg-[--color-secondary] w-full md:w-auto">
                     <div class="bg-white rounded-lg shadow-lg overflow-x-auto md:overflow-x-visible">
                         <div class="flex flex-col md:flex-row items-center justify-between md:px-6 py-4 border-b">
                             <div class="flex items-center gap-4">
@@ -102,11 +99,8 @@
                         </div>
                         <div class="flex flex-col md:flex-row items-center justify-between px-6 py-2 text-gray-600">
                             <div class="flex items-center gap-2 mb-2 md:mb-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1 1 0 011-1z" />
-                                </svg>
+                                <img class="w-4 h-4 mr-1" src="{{ asset('fotos/reloj-icono.jpeg') }}"
+                                    alt="">
                                 <span class="whitespace-nowrap">{{ $p->horario }} PM</span>
                             </div>
                             <div class="flex items-center gap-2 mb-2 md:mb-0">
@@ -124,44 +118,15 @@
             @endforeach
         @endforeach
     @else
-    @foreach ($partidos->where('idGrupo', $g->id) as $p)
-                <div class="grid gap-6 p-1 md:p-6 bg-gray-50 w-full md:w-auto">
-                    <div class="bg-white rounded-lg shadow-lg overflow-x-auto md:overflow-x-visible">
-                        <div class="flex flex-col md:flex-row items-center justify-between md:px-6 py-4 border-b">
-                            <div class="flex items-center gap-4">
-                                <img src="{{ asset('fotos/equipos/' . $p->foto_local) }}" width="40" height="40"
-                                    alt="" class="rounded-full object-cover" />
-                                <div class="font-medium text-lg">{{ $p->nombre_local }}</div>
-                                <div class="text-gray-500">vs</div>
-                                <img src="{{ asset('fotos/equipos/' . $p->foto_visitante) }}" width="40"
-                                    height="40" alt="" class="rounded-full object-cover" />
-                                <div class="font-medium text-lg">{{ $p->nombre_visitante }}</div>
-                            </div>
-                            <div class="text-2xl font-bold mt-4 md:mt-0 text-center text-[--color-primary]">
-                                {{ $p->golesEquipoLocal }} - {{ $p->golesEquipoVisitante }}</div>
-                        </div>
-                        <div class="flex flex-col md:flex-row items-center justify-between px-6 py-2 text-gray-600">
-                            <div class="flex items-center gap-2 mb-2 md:mb-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1 1 0 011-1z" />
-                                </svg>
-                                <span class="whitespace-nowrap">{{ $p->horario }} PM</span>
-                            </div>
-                            <div class="flex items-center gap-2 mb-2 md:mb-0">
-                                <img class="w-4 h-4 mr-1" src="{{ asset('fotos/calendario-icono.jpeg') }}"
-                                    alt="">
-                                <span class="whitespace-nowrap">{{ $p->dia }}</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <img class="w-4 h-4 mr-1" src="{{ asset('fotos/cancha-icono.jpeg') }}" alt="">
-                                <span class="whitespace-nowrap">Cancha {{ $p->cancha }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
+        <div class="flex items-center justify-center h-1/2">
+            <div class="text-center text-white text-2xl font-semibold">
+                @if (is_null($grupos))
+                    Haz clic en la parte superior para elegir una categoría.
+                @else
+                    No hay fixture programado.
+                @endif
+            </div>
+        </div>
     @endif
 </div>
 <script>
@@ -177,7 +142,6 @@
 
             const categoriaFilterSelected = idCategoria.trim() !== '';
 
-
             // Mostrar el filtro de fecha solo si se ha seleccionado una categoría y un grupo
             fechaFilterContainer.classList.toggle('hidden', !(categoriaFilterSelected));
         }
@@ -192,6 +156,12 @@
                     newUrl.searchParams.delete(key);
                 }
             });
+
+            // Remove idFecha from URL if idCategoria is changed
+            if (params.idCategoria !== idCategoria) {
+                newUrl.searchParams.delete('idFecha');
+            }
+
             window.location.href = newUrl;
         }
 
@@ -207,7 +177,7 @@
                 updateUrl({
                     idCategoria,
                     idEdicion,
-                    idFecha,
+                    idFecha: '' // Clear idFecha when a new category is selected
                 });
             });
         });

@@ -10,6 +10,7 @@ use App\Models\Goleador;
 use App\Models\Grupo;
 use App\Models\Partido;
 use App\Models\Subcampeon;
+use App\Models\TablaPosicion;
 use App\Models\User;
 use App\Models\VallaMenosVencida;
 use Illuminate\Http\Request;
@@ -197,5 +198,28 @@ class ControladorHome extends Controller
             $nombreCategoria = $categoria->nombreCategoria;
         }
         return view('layouts.fixture', compact('nombreFecha', 'nombreCategoria', 'grupos', 'ediciones', 'EdicionSeleccionada', 'categorias', 'idCategoria', 'CategoriaSeleccionada', 'fechas', 'partidos'));
+    }
+
+    public function tablaPosiciones(Request $request)
+    {
+        $ediciones = Edicion::all();
+        $idCategoria = $request->query('idCategoria');
+        $idGrupo = $request->query('idGrupo');
+        $idEdicion = $request->query('idEdicion');
+        $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
+    
+        // Obtener el nombre de la categoría
+        $categoria = Categoria::find($idCategoria);
+        $nombreCategoria = $categoria ? $categoria->nombreCategoria : 'Categoría no encontrada';
+    
+        // Consulta utilizando Eloquent
+        $tablaPosiciones = TablaPosicion::select('tabla_posiciones.*', 'equipos.nombre as nombreEquipo', 'equipos.foto as fotoEquipo', 'equipos.id as idEquipo')
+            ->join('equipos', 'tabla_posiciones.idEquipo', '=', 'equipos.id')
+            ->where('tabla_posiciones.idGrupo', $idGrupo)
+            ->orderBy('tabla_posiciones.puntos', 'DESC')
+            ->orderBy('tabla_posiciones.diferenciaGoles', 'DESC')
+            ->get();
+    
+        return view('layouts.tabla-posiciones', compact('tablaPosiciones', 'EdicionSeleccionada', 'nombreCategoria', 'ediciones'));
     }
 }

@@ -49,12 +49,12 @@
                                     <div class="mt-5">
                                         @if (isset($EdicionSeleccionada))
                                         <a href="{{ route('campeones', ['idEdicion' => $EdicionSeleccionada]) }}"
-                                            class="bg-white hover:bg-blue-400 text-black font-bold py-2 px-4 rounded">
+                                            class="bg-black hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded">
                                             Ver más
                                         </a>
                                         @else
                                         <a href="{{ route('campeones', ['idEdicion' => $ultimaEdicion]) }}"
-                                            class="bg-white hover:bg-blue-400 text-black font-bold py-2 px-4 rounded">
+                                            class="bg-black hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded">
                                             Ver más
                                         </a>
                                         @endif
@@ -75,12 +75,12 @@
                                     <div class="mt-5">
                                         @if (isset($EdicionSeleccionada))
                                         <a href="{{ route('subcampeones', ['idEdicion' => $EdicionSeleccionada]) }}"
-                                            class="bg-white hover:bg-blue-400 text-black font-bold py-2 px-4 rounded">
+                                            class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                                             Ver más
                                         </a>
                                         @else
                                         <a href="{{ route('subcampeones', ['idEdicion' => $ultimaEdicion]) }}"
-                                            class="bg-white hover:bg-blue-400 text-black font-bold py-2 px-4 rounded">
+                                            class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                                             Ver más
                                         </a>
                                         @endif
@@ -101,12 +101,12 @@
                                     <div class="mt-5">
                                         @if (isset($EdicionSeleccionada))
                                         <a href="{{ route('vallas', ['idEdicion' => $EdicionSeleccionada]) }}"
-                                            class="bg-white hover:bg-blue-400 text-black font-bold py-2 px-4 rounded">
+                                            class="bg-green-800 hover:bg-green-900 text-white font-bold py-2 px-4 rounded">
                                             Ver más
                                         </a>
                                         @else
                                         <a href="{{ route('vallas', ['idEdicion' => $ultimaEdicion]) }}"
-                                            class="bg-white hover:bg-blue-400 text-black font-bold py-2 px-4 rounded">
+                                            class="bg-green-800 hover:bg-green-900 text-white font-bold py-2 px-4 rounded">
                                             Ver más
                                         </a>
                                         @endif
