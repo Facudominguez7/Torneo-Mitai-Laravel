@@ -20,8 +20,9 @@ class ProfileController extends Controller
         $idEdicion = $request->query('idEdicion');
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
         $user = $request->user();
+        $ultimaEdicion = null;
 
-        return view('profile.edit', compact('EdicionSeleccionada', 'user'));
+        return view('profile.edit', compact('EdicionSeleccionada', 'user', 'ultimaEdicion'));
     }
 
     /**
