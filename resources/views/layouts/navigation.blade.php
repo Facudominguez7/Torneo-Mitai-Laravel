@@ -65,7 +65,7 @@
                 @auth
                     @if (Auth::user()->rol == 'admin')
                         <li>
-                            <a href="{{ route('admin') }}"
+                            <a href="{{ route('admin', ['idEdicion' => isset($EdicionSeleccionada) ? $EdicionSeleccionada->id : $ultimaEdicion->id]) }}"
                                 class="py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-white lg:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent">
                                 Panel de Administración
                             </a>

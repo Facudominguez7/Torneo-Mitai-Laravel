@@ -106,7 +106,7 @@
                             <div class="flex items-center gap-2 mb-2 md:mb-0">
                                 <img class="w-4 h-4 mr-1" src="{{ asset('fotos/calendario-icono.jpeg') }}"
                                     alt="">
-                                <span class="whitespace-nowrap">{{ $p->dia }}</span>
+                                <span class="whitespace-nowrap">{{ $p->nombre_fecha }}</span>
                             </div>
                             <div class="flex items-center gap-2">
                                 <img class="w-4 h-4 mr-1" src="{{ asset('fotos/cancha-icono.jpeg') }}" alt="">

@@ -43,10 +43,10 @@ class ControladorHome extends Controller
         $idEdicion = $request->query('idEdicion');
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
 
-        $partidos = Partido::select('partidos.*', 'el.nombre as nombre_local', 'ev.nombre as nombre_visitante', 'el.foto as foto_local', 'ev.foto as foto_visitante', 'd.diaPartido as dia')
+        $partidos = Partido::select('partidos.*', 'el.nombre as nombre_local', 'ev.nombre as nombre_visitante', 'el.foto as foto_local', 'ev.foto as foto_visitante', 'f.nombre as nombre_fecha')
             ->join('equipos as el', 'partidos.idEquipoLocal', '=', 'el.id')
             ->join('equipos as ev', 'partidos.idEquipoVisitante', '=', 'ev.id')
-            ->join('dias as d', 'partidos.idDia', '=', 'd.id')
+            ->join('fechas as f', 'partidos.idFechas', '=', 'f.id')
             ->where('partidos.idEdicion', $idEdicion)
             ->orderByDesc('partidos.id')
             ->paginate(20);
@@ -174,20 +174,19 @@ class ControladorHome extends Controller
                 ->get();
 
             if (isset($idFecha)) {
-                $partidos = Partido::select('partidos.*', 'el.nombre as nombre_local', 'ev.nombre as nombre_visitante', 'el.foto as foto_local', 'ev.foto as foto_visitante', 'd.diaPartido as dia')
+                $partidos = Partido::select('partidos.*', 'el.nombre as nombre_local', 'ev.nombre as nombre_visitante', 'el.foto as foto_local', 'ev.foto as foto_visitante')
                     ->join('equipos as el', 'partidos.idEquipoLocal', '=', 'el.id')
                     ->join('equipos as ev', 'partidos.idEquipoVisitante', '=', 'ev.id')
-                    ->join('dias as d', 'partidos.idDia', '=', 'd.id')
                     ->where('partidos.idFechas', $idFecha)
                     ->where('partidos.idEdicion', $idEdicion)
                     ->get();
                 $fecha = Fecha::find($idFecha);
                 $nombreFecha = $fecha->nombre;
             } else {
-                $partidos = Partido::select('partidos.*', 'el.nombre as nombre_local', 'ev.nombre as nombre_visitante', 'el.foto as foto_local', 'ev.foto as foto_visitante', 'd.diaPartido as dia')
+                $partidos = Partido::select('partidos.*', 'el.nombre as nombre_local', 'ev.nombre as nombre_visitante', 'el.foto as foto_local', 'ev.foto as foto_visitante', 'f.nombre as nombre_fecha')
                     ->join('equipos as el', 'partidos.idEquipoLocal', '=', 'el.id')
                     ->join('equipos as ev', 'partidos.idEquipoVisitante', '=', 'ev.id')
-                    ->join('dias as d', 'partidos.idDia', '=', 'd.id')
+                    ->join('fechas as f', 'partidos.idFechas', '=', 'f.id')
                     ->where('partidos.idEdicion', $idEdicion)
                     ->orderByDesc('partidos.id')
                     ->get();

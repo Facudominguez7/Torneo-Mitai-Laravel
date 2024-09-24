@@ -82,7 +82,18 @@
                             <path
                                 d="M64 256l0-96 160 0 0 96L64 256zm0 64l160 0 0 96L64 416l0-96zm224 96l0-96 160 0 0 96-160 0zM448 256l-160 0 0-96 160 0 0 96zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32z" />
                         </svg>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Tabla Ediciones</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap"> Ediciones</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('tabla_goleador.index', isset($EdicionSeleccionada) ? ['idEdicion' => $EdicionSeleccionada] : []) }}"
+                        class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                        <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900"
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path
+                                d="M64 256l0-96 160 0 0 96L64 256zm0 64l160 0 0 96L64 416l0-96zm224 96l0-96 160 0 0 96-160 0zM448 256l-160 0 0-96 160 0 0 96zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32z" />
+                        </svg>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Tabla de Goleadores</span>
                     </a>
                 </li>
                 <li>
@@ -93,7 +104,7 @@
                             <path
                                 d="M64 256l0-96 160 0 0 96L64 256zm0 64l160 0 0 96L64 416l0-96zm224 96l0-96 160 0 0 96-160 0zM448 256l-160 0 0-96 160 0 0 96zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32z" />
                         </svg>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Tabla Equipos</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap"> Equipos</span>
                     </a>
                 </li>
                 <li>
@@ -104,7 +115,7 @@
                             <path
                                 d="M64 256l0-96 160 0 0 96L64 256zm0 64l160 0 0 96L64 416l0-96zm224 96l0-96 160 0 0 96-160 0zM448 256l-160 0 0-96 160 0 0 96zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32z" />
                         </svg>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Tabla Grupos</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap"> Grupos</span>
                     </a>
                 </li>
                 <li>
@@ -115,7 +126,7 @@
                             <path
                                 d="M64 256l0-96 160 0 0 96L64 256zm0 64l160 0 0 96L64 416l0-96zm224 96l0-96 160 0 0 96-160 0zM448 256l-160 0 0-96 160 0 0 96zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32z" />
                         </svg>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Tabla Categorias</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap"> Categorias</span>
                     </a>
                 </li>
                 <li>
@@ -126,7 +137,7 @@
                             <path
                                 d="M64 256l0-96 160 0 0 96L64 256zm0 64l160 0 0 96L64 416l0-96zm224 96l0-96 160 0 0 96-160 0zM448 256l-160 0 0-96 160 0 0 96zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32z" />
                         </svg>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Tabla Campeones</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap"> Campeones</span>
                     </a>
                 </li>
                 <li>
@@ -137,7 +148,7 @@
                             <path
                                 d="M64 256l0-96 160 0 0 96L64 256zm0 64l160 0 0 96L64 416l0-96zm224 96l0-96 160 0 0 96-160 0zM448 256l-160 0 0-96 160 0 0 96zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32z" />
                         </svg>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Tabla SubCampeones</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap"> SubCampeones</span>
                     </a>
                 </li>
                 <li>
@@ -148,7 +159,7 @@
                             <path
                                 d="M64 256l0-96 160 0 0 96L64 256zm0 64l160 0 0 96L64 416l0-96zm224 96l0-96 160 0 0 96-160 0zM448 256l-160 0 0-96 160 0 0 96zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32z" />
                         </svg>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Tabla Copas</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap"> Copas</span>
                     </a>
                 </li>
                 <li>
@@ -159,7 +170,7 @@
                             <path
                                 d="M64 256l0-96 160 0 0 96L64 256zm0 64l160 0 0 96L64 416l0-96zm224 96l0-96 160 0 0 96-160 0zM448 256l-160 0 0-96 160 0 0 96zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32z" />
                         </svg>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Tabla Fechas</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap"> Fechas</span>
                     </a>
                 </li>
                 <li>
@@ -170,7 +181,7 @@
                             <path
                                 d="M64 256l0-96 160 0 0 96L64 256zm0 64l160 0 0 96L64 416l0-96zm224 96l0-96 160 0 0 96-160 0zM448 256l-160 0 0-96 160 0 0 96zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32z" />
                         </svg>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Tabla Dias</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap"> Dias</span>
                     </a>
                 </li>
                 <li>
@@ -181,7 +192,7 @@
                             <path
                                 d="M64 256l0-96 160 0 0 96L64 256zm0 64l160 0 0 96L64 416l0-96zm224 96l0-96 160 0 0 96-160 0zM448 256l-160 0 0-96 160 0 0 96zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32z" />
                         </svg>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Tabla Goleadores</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Goleadores del Torneo</span>
                     </a>
                 </li>
                 <li>
@@ -192,29 +203,7 @@
                             <path
                                 d="M64 256l0-96 160 0 0 96L64 256zm0 64l160 0 0 96L64 416l0-96zm224 96l0-96 160 0 0 96-160 0zM448 256l-160 0 0-96 160 0 0 96zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32z" />
                         </svg>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Tabla Vallas Menos Vencidas</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                        <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900"
-                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                            viewBox="0 0 20 18">
-                            <path
-                                d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
-                        </svg>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Users</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                        <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900"
-                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                            viewBox="0 0 18 20">
-                            <path
-                                d="M17 5.923A1 1 0 0 0 16 5h-3V4a4 4 0 1 0-8 0v1H2a1 1 0 0 0-1 .923L.086 17.846A2 2 0 0 0 2.08 20h13.84a2 2 0 0 0 1.994-2.153L17 5.923ZM7 9a1 1 0 0 1-2 0V7h2v2Zm0-5a2 2 0 1 1 4 0v1H7V4Zm6 5a1 1 0 1 1-2 0V7h2v2Z" />
-                        </svg>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Products</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap"> Vallas Menos Vencidas</span>
                     </a>
                 </li>
             </ul>
@@ -288,7 +277,7 @@
                                             <path fill-rule="evenodd"
                                                 d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1 1 0 011-1z" />
                                         </svg>
-                                        <span class="whitespace-nowrap">{{ $p->dia }}</span>
+                                        <span class="whitespace-nowrap">{{ $p->nombre_fecha }}</span>
                                     </div>
                                     <div class="flex items-center gap-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1"
