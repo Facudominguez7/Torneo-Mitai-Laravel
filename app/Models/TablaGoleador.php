@@ -10,12 +10,14 @@ class TablaGoleador extends Model
     use HasFactory;
 
     protected $table = 'tabla_goleadores'; // Nombre de la tabla
+    public $timestamps = false;
 
     protected $fillable = [
         'idEquipo', // ID del equipo al que pertenece el goleador
-        'idPartido', // ID del partido
         'cantidadGoles', // Número de goles anotados
         'idEdicion', // ID de la edición del torneo
+        'idCategoria',
+        'nombre',
     ];
     // Relación con la tabla de equipos
     public function equipo()

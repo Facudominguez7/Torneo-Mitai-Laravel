@@ -23,18 +23,29 @@
                 <h1 class="font-bold text-5xl text-white mb-5">
                     Mita'í
                 </h1>
-                @if (isset($EdicionSeleccionada) || isset($ultimaEdicion))@if (isset($EdicionSeleccionada))
-                <a href="{{ route('fixture', ['idEdicion' => $EdicionSeleccionada]) }}"
-                    class="bg-yellow-100 hover:bg-yellow-300 text-black font-bold py-2 px-4 rounded">
-                    Fixture
-                </a>
-                @else
-                <a href="{{ route('fixture', ['idEdicion' => $ultimaEdicion]) }}"
-                    class="bg-yellow-100 hover:bg-yellow-300 text-black font-bold py-2 px-4 rounded">
-                    Fixture
-                </a>
-                @endif
-                @endif
+                <div class="flex flex-col justify-center items-center w-full">
+                @if (isset($EdicionSeleccionada) || isset($ultimaEdicion))
+                        @if (isset($EdicionSeleccionada))
+                            <a href="{{ route('fixture', ['idEdicion' => $EdicionSeleccionada]) }}"
+                                class="bg-yellow-100 hover:bg-yellow-300 text-black font-bold py-2 px-4 rounded">
+                                Fixture
+                            </a>
+                            <a href="{{ route('tabla-goleadores', ['idEdicion' => $EdicionSeleccionada]) }}"
+                                class="bg-blue-100 mt-2 hover:bg-blue-300 text-black font-bold py-2 px-4 rounded">
+                                Tabla de Goleadores
+                            </a>
+                        @else
+                            <a href="{{ route('fixture', ['idEdicion' => $ultimaEdicion]) }}"
+                                class="bg-yellow-100 hover:bg-yellow-300 text-black font-bold py-2 px-4 rounded">
+                                Fixture
+                            </a>
+                            <a href="{{ route('tabla-goleadores', ['idEdicion' => $ultimaEdicion]) }}"
+                                class="bg-blue-100 mt-2 hover:bg-blue-300 text-black font-bold py-2 px-4 rounded">
+                                Tabla de Goleadores
+                            </a>
+                        @endif
+                    @endif
+                </div>
             </div>
             <div class="flex justify-center">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:grid-cols-3  xl:grid-cols-4 ">
