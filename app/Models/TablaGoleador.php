@@ -36,4 +36,11 @@ class TablaGoleador extends Model
     {
         return $this->belongsTo(Edicion::class, 'idEdicion');
     }
+
+    public function scopeSearch($query, $search)
+    {
+        if ($search) {
+            return $query->where('tabla_goleadores.nombre', 'LIKE', "%$search%");
+        }
+    }
 }

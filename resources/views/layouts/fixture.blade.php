@@ -76,7 +76,7 @@
         @foreach ($grupos as $g)
             <div class="flex flex-col md:flex-row md:justify-evenly items-center bg-[--color-primary] p-3">
                 <h2 class="text-2xl text-white font-semibold mb-4">{{ $g->nombre }}</h2>
-                <a href="{{route('tabla-posiciones', ['idCategoria' => $idCategoria, 'idGrupo' => $g->id , 'idEdicion' => $EdicionSeleccionada->id])}}"
+                <a href="{{ route('tabla-posiciones', ['idCategoria' => $idCategoria, 'idGrupo' => $g->id, 'idEdicion' => $EdicionSeleccionada->id]) }}"
                     class="bg-[--color-secondary] text-white px-4 py-2 rounded-md hover:bg-white hover:text-black transition-colors duration-300">
                     Tabla de posiciones
                 </a>
@@ -85,22 +85,21 @@
                 <div class="grid gap-6 p-1 md:p-6 bg-[--color-secondary] w-full md:w-auto">
                     <div class="bg-white rounded-lg shadow-lg overflow-x-auto md:overflow-x-visible">
                         <div class="flex flex-col md:flex-row items-center justify-between md:px-6 py-4 border-b">
-                            <div class="flex items-center gap-4">
-                                <img src="{{ asset('fotos/equipos/' . $p->foto_local) }}" width="40" height="40"
+                            <div class="flex items-center gap-4 justify-center w-full md:w-auto">
+                                <img class="ml-2" src="{{ asset('fotos/equipos/' . $p->foto_local) }}" width="40" height="40"
                                     alt="" class="rounded-full object-cover" />
-                                <div class="font-medium text-lg">{{ $p->nombre_local }}</div>
-                                <div class="text-gray-500">vs</div>
+                                <div class="font-medium text-lg text-center">{{ $p->nombre_local }}</div>
+                                <div class="text-gray-500 text-center">vs</div>
                                 <img src="{{ asset('fotos/equipos/' . $p->foto_visitante) }}" width="40"
                                     height="40" alt="" class="rounded-full object-cover" />
-                                <div class="font-medium text-lg">{{ $p->nombre_visitante }}</div>
+                                <div class="font-medium text-lg text-center">{{ $p->nombre_visitante }}</div>
                             </div>
                             <div class="text-2xl font-bold mt-4 md:mt-0 text-center text-[--color-primary]">
                                 {{ $p->golesEquipoLocal }} - {{ $p->golesEquipoVisitante }}</div>
                         </div>
                         <div class="flex flex-col md:flex-row items-center justify-between px-6 py-2 text-gray-600">
                             <div class="flex items-center gap-2 mb-2 md:mb-0">
-                                <img class="w-4 h-4 mr-1" src="{{ asset('fotos/reloj-icono.jpeg') }}"
-                                    alt="">
+                                <img class="w-4 h-4 mr-1" src="{{ asset('fotos/reloj-icono.jpeg') }}" alt="">
                                 <span class="whitespace-nowrap">{{ $p->horario }} PM</span>
                             </div>
                             <div class="flex items-center gap-2 mb-2 md:mb-0">

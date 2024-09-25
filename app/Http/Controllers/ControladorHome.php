@@ -229,9 +229,10 @@ class ControladorHome extends Controller
         $idEdicion = $request->idEdicion;
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
         $idCategoria = $request->idCategoria;
+        $search_value = $request->search_value;
 
         if (!is_null($idCategoria)) {
-            $goleadores_t = TablaGoleador::join('ediciones as ed', 'tabla_goleadores.idEdicion', '=', 'ed.id')
+            $goleadores_t = TablaGoleador::search($search_value)->join('ediciones as ed', 'tabla_goleadores.idEdicion', '=', 'ed.id')
                 ->join('equipos as e', 'tabla_goleadores.idEquipo', '=', 'e.id')
                 ->join('categorias as cat', 'tabla_goleadores.idCategoria', '=', 'cat.id')
                 ->select('tabla_goleadores.*', 'e.nombre as nombreEquipo', 'cat.nombreCategoria as nombreCategoria', 'e.id as idEquipo')
@@ -242,7 +243,7 @@ class ControladorHome extends Controller
                 ->paginate(30);
             $goleadores_t->appends(['idEdicion' => $idEdicion, 'idCategoria' => $idCategoria]);
         } else {
-            $goleadores_t = TablaGoleador::join('ediciones as ed', 'tabla_goleadores.idEdicion', '=', 'ed.id')
+            $goleadores_t = TablaGoleador::search($search_value)->join('ediciones as ed', 'tabla_goleadores.idEdicion', '=', 'ed.id')
                 ->join('equipos as e', 'tabla_goleadores.idEquipo', '=', 'e.id')
                 ->join('categorias as cat', 'tabla_goleadores.idCategoria', '=', 'cat.id')
                 ->select('tabla_goleadores.*', 'e.nombre as nombreEquipo', 'cat.nombreCategoria as nombreCategoria', 'e.id as idEquipo')
