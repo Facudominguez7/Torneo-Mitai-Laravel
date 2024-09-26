@@ -90,9 +90,9 @@
                                     alt="" class="rounded-full object-cover" />
                                 <div class="font-medium text-lg text-center">{{ $p->nombre_local }}</div>
                                 <div class="text-gray-500 text-center">vs</div>
-                                <img src="{{ asset('fotos/equipos/' . $p->foto_visitante) }}" width="40"
-                                    height="40" alt="" class="rounded-full object-cover" />
                                 <div class="font-medium text-lg text-center">{{ $p->nombre_visitante }}</div>
+                                <img src="{{ asset('fotos/equipos/' . $p->foto_visitante) }}" width="40"
+                                height="40" alt="" class="rounded-full object-cover" />
                             </div>
                             <div class="text-2xl font-bold mt-4 md:mt-0 text-center text-[--color-primary]">
                                 {{ $p->golesEquipoLocal }} - {{ $p->golesEquipoVisitante }}</div>

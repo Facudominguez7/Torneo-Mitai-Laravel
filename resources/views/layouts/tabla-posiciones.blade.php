@@ -7,15 +7,19 @@
 
     <div class="w-full mx-auto md:p-4">
         <div class="overflow-x-auto">
-            <table class="min-w-full bg-white border border-gray-200 table-fixed">
+            <table class="min-w-[400px] md:min-w-full bg-white border border-gray-200 table-fixed">
                 <thead>
                     <tr class="bg-gray-100">
-                        <th class="text-center text-sm font-medium text-gray-600 bg-white hidden md:table-cell w-1/12 md:w-auto">Puesto</th>
+                        <th
+                            class="text-center text-sm font-medium text-gray-600 bg-white hidden md:table-cell w-1/12 md:w-auto">
+                            Puesto</th>
                         <th class="text-center text-sm font-medium text-gray-600 bg-gray-100 w-2/12 md:w-auto">
                             <span class="md:hidden">Equipo</span>
                             <span class="hidden md:inline">Logo</span>
                         </th>
-                        <th class="text-center text-sm font-medium text-gray-600 bg-white hidden md:table-cell w-2/12 md:w-auto">Nombre</th>
+                        <th
+                            class="text-center text-sm font-medium text-gray-600 bg-white hidden md:table-cell w-2/12 md:w-auto">
+                            Nombre</th>
                         <th class="text-center text-sm font-medium text-gray-600 bg-gray-200 w-1/12 md:w-auto">Pts</th>
                         <th class="text-center text-sm font-medium text-gray-600 bg-white w-1/12 md:w-auto">J</th>
                         <th class="text-center text-sm font-medium text-gray-600 bg-gray-200 w-1/12 md:w-auto">G</th>
@@ -30,26 +34,40 @@
                     @php $posicion = 1; @endphp
                     @foreach ($tablaPosiciones as $filaTabla)
                         <tr class="border-t border-gray-400">
-                            <td class="px-1 py-2 text-center text-sm text-gray-700 bg-white hidden md:table-cell w-1/12">{{ $posicion }}°</td>
-                            <td class="flex items-center py-3 text-sm text-gray-700 justify-center bg-gray-100 w-auto">
+                            <td class="px-1 py-2 text-center text-sm text-gray-700 bg-white hidden md:table-cell w-1/12">
+                                {{ $posicion }}°
+                            </td>
+                            <td class="flex items-center py-3 text-sm text-gray-700 md:justify-center bg-gray-100 gap-2 w-full flex-nowrap">
                                 <div class="pr-2 md:hidden">
                                     {{ $posicion }}
                                 </div>
-                                <img class="w-10 h-10 mr-2" src="{{ asset('fotos/equipos/' . $filaTabla->fotoEquipo) }}"
-                                    alt="logo {{ $filaTabla->nombreEquipo }}"
-                                    style="aspect-ratio: 1/1; object-fit: cover;">
-                                <span class="hidden">{{ $filaTabla->nombreEquipo }}</span>
+                                <img class="w-8 h-8 flex-shrink-0" src="{{ asset('fotos/equipos/' . $filaTabla->fotoEquipo) }}"
+                                     alt="logo {{ $filaTabla->nombreEquipo }}"
+                                     style="aspect-ratio: 1/1; object-fit: cover;">
+                                <span class="inline md:hidden whitespace-normal break-words max-w-[120px] flex-shrink">
+                                    {{ $filaTabla->nombreEquipo }}
+                                </span>
                             </td>
-                           
-                            <td class="py-1 text-center text-sm text-gray-700 hidden md:table-cell bg-white w-2/12 md:w-auto">{{ $filaTabla->nombreEquipo }}</td>
-                            <td class="px-1 text-center text-sm text-gray-700 bg-gray-200 w-1/12 md:w-auto">{{ $filaTabla->puntos }}</td>
-                            <td class="px-1 text-center text-sm text-gray-700 bg-white w-1/12 md:w-auto">{{ $filaTabla->jugado }}</td>
-                            <td class="px-1 text-center text-sm text-gray-700 bg-gray-200 w-1/12 md:w-auto">{{ $filaTabla->ganado }}</td>
-                            <td class="px-1 text-center text-sm text-gray-700 bg-white w-1/12 md:w-auto">{{ $filaTabla->empatado }}</td>
-                            <td class="px-1 text-center text-sm text-gray-700 bg-gray-200 w-1/12 md:w-auto">{{ $filaTabla->perdido }}</td>
-                            <td class="px-1 text-center text-sm text-gray-700 bg-white w-1/12 md:w-auto">{{ $filaTabla->golesFavor }}</td>
-                            <td class="px-1 text-center text-sm text-gray-700 bg-gray-200 w-1/12 md:w-auto">{{ $filaTabla->golesContra }}</td>
-                            <td class="px-1 text-center text-sm text-gray-700 bg-white w-1/12 md:w-auto">{{ $filaTabla->diferenciaGoles }}</td>
+                                                                                
+                            <td
+                                class="py-1 text-center text-sm text-gray-700 hidden md:table-cell bg-white w-2/12 md:w-auto">
+                                {{ $filaTabla->nombreEquipo }}</td>
+                            <td class="px-1 text-center text-sm text-gray-700 bg-gray-200 w-1/12 md:w-auto">
+                                {{ $filaTabla->puntos }}</td>
+                            <td class="px-1 text-center text-sm text-gray-700 bg-white w-1/12 md:w-auto">
+                                {{ $filaTabla->jugado }}</td>
+                            <td class="px-1 text-center text-sm text-gray-700 bg-gray-200 w-1/12 md:w-auto">
+                                {{ $filaTabla->ganado }}</td>
+                            <td class="px-1 text-center text-sm text-gray-700 bg-white w-1/12 md:w-auto">
+                                {{ $filaTabla->empatado }}</td>
+                            <td class="px-1 text-center text-sm text-gray-700 bg-gray-200 w-1/12 md:w-auto">
+                                {{ $filaTabla->perdido }}</td>
+                            <td class="px-1 text-center text-sm text-gray-700 bg-white w-1/12 md:w-auto">
+                                {{ $filaTabla->golesFavor }}</td>
+                            <td class="px-1 text-center text-sm text-gray-700 bg-gray-200 w-1/12 md:w-auto">
+                                {{ $filaTabla->golesContra }}</td>
+                            <td class="px-1 text-center text-sm text-gray-700 bg-white w-1/12 md:w-auto">
+                                {{ $filaTabla->diferenciaGoles }}</td>
                         </tr>
                         @php $posicion++; @endphp
                     @endforeach
