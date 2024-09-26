@@ -44,15 +44,14 @@
                                 <img class="w-8 h-8 flex-shrink-0" src="{{ asset('fotos/equipos/' . $filaTabla->fotoEquipo) }}"
                                      alt="logo {{ $filaTabla->nombreEquipo }}"
                                      style="aspect-ratio: 1/1; object-fit: cover;">
-                                     <span class="inline md:hidden whitespace-normal break-words max-w-[6rem] flex-shrink-1">
+                                <span class="inline md:hidden whitespace-normal break-words max-w-[120px] flex-shrink-0 pr-8">
                                     {{ $filaTabla->nombreEquipo }}
                                 </span>
-                            </td>
-                                                                                
+                            </td>                                                
                             <td
                                 class="py-1 text-center text-sm text-gray-700 hidden md:table-cell bg-white w-2/12 md:w-auto">
                                 {{ $filaTabla->nombreEquipo }}</td>
-                            <td class="px-1 text-center text-sm text-gray-700 bg-gray-200 w-1/12 md:w-auto">
+                            <td class=" text-center text-sm text-gray-700 bg-gray-200 w-1/12 md:w-auto">
                                 {{ $filaTabla->puntos }}</td>
                             <td class="px-1 text-center text-sm text-gray-700 bg-white w-1/12 md:w-auto">
                                 {{ $filaTabla->jugado }}</td>
