@@ -44,7 +44,7 @@
                                 <img class="w-8 h-8 flex-shrink-0" src="{{ asset('fotos/equipos/' . $filaTabla->fotoEquipo) }}"
                                      alt="logo {{ $filaTabla->nombreEquipo }}"
                                      style="aspect-ratio: 1/1; object-fit: cover;">
-                                <span class="inline md:hidden whitespace-normal break-words max-w-[120px] flex-shrink">
+                                <span class="inline md:hidden whitespace-normal break-words max-w-[6rem] flex-shrink">
                                     {{ $filaTabla->nombreEquipo }}
                                 </span>
                             </td>
