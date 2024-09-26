@@ -7,7 +7,7 @@
 
     <div class="w-full mx-auto md:p-4">
         <div class="overflow-x-auto">
-            <table class="min-w-[400px] md:min-w-full bg-white border border-gray-200 table-fixed">
+            <table class="min-w-full bg-white border border-gray-200 table-fixed">
                 <thead>
                     <tr class="bg-gray-100">
                         <th
@@ -44,7 +44,7 @@
                                 <img class="w-8 h-8 flex-shrink-0" src="{{ asset('fotos/equipos/' . $filaTabla->fotoEquipo) }}"
                                      alt="logo {{ $filaTabla->nombreEquipo }}"
                                      style="aspect-ratio: 1/1; object-fit: cover;">
-                                <span class="inline md:hidden whitespace-normal break-words max-w-[6rem] flex-shrink">
+                                     <span class="inline md:hidden whitespace-normal break-words max-w-[6rem] flex-shrink-1">
                                     {{ $filaTabla->nombreEquipo }}
                                 </span>
                             </td>
