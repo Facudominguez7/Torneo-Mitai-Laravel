@@ -6,8 +6,8 @@
     <h1 class="text-2xl font-bold text-center text-white mb-6">Tabla de Posiciones - {{ $nombreCategoria }}</h1>
 
     <div class="w-full mx-auto md:p-4">
-        <div class="overflow-x-auto">
-            <table class="min-w-full bg-white border border-gray-200 table-fixed">
+        <div class="overflow-x-scroll md:overflow-x-auto">
+            <table class="min-w-[500px] md:min-w-full bg-white border border-gray-200 table-fixed">
                 <thead>
                     <tr class="bg-gray-100">
                         <th
