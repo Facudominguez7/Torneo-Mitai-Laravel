@@ -1,4 +1,3 @@
-
 @include('head')
 
 <body class="bg-[--color-primary]  font-[Poppins]">
@@ -6,8 +5,7 @@
         aria-controls="sidebar-multi-level-sidebar" type="button"
         class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
         <span class="sr-only">Open sidebar</span>
-        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg">
+        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path clip-rule="evenodd" fill-rule="evenodd"
                 d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z">
             </path>
@@ -241,6 +239,20 @@
                                 Partidos
                             </button>
                         </a>
+                    </div>
+                </div>
+                <!-- Filtro de Fecha -->
+                <div class="flex justify-center w-auto pb-6">
+                    <div class="relative inline-block text-left w-full md:w-48 filtro-fecha">
+                        <form action="{{ route('admin', ['idEdicion' => $EdicionSeleccionada]) }}" method="GET">
+                            <input type="text" name="busqueda" placeholder="Nombre de la Fecha"
+                                value="{{ request('busqueda') }}"
+                                class="inline-flex items-center justify-between gap-2 bg-white text-gray-700 font-medium border border-gray-300 focus:outline-none hover:border-gray-400 px-4 py-2 rounded-md shadow-sm w-full transition ease-in-out duration-300">
+                            @foreach (request()->except(['busqueda', '_token']) as $key => $value)
+                                <!-- Excluir busqueda y token -->
+                                <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                            @endforeach
+                        </form>
                     </div>
                 </div>
                 @foreach ($partidos as $p)

@@ -37,21 +37,24 @@ class ControladorHome extends Controller
 
         return view('welcome', compact('ediciones', 'ultimaEdicion', 'EdicionSeleccionada', 'categorias', 'idEdicion', 'idCategoria', 'roles'));
     }
-
     public function admin(Request $request)
     {
         $ediciones = Edicion::all();
         $idEdicion = $request->query('idEdicion');
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
+        $busquedaFecha = $request->query('busqueda');
 
-        $partidos = Partido::select('partidos.*', 'el.nombre as nombre_local', 'ev.nombre as nombre_visitante', 'el.foto as foto_local', 'ev.foto as foto_visitante', 'f.nombre as nombre_fecha')
+        $partidosQuery = Partido::select('partidos.*', 'el.nombre as nombre_local', 'ev.nombre as nombre_visitante', 'el.foto as foto_local', 'ev.foto as foto_visitante', 'f.nombre as nombre_fecha')
             ->join('equipos as el', 'partidos.idEquipoLocal', '=', 'el.id')
             ->join('equipos as ev', 'partidos.idEquipoVisitante', '=', 'ev.id')
             ->join('fechas as f', 'partidos.idFechas', '=', 'f.id')
-            ->where('partidos.idEdicion', $idEdicion)
-            ->orderByDesc('partidos.id')
-            ->paginate(20);
+            ->where('partidos.idEdicion', $idEdicion);
 
+        if ($busquedaFecha) {
+            $partidosQuery->where('f.nombre', 'like', '%' . $busquedaFecha . '%');
+        }
+
+        $partidos = $partidosQuery->orderByDesc('f.nombre')->paginate(20);
         $partidos->appends(['idEdicion' => $idEdicion]);
         return view('Panel.admin', compact('ediciones', 'EdicionSeleccionada', 'partidos'));
     }

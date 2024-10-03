@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('apellido');
             $table->date('fecha_nacimiento');
             $table->string('dni')->unique();
-            $table->integer('idEquipo')->unsigned();
+            $table->integer('idEquipo');
             $table->foreign('idEquipo')->references('id')->on('equipos')->onDelete('cascade');
             $table->timestamps();
         });
