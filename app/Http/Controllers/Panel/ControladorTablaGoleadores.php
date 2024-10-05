@@ -21,17 +21,43 @@ class ControladorTablaGoleadores extends Controller
         $ediciones = Edicion::all();
         $idEdicion = $request->idEdicion;
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
-        $goleadores_t = TablaGoleador::join('ediciones as ed', 'tabla_goleadores.idEdicion', '=', 'ed.id')
-            ->join('equipos as e', 'tabla_goleadores.idEquipo', '=', 'e.id')
-            ->join('categorias as cat', 'tabla_goleadores.idCategoria', '=', 'cat.id')
-            ->select('tabla_goleadores.*', 'e.nombre as nombreEquipo', 'cat.nombreCategoria as nombreCategoria', 'e.id as idEquipo')
-            ->where('tabla_goleadores.idEdicion', $idEdicion)
-            ->orderBy('cat.nombreCategoria', 'desc')
-            ->orderBy('tabla_goleadores.cantidadGoles', 'desc')
-            ->paginate(30);
-        $goleadores_t->appends(['idEdicion' => $idEdicion]);
-        $tipo = 'tabla_goleador';
-        return view('Panel.tabla_goleador.index', compact('tipo', 'ediciones', 'EdicionSeleccionada', 'goleadores_t'));
+        $idCategoria = $request->idCategoria;
+        $search_value = $request->search_value;
+        $tipo = "tabla_goleador";
+
+        if (!is_null($idCategoria)) {
+            $goleadores_t = TablaGoleador::search($search_value)
+                ->join('ediciones as ed', 'tabla_goleadores.idEdicion', '=', 'ed.id')
+                ->join('equipos as e', 'tabla_goleadores.idEquipo', '=', 'e.id')
+                ->join('categorias as cat', 'tabla_goleadores.idCategoria', '=', 'cat.id')
+                ->select('tabla_goleadores.*', 'e.nombre as nombreEquipo', 'cat.nombreCategoria as nombreCategoria', 'e.id as idEquipo')
+                ->where('tabla_goleadores.idEdicion', $idEdicion)
+                ->where('tabla_goleadores.idCategoria', $idCategoria)
+                ->orderBy('cat.nombreCategoria', 'desc')
+                ->orderBy('tabla_goleadores.cantidadGoles', 'desc')
+                ->paginate(30);
+            $goleadores_t->appends(['idEdicion' => $idEdicion, 'idCategoria' => $idCategoria]);
+        } else {
+            $goleadores_t = TablaGoleador::search($search_value)
+                ->join('ediciones as ed', 'tabla_goleadores.idEdicion', '=', 'ed.id')
+                ->join('equipos as e', 'tabla_goleadores.idEquipo', '=', 'e.id')
+                ->join('categorias as cat', 'tabla_goleadores.idCategoria', '=', 'cat.id')
+                ->select('tabla_goleadores.*', 'e.nombre as nombreEquipo', 'cat.nombreCategoria as nombreCategoria', 'e.id as idEquipo')
+                ->where('tabla_goleadores.idEdicion', $idEdicion)
+                ->orderBy('cat.nombreCategoria', 'desc')
+                ->orderBy('tabla_goleadores.cantidadGoles', 'desc')
+                ->paginate(30);
+            $goleadores_t->appends(['idEdicion' => $idEdicion]);
+        }
+
+        if (isset($EdicionSeleccionada)) {
+            $categorias = Categoria::where('idEdicion', $idEdicion)
+                ->select('id', 'nombreCategoria')
+                ->orderBy('nombreCategoria', 'desc')
+                ->get();
+        }
+
+        return view('Panel.tabla_goleador.index', compact('ediciones', 'EdicionSeleccionada', 'goleadores_t', 'categorias', 'tipo'));
     }
 
     // Mostrar formulario de creación

@@ -15,6 +15,20 @@
             </div>
         @endif
     </div>
+    <form method="GET" action="{{ url()->current() }}">
+        <div class="flex items-center justify-center w-full max-w-md mx-auto p-4">
+            <div class="relative flex-1">
+                <input type="text" name="search_value" value="{{ old('search_value', request()->search_value) }}" placeholder="Buscar..."
+                    class="w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-12 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" />
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </div>
+        </div>
+        @foreach(request()->except('search_value') as $key => $value)
+            <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+        @endforeach
+    </form>
     <div class="mx-auto w-full max-w-2xl flex justify-center items-stretch pb-2 px-2 sm:px-6 lg:px-8">
         <table class="border-collapse w-full mt-2">
             <thead>
