@@ -13,6 +13,9 @@
         <div class="bannerFondo bg-bottom bg-repeat-x"
             style="background-image: url({{ asset('fotos/fondo_en_cancha.webp') }})">
         </div>
+        <x-modal-promo name="promo-torneo" :show="$errors->userDeletion->isNotEmpty()" focusable>
+
+        </x-modal-promo>
         <div class="-mt-72 ">
             <div
                 class="max-w-md mx-auto p-6 bg-black shadow-lg rounded-md text-center bg-opacity-70 mt-[-20rem] lg:mb-0 mb-10">
@@ -160,5 +163,10 @@
         </div>
     </main>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        window.dispatchEvent(new CustomEvent('open-modal', { detail: 'promo-torneo' }));
+    });
+</script>
 
 </html>
