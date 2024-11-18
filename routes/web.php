@@ -11,9 +11,11 @@ use App\Http\Controllers\Panel\ControladorDias;
 use App\Http\Controllers\Panel\ControladorEdicion;
 use App\Http\Controllers\Panel\ControladorEquipo;
 use App\Http\Controllers\Panel\ControladorEquiposGrupos;
+use App\Http\Controllers\Panel\ControladorFase;
 use App\Http\Controllers\Panel\ControladorFecha;
 use App\Http\Controllers\Panel\ControladorGoleador;
 use App\Http\Controllers\Panel\ControladorGrupos;
+use App\Http\Controllers\Panel\ControladorInstanciaFinal;
 use App\Http\Controllers\Panel\ControladorPartidos;
 use App\Http\Controllers\Panel\ControladorSubcampeon;
 use App\Http\Controllers\Panel\ControladorValla;
@@ -57,6 +59,8 @@ Route::group(['prefix' => 'Panel', 'middleware' => ['auth', 'verified', UserAcce
     Route::resource('equipogrupo', ControladorEquiposGrupos::class);
     Route::resource('partido', ControladorPartidos::class);
     Route::resource('tabla_goleador', ControladorTablaGoleadores::class);
+    Route::resource('instancia_final', ControladorInstanciaFinal::class);
+    Route::resource('fase', ControladorFase::class);
     Route::match(['get', 'post'], 'cargar-resultado', [ControladorPartidos::class, 'cargarResultado'])->name('cargar-resultado');
     Route::get('seleccionar-categoria', [ControladorCampeon::class, 'seleccionarCategoria'])->name('seleccionar-categoria');
     Route::get('/admin', [ControladorHome::class, 'admin'])

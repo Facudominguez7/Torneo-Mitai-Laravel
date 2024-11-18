@@ -44,4 +44,10 @@ class Categoria extends Model
     {
         return $this->hasMany(Grupo::class, 'idCategoria');
     }
+    
+    // Relación con InstanciaFinal (una categoría tiene muchas instancias finales)
+    public function instanciasFinales()
+    {
+        return $this->hasMany(InstanciaFinal::class);
+    }
 }

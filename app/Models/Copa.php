@@ -10,7 +10,7 @@ class Copa extends Model
     use HasFactory;
     public $timestamps = false;
     protected $table = 'copas';
-    protected $fillable = ['nombre', 'idEdicion'];
+    protected $fillable = ['nombre'];
 
     public function campeones()
     {
@@ -19,6 +19,12 @@ class Copa extends Model
     public function subcampeones()
     {
         return $this->hasMany(Subcampeon::class, 'idCopa');
+    }
+
+    // Relación con InstanciaFinal (una copa tiene muchas instancias finales)
+    public function instanciasFinales()
+    {
+        return $this->hasMany(InstanciaFinal::class);
     }
     
 }

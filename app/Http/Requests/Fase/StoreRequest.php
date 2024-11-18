@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Copa;
+namespace App\Http\Requests\Fase;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,7 +22,7 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => 'required|min:5|max:50',
+            'nombre' => 'required|unique:fases,nombre|min:5|max:50',
         ];
     }
 }

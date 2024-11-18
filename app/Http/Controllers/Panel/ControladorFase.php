@@ -1,24 +1,26 @@
 <?php
+
 namespace App\Http\Controllers\Panel;
+
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Copa\StoreRequest;
-use App\Models\Copa;
+use App\Http\Requests\Fase\StoreRequest;
 use App\Models\Edicion;
 use Illuminate\Http\Request;
+use App\Models\Fase;
 
 
-class ControladorCopa extends Controller
+class ControladorFase extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
+        $fases = Fase::all();
         $ediciones = Edicion::all();
         $idEdicion = $request->idEdicion;
-        $copas = Copa::all();
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
-        return view('Panel.copa.index', compact('ediciones', 'EdicionSeleccionada', 'copas'));
+        return view('Panel.fase.index', compact('EdicionSeleccionada', 'fases', 'ediciones'));
     }
 
     /**
@@ -27,10 +29,10 @@ class ControladorCopa extends Controller
     public function create(Request $request)
     {
         $ediciones = Edicion::all();
-        $copa = new Copa();
+        $fase = new Fase();
         $idEdicion = $request->idEdicion;
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
-        return view('Panel.copa.create', compact('ediciones', 'copa', 'EdicionSeleccionada'));
+        return view('Panel.fase.create', compact('ediciones', 'fase', 'EdicionSeleccionada'));
     }
 
     /**
@@ -39,47 +41,38 @@ class ControladorCopa extends Controller
     public function store(StoreRequest $request)
     {
         $data = $request->validated();
-        Copa::create($data);
-        return to_route('copa.index',['idEdicion' => $request->idEdicion])->with('status', 'Copa Creada');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Request $request, Copa $copa)
-    {
-        $ediciones = Edicion::all();
-        return view('Panel.copa.show', compact('ediciones'));
+        Fase::create($data);
+        return to_route('fase.index',['idEdicion' => $request->idEdicion])->with('status', 'Fase Creada');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request, Copa $copa)
+    public function edit(Request $request, Fase $fase)
     {
         $ediciones = Edicion::all();
         $idEdicion = $request->idEdicion;
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
-        return view('Panel.copa.edit', compact('ediciones', 'copa', 'EdicionSeleccionada'));
+        return view('Panel.fase.edit', compact('ediciones', 'fase', 'EdicionSeleccionada'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreRequest $request, Copa $copa)
+    public function update(StoreRequest $request, Fase $fase)
     {
         $data = $request->validated();
-        $copa->update($data);
+        $fase->update($data);
         $idEdicion = $request->idEdicion;
-        return to_route('copa.index', ['idEdicion' => $idEdicion]);
+        return to_route('fase.index', ['idEdicion' => $idEdicion]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, Copa $copa)
+    public function destroy(Request $request, Fase $fase)
     {
-        $copa->delete();
-        return to_route('copa.index', ['idEdicion' => $request->idEdicion])->with('status', 'Copa Eliminada');
+        $fase->delete();
+        return to_route('fase.index', ['idEdicion' => $request->idEdicion]);
     }
 }

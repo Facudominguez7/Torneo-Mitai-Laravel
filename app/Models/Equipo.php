@@ -51,4 +51,15 @@ class Equipo extends Model
     {
         return $this->hasMany(TablaPosicion::class, 'idEquipo');
     }
+    
+    // Relación con InstanciaFinal (un equipo tiene muchas instancias finales como local o visitante)
+    public function instanciasFinalesComoLocal()
+    {
+        return $this->hasMany(InstanciaFinal::class, 'idEquipoLocal');
+    }
+
+    public function instanciasFinalesComoVisitante()
+    {
+        return $this->hasMany(InstanciaFinal::class, 'idEquipoVisitante');
+    }
 }

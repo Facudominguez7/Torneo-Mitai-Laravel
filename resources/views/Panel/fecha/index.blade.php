@@ -64,7 +64,7 @@
                                 Editar
                             </a>
                         </button>
-                        <form action="{{ route('fecha.destroy', $f) }}" method="post">
+                        <form class="mb-0" action="{{ route('fecha.destroy', $f) }}" method="post">
                             @method('DELETE')
                             @csrf
                             <input type="number" id="idEdicion" name="idEdicion" class="hidden"

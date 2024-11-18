@@ -164,9 +164,11 @@
     </main>
 </body>
 <script>
+    /*
     document.addEventListener('DOMContentLoaded', function () {
         window.dispatchEvent(new CustomEvent('open-modal', { detail: 'promo-torneo' }));
     });
+    */
 </script>
 
 </html>

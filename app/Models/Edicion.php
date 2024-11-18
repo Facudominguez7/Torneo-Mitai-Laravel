@@ -52,4 +52,10 @@ class Edicion extends Model
     {
         return $this->hasMany(Partido::class, 'idEdicion');
     }
+
+      // Relación con InstanciaFinal (una edición tiene muchas instancias finales)
+      public function instanciasFinales()
+      {
+          return $this->hasMany(InstanciaFinal::class);
+      }
 }

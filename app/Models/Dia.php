@@ -20,4 +20,5 @@ class Dia extends Model
     {
         return $this->hasMany(Partido::class, 'idDia');
     }
+
 }
