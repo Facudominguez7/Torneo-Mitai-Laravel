@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Campeon;
 use App\Models\Categoria;
 use App\Models\Edicion;
+use App\Models\Fase;
 use App\Models\Fecha;
 use App\Models\Goleador;
 use App\Models\Grupo;
+use App\Models\InstanciaFinal;
 use App\Models\Partido;
 use App\Models\Subcampeon;
 use App\Models\TablaGoleador;
@@ -265,5 +267,47 @@ class ControladorHome extends Controller
         }
 
         return view('layouts.tabla-goleadores', compact('ediciones', 'EdicionSeleccionada', 'goleadores_t', 'categorias'));
+    }
+    public function instanciasFinales(Request $request)
+    {
+        $ediciones = Edicion::all();
+        $ultimaEdicion = Edicion::latest('id')->first();
+        $idEdicion = $request->query('idEdicion', $ultimaEdicion->id); // Proporcionar un valor por defecto si no está presente en la solicitud
+        $EdicionSeleccionada = Edicion::find($idEdicion);
+
+        // Obtener las categorías disponibles para el filtro
+        $categorias = Categoria::where('idEdicion', $idEdicion)->orderBy('nombreCategoria', 'desc')->get();
+        $selectedCategoria = $request->query('categoria'); // Obtener la categoría seleccionada
+
+        $partidosQuery = InstanciaFinal::select(
+            'instancias_finales.*',
+            'fases.nombre as nombre_fase',
+            'el.nombre as nombre_local',
+            'ev.nombre as nombre_visitante',
+            'el.foto as foto_local',
+            'ev.foto as foto_visitante',
+            'categorias.nombreCategoria as nombre_categoria',
+            'copas.nombre as nombre_copa'
+        )
+            ->join('fases', 'instancias_finales.idFase', '=', 'fases.id')
+            ->join('equipos as el', 'instancias_finales.idEquipoLocal', '=', 'el.id')
+            ->join('equipos as ev', 'instancias_finales.idEquipoVisitante', '=', 'ev.id')
+            ->join('categorias', 'instancias_finales.idCategoria', '=', 'categorias.id')
+            ->join('copas', 'instancias_finales.idCopa', '=', 'copas.id') 
+            ->where('instancias_finales.idEdicion', $idEdicion)
+            ->orderBy('categorias.nombreCategoria', 'desc')
+            ->orderBy('copas.nombre', 'asc')
+            ->orderByRaw("
+            FIELD(fases.nombre, 'Final', 'Semifinal', 'Cuartos de Final') ASC
+        ");
+
+        // Aplicar el filtro por categoría si se selecciona una
+        if (!empty($selectedCategoria)) {
+            $partidosQuery->where('categorias.id', (int) $selectedCategoria);
+        }
+
+        $partidos = $partidosQuery->get();
+
+        return view('layouts.instancias-finales', compact('ediciones', 'ultimaEdicion', 'EdicionSeleccionada', 'partidos', 'categorias', 'selectedCategoria'));
     }
 }

@@ -93,4 +93,29 @@ class ControladorInstanciaFinal extends Controller
         $idEdicion = $data['idEdicion'];
         return to_route('instancia_final.index', ['idEdicion' => $idEdicion])->with('status', 'Partido creado con éxito.');
     }
+
+    public function cargarResultadoInstancia(Request $request, InstanciaFinal $partido)
+    {
+        $ediciones = Edicion::all();
+        $idEdicion = $request->idEdicion;
+        $idPartido = $request->idPartido;
+        $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
+        $partido = InstanciaFinal::find($idPartido);
+        $golesEquipoLocal = $request->input('golesEquipoLocal');
+        $golesEquipoVisitante = $request->input('golesEquipoVisitante');
+        $penalesEquipoLocal = $request->input('penalesEquipoLocal');
+        $penalesEquipoVisitante = $request->input('penalesEquipoVisitante');
+
+        if (!is_null($golesEquipoLocal) && !is_null($golesEquipoVisitante)) {
+            $partido->golesEquipoLocal = $golesEquipoLocal;
+            $partido->golesEquipoVisitante = $golesEquipoVisitante;
+            $partido->penalesEquipoLocal = $penalesEquipoLocal;
+            $partido->penalesEquipoVisitante = $penalesEquipoVisitante;
+            $partido->save();
+            return to_route('instancia_final.index', ['idEdicion' => $idEdicion])->with('status', 'Resultado cargado con éxito.');
+        }
+
+        return view('Panel.cargar-resultado', compact('partido', 'ediciones', 'EdicionSeleccionada'));
+    }
+    
 }

@@ -37,6 +37,10 @@
                                 class="bg-blue-100 mt-2 hover:bg-blue-300 text-black font-bold py-2 px-4 rounded">
                                 Tabla de Goleadores
                             </a>
+                            <a href="{{ route('instancias-finales', ['idEdicion' => $EdicionSeleccionada]) }}"
+                                class="bg-red-100 mt-2 hover:bg-red-300 text-black font-bold py-2 px-4 rounded">
+                                Instancias Finales
+                            </a>
                         @else
                             <a href="{{ route('fixture', ['idEdicion' => $ultimaEdicion]) }}"
                                 class="bg-yellow-100 hover:bg-yellow-300 text-black font-bold py-2 px-4 rounded">
@@ -45,6 +49,10 @@
                             <a href="{{ route('tabla-goleadores', ['idEdicion' => $ultimaEdicion]) }}"
                                 class="bg-blue-100 mt-2 hover:bg-blue-300 text-black font-bold py-2 px-4 rounded">
                                 Tabla de Goleadores
+                            </a>
+                            <a href="{{ route('instancias-finales', ['idEdicion' => $ultimaEdicion]) }}"
+                                class="bg-red-100 mt-2 hover:bg-red-300 text-black font-bold py-2 px-4 rounded">
+                                Instancias Finales
                             </a>
                         @endif
                     @endif

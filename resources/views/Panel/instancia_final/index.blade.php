@@ -116,8 +116,17 @@
                                 style="aspect-ratio: 40/40; object-fit: cover;" />
                             <div class="font-medium">{{ $p->equipoVisitante->nombre }}</div>
                         </div>
-                        <div class="text-2xl font-bold mt-4 md:mt-0">{{ $p->golesEquipoLocal }} -
-                            {{ $p->golesEquipoVisitante }}</div>
+                        <div class="flex flex-col text-center text-2xl font-bold mt-4 md:mt-0">
+                            <span>{{ $p->golesEquipoLocal }} - {{ $p->golesEquipoVisitante }}</span>
+                            @if (
+                                $p->golesEquipoLocal !== null &&
+                                    $p->golesEquipoVisitante !== null &&
+                                    $p->golesEquipoLocal === $p->golesEquipoVisitante &&
+                                    $p->penalesEquipoLocal !== null &&
+                                    $p->penalesEquipoVisitante !== null)
+                                <span>({{ $p->penalesEquipoLocal }} - {{ $p->penalesEquipoVisitante }})</span>
+                            @endif
+                        </div>
                     </div>
                     <div class="flex flex-col md:flex-row items-center justify-between px-6 py-2 text-muted-foreground">
                         <div class="flex items-center gap-2 mb-2 md:mb-0">
@@ -142,7 +151,7 @@
                     @if ($p->golesEquipoLocal === null && $p->golesEquipoVisitante === null)
                         <div class="px-6 py-4 flex justify-center">
                             <a
-                                href="{{ route('cargar-resultado', ['idPartido' => $p->id, 'idEdicion' => $EdicionSeleccionada->id]) }}">
+                                href="{{ route('cargar-resultado-instancia', ['idPartido' => $p->id, 'idEdicion' => $EdicionSeleccionada->id, 'tipo' => 'instancia_final']) }}">
                                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                                     Cargar Resultado
                                 </button>
