@@ -86,26 +86,30 @@
                     <div class="bg-white rounded-lg shadow-lg overflow-x-auto md:overflow-x-visible">
                         <div class="flex flex-col md:flex-row items-center justify-between md:px-6 py-4 border-b">
                             <div class="flex items-center gap-4 justify-center w-full md:w-auto">
-                                <img class="ml-2" src="{{ asset('fotos/equipos/' . $p->foto_local) }}" width="40" height="40"
-                                    alt="" class="rounded-full object-cover" />
+                                <img class="ml-2" src="{{ asset('fotos/equipos/' . $p->foto_local) }}" width="40"
+                                    height="40" alt="" class="rounded-full object-cover" />
                                 <div class="font-medium text-lg text-center">{{ $p->nombre_local }}</div>
                                 <div class="text-gray-500 text-center">vs</div>
                                 <div class="font-medium text-lg text-center">{{ $p->nombre_visitante }}</div>
                                 <img src="{{ asset('fotos/equipos/' . $p->foto_visitante) }}" width="40"
-                                height="40" alt="" class="rounded-full object-cover" />
+                                    height="40" alt="" class="rounded-full object-cover" />
                             </div>
                             <div class="text-2xl font-bold mt-4 md:mt-0 text-center text-[--color-primary]">
                                 {{ $p->golesEquipoLocal }} - {{ $p->golesEquipoVisitante }}</div>
                         </div>
                         <div class="flex flex-col md:flex-row items-center justify-between px-6 py-2 text-gray-600">
                             <div class="flex items-center gap-2 mb-2 md:mb-0">
-                                <img class="w-4 h-4 mr-1" src="{{ asset('fotos/reloj-icono.jpeg') }}" alt="">
-                                <span class="whitespace-nowrap">{{ $p->horario }} PM</span>
+                                <span class="whitespace-nowrap">{{ $p->nombre_fecha }}</span>
                             </div>
                             <div class="flex items-center gap-2 mb-2 md:mb-0">
-                                <img class="w-4 h-4 mr-1" src="{{ asset('fotos/calendario-icono.jpeg') }}"
-                                    alt="">
-                                <span class="whitespace-nowrap">{{ $p->nombre_fecha }}</span>
+                                @if (is_null($p->horario))
+                                    <img class="w-4 h-4 mr-1" src="{{ asset('fotos/calendario-icono.jpeg') }}"
+                                        alt="">
+                                    <span>{{ \Carbon\Carbon::parse($p->horario_datetime)->format('d-m-Y H:i') }}</span>
+                                @else
+                                    <img class="w-4 h-4 mr-1" src="{{ asset('fotos/reloj-icono.jpeg') }}">
+                                    <span>{{ $p->horario }} PM</span>
+                                @endif
                             </div>
                             <div class="flex items-center gap-2">
                                 <img class="w-4 h-4 mr-1" src="{{ asset('fotos/cancha-icono.jpeg') }}" alt="">

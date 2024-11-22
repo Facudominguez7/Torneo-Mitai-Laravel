@@ -48,16 +48,6 @@
                         </svg>
                         <span class="whitespace-nowrap">{{ $partido->horario }} PM</span>
                     </div>
-                    @if ($tipo != 'instancia_final')
-                        <div class="flex items-center gap-2 mb-2 md:mb-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" viewBox="0 0 20 20"
-                                fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1 1 0 011-1z" />
-                            </svg>
-                            <span class="whitespace-nowrap">{{ $partido->dia->diaPartido }}</span>
-                        </div>
-                    @endif
                     <div class="flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" viewBox="0 0 20 20"
                             fill="currentColor">

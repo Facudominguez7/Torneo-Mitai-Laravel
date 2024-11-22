@@ -72,26 +72,12 @@
     </select>
 </div>
 <div class="mb-5">
-    <label for="idDia" class="mb-3 block text-base font-medium text-white">
-        Seleccionar Dia
+    <label for="horario_datetime" class="mb-3 block text-base font-medium text-white">
+        Seleccionar Horario
     </label>
-    <select name="idDia" id="idDia"
-        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md">
-        @foreach ($dias as $d)
-            <option value="{{ $d->id }}"
-                {{ old('idDia', $d->id) == $d->id ? 'selected' : '' }}>
-                {{ $d->diaPartido }}
-            </option>
-        @endforeach
-    </select>
-</div>
-<div class="mb-5">
-    <label for="horario" class="mb-3 block text-base font-medium text-white">
-        Horario
-    </label>
-    <input type="text" name="horario" id="horario" value="{{old('horario', $partido->horario)}}"
+    <input type="datetime-local" name="horario_datetime" id="horario_datetime"
         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-         />
+        value="{{ old('horario_datetime') }}">
 </div>
 <div class="mb-5">
     <label for="cancha" class="mb-3 block text-base font-medium text-white">

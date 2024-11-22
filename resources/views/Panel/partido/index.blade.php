@@ -150,16 +150,11 @@
                                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1 1 0 011-1z"
                                     clip-rule="evenodd" />
                             </svg>
-                            <span>{{ $p->horario }} PM</span>
-                        </div>
-                        <div class="flex items-center gap-2 mb-2 md:mb-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1 inline-block" viewBox="0 0 20 20"
-                                fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1 1 0 011-1z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                            <span>{{ $p->dia->diaPartido }}</span>
+                            @if (is_null($p->horario))
+                                <span>{{ \Carbon\Carbon::parse($p->horario_datetime)->format('d-m-Y H:i') }}</span>
+                            @else
+                                <span>{{ $p->horario }} PM</span>
+                            @endif
                         </div>
                         <div class="flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1 inline-block" viewBox="0 0 20 20"

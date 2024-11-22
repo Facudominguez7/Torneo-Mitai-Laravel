@@ -17,6 +17,7 @@ use App\Models\TablaPosicion;
 use App\Models\User;
 use App\Models\VallaMenosVencida;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ControladorHome extends Controller
 {
@@ -167,8 +168,12 @@ class ControladorHome extends Controller
         $partidos = collect();
 
         if (isset($CategoriaSeleccionada)) {
+            // Incluir las fechas que estén asociadas a la categoría seleccionada y también aquellas sin categoría asignada
             $fechas = Fecha::where('idEdicion', $idEdicion)
-                ->where('idCategoria', $idCategoria)
+                ->where(function ($query) use ($idCategoria) {
+                    $query->where('idCategoria', $idCategoria) // Fechas asociadas a la categoría seleccionada
+                        ->orWhereNull('idCategoria'); // O fechas sin categoría
+                })
                 ->select('id', 'nombre')
                 ->orderByDesc('id')
                 ->distinct('nombre')
@@ -287,13 +292,13 @@ class ControladorHome extends Controller
             'el.foto as foto_local',
             'ev.foto as foto_visitante',
             'categorias.nombreCategoria as nombre_categoria',
-            'copas.nombre as nombre_copa'
+            DB::raw("COALESCE(copas.nombre, '') as nombre_copa")
         )
             ->join('fases', 'instancias_finales.idFase', '=', 'fases.id')
             ->join('equipos as el', 'instancias_finales.idEquipoLocal', '=', 'el.id')
             ->join('equipos as ev', 'instancias_finales.idEquipoVisitante', '=', 'ev.id')
             ->join('categorias', 'instancias_finales.idCategoria', '=', 'categorias.id')
-            ->join('copas', 'instancias_finales.idCopa', '=', 'copas.id') 
+            ->leftjoin('copas', 'instancias_finales.idCopa', '=', 'copas.id')
             ->where('instancias_finales.idEdicion', $idEdicion)
             ->orderBy('categorias.nombreCategoria', 'desc')
             ->orderBy('copas.nombre', 'asc')

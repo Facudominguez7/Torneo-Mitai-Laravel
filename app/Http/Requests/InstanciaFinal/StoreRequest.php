@@ -15,7 +15,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'idCategoria' => 'required|exists:categorias,id',
-            'idCopa' => 'required|exists:copas,id',
+            'idCopa' => 'nullable|exists:copas,id',
             'idEdicion' => 'required|exists:ediciones,id',
             'idEquipoLocal' => 'required|exists:equipos,id',
             'idEquipoVisitante' => 'required|exists:equipos,id',

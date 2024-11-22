@@ -7,7 +7,6 @@ use App\Http\Controllers\Google\LoginController;
 use App\Http\Controllers\Panel\ControladorCampeon;
 use App\Http\Controllers\Panel\ControladorCategoria;
 use App\Http\Controllers\Panel\ControladorCopa;
-use App\Http\Controllers\Panel\ControladorDias;
 use App\Http\Controllers\Panel\ControladorEdicion;
 use App\Http\Controllers\Panel\ControladorEquipo;
 use App\Http\Controllers\Panel\ControladorEquiposGrupos;
@@ -53,7 +52,6 @@ Route::group(['prefix' => 'Panel', 'middleware' => ['auth', 'verified', UserAcce
     Route::resource('subcampeon', ControladorSubcampeon::class);
     Route::resource('copa', ControladorCopa::class);
     Route::resource('fecha', ControladorFecha::class);
-    Route::resource('dia', ControladorDias::class);
     Route::resource('goleador', ControladorGoleador::class);
     Route::resource('valla', ControladorValla::class);
     Route::resource('grupos', ControladorGrupos::class);

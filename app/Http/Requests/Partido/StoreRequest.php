@@ -21,9 +21,8 @@ class StoreRequest extends FormRequest
             'idEdicion' => 'required|exists:ediciones,id',
             'golesEquipoLocal' => 'nullable|integer|min:0',
             'golesEquipoVisitante' => 'nullable|integer|min:0',
-            'horario' => 'required|string',
+            'horario_datetime' => 'required|date',
             'cancha' => 'required|string',
-            'idDia' => 'required|integer',
             'idCategoria' => 'required|integer',
             'jugado' => 'nullable|integer',
         ];

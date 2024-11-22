@@ -101,7 +101,9 @@
                 <div class="px-6 text-muted-foreground text-center">
                     <div class="font-bold">ID Partido: {{ $p->id }}</div>
                     <div class="font-bold">{{ $p->fase->nombre }}</div>
-                    <span class="font-bold">{{ $p->copa->nombre }}</span>
+                    @if (isset($p->copa->nombre))
+                        <span class="font-bold">{{ $p->copa->nombre }}</span>
+                    @endif
                 </div>
                 <div class="bg-card rounded-lg shadow-sm">
                     <div class="flex flex-col md:flex-row items-center justify-between px-6 py-4">

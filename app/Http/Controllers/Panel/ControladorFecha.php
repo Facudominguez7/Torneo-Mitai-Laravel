@@ -44,19 +44,15 @@ class ControladorFecha extends Controller
         $data = $request->validated();
         $idEdicion = $data['idEdicion'];
         $nombre = $data['nombre'];
-        // Obtén todas las categorías existentes
-        $categorias = Categoria::where('idEdicion', $idEdicion)->get();
-        foreach ($categorias as $categoria) {
-            // Crea un registro en la tabla fechas para cada categoría
-            Fecha::create([
-                'nombre' => $nombre,
-                'idEdicion' => $idEdicion,
-                'idCategoria' => $categoria->id
-            ]);
-        }
+
+        // Crea un registro en la tabla fechas
+        Fecha::create([
+            'nombre' => $nombre,
+            'idEdicion' => $idEdicion,
+        ]);
 
         return to_route('fecha.index', ['idEdicion' => $idEdicion])
-            ->with('status', 'Fecha creada y asociada a todas las categorías.');
+            ->with('status', 'Fecha creada.');
     }
 
     /**
@@ -91,7 +87,7 @@ class ControladorFecha extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request , Fecha $fecha)
+    public function destroy(Request $request, Fecha $fecha)
     {
         $fecha->delete();
         return to_route('fecha.index', ['idEdicion' => $request->idEdicion])->with('status', 'Fecha Eliminada');

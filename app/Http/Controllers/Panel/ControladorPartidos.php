@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Panel;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Partido\StoreRequest;
 use App\Models\Categoria;
-use App\Models\Dia;
 use App\Models\Edicion;
 use App\Models\Equipo;
 use App\Models\EquipoGrupo;
@@ -53,7 +52,6 @@ class ControladorPartidos extends Controller
                 'equipoLocal:id,nombre,foto',
                 'equipoVisitante:id,nombre,foto',
                 'fecha:id,nombre',
-                'dia:id,diaPartido',
             ])
             ->select('partidos.*')
             ->orderByDesc('partidos.id')
@@ -109,15 +107,8 @@ class ControladorPartidos extends Controller
         $GrupoSeleccionado = $idGrupo ? Grupo::find($idGrupo) : null;
         $CategoriaSeleccionada = $idCategoria ? Categoria::find($idCategoria) : null;
         $fechas = Fecha::where('idEdicion', $idEdicion)
-            ->where('idCategoria', $idCategoria)
             ->select('id', 'nombre')
-            ->orderByDesc('id')
-            ->distinct('nombre')
-            ->get();
-        $dias = Dia::where('idEdicion', $idEdicion)
-            ->select('id', 'diaPartido')
-            ->orderByDesc('id')
-            ->distinct('diaPartido')
+            ->orderBy('id')
             ->get();
         $equipos = Equipo::select('equipos.id', 'equipos.nombre')
             ->join('equipos_grupos', 'equipos.id', '=', 'equipos_grupos.idEquipo')
@@ -127,7 +118,7 @@ class ControladorPartidos extends Controller
             ->get();
         $grupo = Grupo::where('id', $idGrupo)->select('id', 'nombre')->get();
         $partido = new Partido();
-        return view('Panel.partido.create', compact('ediciones','partido', 'EdicionSeleccionada','GrupoSeleccionado', 'fechas', 'equipos', 'dias', 'grupo', 'idGrupo', 'idCategoria', 'CategoriaSeleccionada'));
+        return view('Panel.partido.create', compact('ediciones','partido', 'EdicionSeleccionada','GrupoSeleccionado', 'fechas', 'equipos',  'grupo', 'idGrupo', 'idCategoria', 'CategoriaSeleccionada'));
     }
 
     public function store(StoreRequest $request)

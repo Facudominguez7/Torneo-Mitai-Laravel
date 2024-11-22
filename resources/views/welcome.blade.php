@@ -39,7 +39,7 @@
                             </a>
                             <a href="{{ route('instancias-finales', ['idEdicion' => $EdicionSeleccionada]) }}"
                                 class="bg-red-100 mt-2 hover:bg-red-300 text-black font-bold py-2 px-4 rounded">
-                                Instancias Finales
+                                Tumbada
                             </a>
                         @else
                             <a href="{{ route('fixture', ['idEdicion' => $ultimaEdicion]) }}"
@@ -52,7 +52,7 @@
                             </a>
                             <a href="{{ route('instancias-finales', ['idEdicion' => $ultimaEdicion]) }}"
                                 class="bg-red-100 mt-2 hover:bg-red-300 text-black font-bold py-2 px-4 rounded">
-                                Instancias Finales
+                                Tumbada
                             </a>
                         @endif
                     @endif

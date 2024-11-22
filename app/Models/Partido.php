@@ -18,9 +18,8 @@ class Partido extends Model
         'idEdicion',
         'golesEquipoLocal',
         'golesEquipoVisitante',
-        'horario',
+        'horario_datetime',
         'cancha',
-        'idDia',
         'jugado',
         'idCategoria',
     ];
@@ -40,10 +39,6 @@ class Partido extends Model
     public function fecha()
     {
         return $this->belongsTo(Fecha::class, 'idFechas');
-    }
-    public function dia()
-    {
-        return $this->belongsTo(Dia::class, 'idDia');
     }
     public function edicion()
     {
