@@ -2,6 +2,8 @@
 /node_modules
 /public/hot
 /public/storage
+/public/fotosviejo
+/public/fotos
 /storage/*.key
 /vendor
 /head.blade.php
