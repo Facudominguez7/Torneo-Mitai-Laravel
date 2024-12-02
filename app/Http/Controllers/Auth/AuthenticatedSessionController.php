@@ -35,7 +35,7 @@ class AuthenticatedSessionController extends Controller
         
         if ($user->restablecer_password === 'necesario') {
             Auth::logout();
-            return redirect()->route('password.request', ['restablecer' => 'Si']);
+            return redirect()->route('password.request.auth', ['restablecer' => 'Si']);
         }
     
         $request->session()->regenerate();

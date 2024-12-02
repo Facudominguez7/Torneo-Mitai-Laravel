@@ -20,6 +20,10 @@ class InstanciaFinal extends Model
         'idEquipoVisitante',
         'golesEquipoLocal',
         'golesEquipoVisitante',
+        'penalesEquipoLocal',
+        'penalesEquipoVisitante',
+        'resoltadoGlobalLocal',
+        'resoltadoGlobalVisitante',
         'horario',
         'cancha'
     ];

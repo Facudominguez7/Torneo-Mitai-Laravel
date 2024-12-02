@@ -105,12 +105,14 @@ class ControladorInstanciaFinal extends Controller
         $golesEquipoVisitante = $request->input('golesEquipoVisitante');
         $penalesEquipoLocal = $request->input('penalesEquipoLocal');
         $penalesEquipoVisitante = $request->input('penalesEquipoVisitante');
+        $resultadoGlobal = $request->input('resultadoGlobal');
 
         if (!is_null($golesEquipoLocal) && !is_null($golesEquipoVisitante)) {
             $partido->golesEquipoLocal = $golesEquipoLocal;
             $partido->golesEquipoVisitante = $golesEquipoVisitante;
             $partido->penalesEquipoLocal = $penalesEquipoLocal;
             $partido->penalesEquipoVisitante = $penalesEquipoVisitante;
+            $partido->resultadoGlobal = $resultadoGlobal; 
             $partido->save();
             return to_route('instancia_final.index', ['idEdicion' => $idEdicion])->with('status', 'Resultado cargado con éxito.');
         }

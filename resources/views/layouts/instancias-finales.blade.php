@@ -52,7 +52,8 @@
                                                                 width="40" height="40"
                                                                 alt="{{ $p->equipoLocal->nombre }}" class="rounded-full"
                                                                 style="aspect-ratio: 1; object-fit: cover;" />
-                                                            <div class="text-xs sm:text-base font-bold text-center truncate">
+                                                            <div
+                                                                class="text-xs sm:text-base font-bold text-center truncate">
                                                                 {{ $p->equipoLocal->nombre }}
                                                             </div>
                                                         </div>
@@ -69,7 +70,8 @@
                                                                 alt="{{ $p->equipoVisitante->nombre }}"
                                                                 class="rounded-full"
                                                                 style="aspect-ratio: 1; object-fit: cover;" />
-                                                            <div class="text-xs sm:text-base font-bold text-center truncate">
+                                                            <div
+                                                                class="text-xs sm:text-base font-bold text-center truncate">
                                                                 {{ $p->equipoVisitante->nombre }}
                                                             </div>
                                                         </div>
@@ -87,6 +89,9 @@
                                                                 $p->penalesEquipoVisitante !== null)
                                                             <span>({{ $p->penalesEquipoLocal }} -
                                                                 {{ $p->penalesEquipoVisitante }})</span>
+                                                        @endif
+                                                        @if (!is_null($p->resultadoGlobal))
+                                                            <span class="text-sm">Global: {{ $p->resultadoGlobal }}</span>
                                                         @endif
                                                     </div>
                                                 </div>

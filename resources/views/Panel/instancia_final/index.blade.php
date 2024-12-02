@@ -128,6 +128,11 @@
                                     $p->penalesEquipoVisitante !== null)
                                 <span>({{ $p->penalesEquipoLocal }} - {{ $p->penalesEquipoVisitante }})</span>
                             @endif
+                            @if (!is_null($p->resultadoGlobal))
+                                <div class="text-2xl font-bold mt-4 md:mt-0 text-center text-[--color-primary]">
+                                    Resultado Global: {{ $p->resultadoGlobal }}
+                                </div>
+                            @endif
                         </div>
                     </div>
                     <div class="flex flex-col md:flex-row items-center justify-between px-6 py-2 text-muted-foreground">
