@@ -1,8 +1,12 @@
 <?php
+
 namespace App\Http\Controllers\Panel;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Edicion\StoreRequest;
+use App\Models\Categoria;
 use App\Models\Edicion;
+use App\Models\Equipo;
 use Illuminate\Http\Request;
 
 
@@ -26,8 +30,25 @@ class ControladorEdicion extends Controller
     {
         $ediciones = Edicion::all();
         $edicion = new Edicion();
-        return view('Panel.edicion.create', compact('ediciones', 'edicion'));
+
+        // Obtén las categorías disponibles
+        $categorias = Categoria::all();
+        $categorias = Categoria::where('idEdicion', 3)->get();
+
+        // Si se seleccionó una categoría, filtrar los equipos por esa categoría
+        $equipos = Equipo::when($request->idCategoria, function ($query) use ($request) {
+            return $query->where('idCategoria', $request->idCategoria); // Filtrar por categoría seleccionada
+        })->get();
+
+        $idCategoria = $request->idCategoria; // Obtener la categoría seleccionada para pasarla a la vista
+
+        // Crear una nueva instancia de Edicion
+        $edicion = new Edicion();
+
+        // Retornar la vista con las variables necesarias
+        return view('Panel.edicion.create', compact('ediciones', 'edicion', 'equipos', 'categorias', 'idCategoria'));
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -35,9 +56,18 @@ class ControladorEdicion extends Controller
     public function store(StoreRequest $request)
     {
         $data = $request->validated();
-        Edicion::create($data);
-        return to_route('edicion.index');
+
+        // Crear la nueva edición
+        $edicion = Edicion::create([
+            'nombre' => $data['nombre'],
+        ]);
+
+        // Asignar los equipos seleccionados a la edición
+        $edicion->equipos()->sync($data['equipos']); // Esto sincroniza los equipos seleccionados en la tabla pivot equipo_ediciones
+
+        return to_route('edicion.index')->with('status', 'Edición creada con éxito.');
     }
+
 
     /**
      * Display the specified resource.
@@ -63,7 +93,7 @@ class ControladorEdicion extends Controller
     public function update(StoreRequest $request, Edicion $edicion)
     {
         $data = $request->validated();
-        
+
         $edicion->update($data);
         return to_route('edicion.index', ['idEdicion' => $request->id]);
     }

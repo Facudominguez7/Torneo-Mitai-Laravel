@@ -14,9 +14,13 @@ trait SeleccionarCategoriaTrait
         $ediciones = Edicion::all();
         $idEdicion = $request->idEdicion;
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
-        $categorias = Categoria::where('idEdicion', $idEdicion)
-            ->orderBy('nombreCategoria', 'desc')
-            ->get();
+        $categorias = Categoria::where(function ($query) use ($idEdicion) {
+            $query->where('idEdicion', $idEdicion)
+            ->orWhereNull('idEdicion')
+            ->orWhere('idEdicion', 3);
+        })
+        ->orderBy('nombreCategoria', 'desc')
+        ->get();
         $tipo = $request->tipo;
 
         if ($tipo === 'equipogrupo' || $tipo === 'partido') {

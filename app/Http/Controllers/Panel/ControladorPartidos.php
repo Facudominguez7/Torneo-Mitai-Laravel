@@ -110,12 +110,22 @@ class ControladorPartidos extends Controller
             ->select('id', 'nombre')
             ->orderBy('id')
             ->get();
-        $equipos = Equipo::select('equipos.id', 'equipos.nombre')
-            ->join('equipos_grupos', 'equipos.id', '=', 'equipos_grupos.idEquipo')
-            ->where('idCategoria', $idCategoria)
-            ->where('equipos_grupos.idGrupo', $idGrupo)
-            ->where('equipos.idEdicion', $idEdicion)
-            ->get();
+        if ($idEdicion > 3) {
+            $equipos = Equipo::select('equipos.id', 'equipos.nombre')
+                ->join('equipo_ediciones', 'equipos.id', '=', 'equipo_ediciones.idEquipo') // Relación con ediciones
+                ->join('equipos_grupos', 'equipos.id', '=', 'equipos_grupos.idEquipo')     // Relación con grupos
+                ->where('equipos.idCategoria', $idCategoria)                              // Filtrar por categoría
+                ->where('equipo_ediciones.idEdicion', $idEdicion)                         // Filtrar por edición
+                ->where('equipos_grupos.idGrupo', $idGrupo)                               // Filtrar por grupo
+                ->get();
+        } else {
+            $equipos = Equipo::select('equipos.id', 'equipos.nombre')
+                ->join('equipos_grupos', 'equipos.id', '=', 'equipos_grupos.idEquipo')
+                ->where('idCategoria', $idCategoria)
+                ->where('equipos_grupos.idGrupo', $idGrupo)
+                ->where('equipos.idEdicion', $idEdicion)
+                ->get();
+        }
         $grupo = Grupo::where('id', $idGrupo)->select('id', 'nombre')->get();
         $partido = new Partido();
         return view('Panel.partido.create', compact('ediciones','partido', 'EdicionSeleccionada','GrupoSeleccionado', 'fechas', 'equipos',  'grupo', 'idGrupo', 'idCategoria', 'CategoriaSeleccionada'));

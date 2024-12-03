@@ -18,7 +18,7 @@ class Edicion extends Model
     }
     public function equipos()
     {
-        return $this->hasMany(Equipo::class, 'idEdicion');
+        return $this->belongsToMany(Equipo::class, 'equipo_ediciones', 'idEdicion', 'idEquipo');
     }
     public function fechas()
     {

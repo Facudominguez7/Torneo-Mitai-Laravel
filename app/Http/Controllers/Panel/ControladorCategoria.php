@@ -16,10 +16,8 @@ class ControladorCategoria extends Controller
     {
         $ediciones = Edicion::all();
         $idEdicion = $request->idEdicion;
-        $categorias = Categoria::join('ediciones', 'categorias.idEdicion', '=', 'ediciones.id')
-            ->where('categorias.idEdicion', $idEdicion)
+        $categorias = Categoria::whereNull('idEdicion')
             ->orderBy('nombreCategoria', 'desc')
-            ->select('categorias.*')
             ->paginate(7);
         $categorias->appends(['idEdicion' => $idEdicion]);
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;

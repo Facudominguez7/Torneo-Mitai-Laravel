@@ -77,7 +77,7 @@
                                         Detalle
                                     </a>
                                 </button>
-                                <form action="{{ route('categoria.destroy', $c) }}" method="post">
+                                <form class="mb-0" action="{{ route('categoria.destroy', $c) }}" method="post">
                                     @method('DELETE')
                                     @csrf
                                     <input type="number" id="idEdicion" name="idEdicion" class="hidden"

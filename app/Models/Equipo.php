@@ -15,9 +15,9 @@ class Equipo extends Model
     {
         return $this->belongsTo(Categoria::class, 'idCategoria');
     }
-    public function edicion()
+    public function ediciones()
     {
-        return $this->belongsTo(Edicion::class, 'idEdicion');
+        return $this->belongsToMany(Edicion::class, 'equipo_ediciones', 'idEquipo', 'idEdicion');
     }
     public function campeon()
     {

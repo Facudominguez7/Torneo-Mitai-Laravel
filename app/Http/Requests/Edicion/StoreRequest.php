@@ -23,6 +23,8 @@ class StoreRequest extends FormRequest
     {
         return [
             'nombre' => 'required|unique:ediciones,nombre|min:5|max:50',
+            'equipos' => 'nullable|array',
+            'equipos.*' => 'exists:equipos,id',
         ];
     }
 }

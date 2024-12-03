@@ -83,7 +83,7 @@
                                 Detalle
                             </a>
                         </button>
-                        <form action="{{ route('grupos.destroy', $g) }}" method="post">
+                        <form class="mb-0" action="{{ route('grupos.destroy', $g) }}" method="post">
                             @method('DELETE')
                             @csrf
                             <input type="number" id="idEdicion" name="idEdicion" class="hidden"

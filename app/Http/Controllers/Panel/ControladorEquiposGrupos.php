@@ -20,7 +20,7 @@ class ControladorEquiposGrupos extends Controller
     use SeleccionarCategoriaTrait;
     public function index(Request $request)
     {
-       //
+        //
     }
 
     /**
@@ -30,14 +30,24 @@ class ControladorEquiposGrupos extends Controller
     {
         $idGrupo = $request->idGrupo;
         $idCategoria = $request->idCategoria;
-        $ediciones = Edicion::all();
         $idEdicion = $request->idEdicion;
+
+        $ediciones = Edicion::all();
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
-        $equipos = Equipo::where('idCategoria', $idCategoria)->select('id', 'nombre')->get();
         $CategoriaSeleccionada = $idCategoria ? Categoria::find($idCategoria) : null;
         $GrupoSeleccionado = $idGrupo ? Grupo::find($idGrupo) : null;
+
+        if ($idCategoria && $idEdicion) {
+            $equipos = Equipo::join('equipo_ediciones', 'equipos.id', '=', 'equipo_ediciones.idEquipo')
+                ->where('equipos.idCategoria', $idCategoria)
+                ->where('equipo_ediciones.idEdicion', $idEdicion)
+                ->select('equipos.id', 'equipos.nombre')
+                ->get();
+        } else {
+            $equipos = collect(); // Si no hay categoría o edición seleccionada, devuelve un conjunto vacío.
+        }
         $equipogrupo = new EquipoGrupo();
-        return view('Panel.equipogrupo.create', compact('equipos', 'equipogrupo', 'ediciones', 'EdicionSeleccionada', 'CategoriaSeleccionada', 'GrupoSeleccionado'));    
+        return view('Panel.equipogrupo.create', compact('equipos', 'equipogrupo', 'ediciones', 'EdicionSeleccionada', 'CategoriaSeleccionada', 'GrupoSeleccionado'));
     }
 
     /**

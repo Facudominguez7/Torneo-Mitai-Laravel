@@ -23,7 +23,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'nombreCategoria' => 'required|min:5|max:50',
-            'idEdicion' => 'required|integer',
+            'idEdicion' => 'nullable|integer',
         ];
     }
 }

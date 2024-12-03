@@ -63,7 +63,7 @@
                         </td>
                         <td
                             class="w-full lg:w-auto p-3 text-gray-800 flex justify-center border border-b  lg:table-cell relative lg:static">
-                            <img class="h-24 w-24" src="{{ asset('fotos/equipos/' . $e->foto) }}"
+                            <img src="{{ asset('fotos/equipos/' . $e->foto) }}"
                                 alt="logo {{ $e->nombre }}">
                         </td>
                         <td
@@ -97,7 +97,7 @@
                                         Detalle
                                     </a>
                                 </button>
-                                <form action="{{ route('equipo.destroy', $e) }}" method="post">
+                                <form class="mb-0" action="{{ route('equipo.destroy', $e) }}" method="post">
                                     @method('DELETE')
                                     @csrf
                                     <input type="number" id="idEdicion" name="idEdicion" class="hidden"

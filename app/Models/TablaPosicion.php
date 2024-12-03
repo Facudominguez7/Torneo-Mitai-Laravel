@@ -13,6 +13,7 @@ class TablaPosicion extends Model
     protected $fillable = [
         'idGrupo',
         'idEquipo',
+        'idEdicion',
         'puntos',
         'golesFavor',
         'golesContra',
@@ -29,5 +30,9 @@ class TablaPosicion extends Model
     public function grupo()
     {
         return $this->belongsTo(Grupo::class, 'idGrupo');
+    }
+    public function edicion()
+    {
+        return $this->belongsTo(Edicion::class, 'idEdicion');
     }
 }

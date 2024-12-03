@@ -56,7 +56,7 @@
                                 Editar
                             </a>
                         </button>
-                        <form action="{{ route('edicion.destroy', $e) }}" method="post">
+                        <form class="mb-0" action="{{ route('edicion.destroy', $e) }}" method="post">
                             @method('DELETE')
                             @csrf
                             <button class="btn btn-eliminar" type="submit">Eliminar</button>

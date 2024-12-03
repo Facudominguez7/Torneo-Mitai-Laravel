@@ -19,12 +19,26 @@ class ControladorEquipo extends Controller
     {
         $ediciones = Edicion::all();
         $idEdicion = $request->idEdicion;
-        $equipos = Equipo::join('categorias', 'equipos.idCategoria', '=', 'categorias.id')
-            ->where('equipos.idEdicion', $idEdicion)
-            ->orderBy('categorias.nombreCategoria', 'desc')
-            ->select('equipos.*')
-            ->paginate(7);
-        $equipos->appends(['idEdicion' => $idEdicion]);
+        if ($idEdicion) {
+            if ($idEdicion > 3) {
+            $equipos = Equipo::join('equipo_ediciones', 'equipos.id', '=', 'equipo_ediciones.idEquipo')
+                ->join('categorias', 'equipos.idCategoria', '=', 'categorias.id')
+                ->where('equipo_ediciones.idEdicion', $idEdicion)
+                ->orderBy('categorias.nombreCategoria', 'desc')
+                ->select('equipos.*', 'categorias.nombreCategoria')
+                ->paginate(7);
+            } else {
+            $equipos = Equipo::join('categorias', 'equipos.idCategoria', '=', 'categorias.id')
+                ->where('equipos.idEdicion', $idEdicion)
+                ->orderBy('categorias.nombreCategoria', 'desc')
+                ->select('equipos.*')
+                ->paginate(7);
+            }
+        
+            $equipos->appends(['idEdicion' => $idEdicion]);
+        } else {
+            $equipos = collect(); // Si no hay edición seleccionada, no se cargan equipos.
+        }
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
         return view('Panel.equipo.index', compact('EdicionSeleccionada', 'ediciones', 'equipos', 'idEdicion'));
     }

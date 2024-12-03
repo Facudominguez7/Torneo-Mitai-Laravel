@@ -155,7 +155,11 @@ class ControladorHome extends Controller
         $idFecha = $request->idFecha;
 
         if (isset($EdicionSeleccionada)) {
-            $categorias = Categoria::where('idEdicion', $idEdicion)
+            $categorias = Categoria::where(function ($query) use ($idEdicion) {
+                $query->where('idEdicion', $idEdicion)
+                    ->orWhereNull('idEdicion')
+                    ->orWhere('idEdicion', 3);
+            })
                 ->select('id', 'nombreCategoria')
                 ->orderBy('nombreCategoria', 'desc')
                 ->get();
@@ -180,6 +184,7 @@ class ControladorHome extends Controller
                 ->get();
 
             $grupos = Grupo::where('idCategoria', $idCategoria)
+                ->where('idEdicion', $idEdicion)
                 ->select('id', 'nombre')
                 ->distinct('nombre')
                 ->get();
@@ -226,6 +231,10 @@ class ControladorHome extends Controller
         $tablaPosiciones = TablaPosicion::select('tabla_posiciones.*', 'equipos.nombre as nombreEquipo', 'equipos.foto as fotoEquipo', 'equipos.id as idEquipo')
             ->join('equipos', 'tabla_posiciones.idEquipo', '=', 'equipos.id')
             ->where('tabla_posiciones.idGrupo', $idGrupo)
+            ->where(function ($query) use ($idEdicion) {
+                $query->where('tabla_posiciones.idEdicion', $idEdicion)
+                    ->orWhere('tabla_posiciones.idEdicion', 0);
+            })
             ->orderBy('tabla_posiciones.puntos', 'DESC')
             ->orderBy('tabla_posiciones.diferenciaGoles', 'DESC')
             ->get();
