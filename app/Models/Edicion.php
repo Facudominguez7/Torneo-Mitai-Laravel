@@ -58,4 +58,11 @@ class Edicion extends Model
       {
           return $this->hasMany(InstanciaFinal::class);
       }
+      // Relación con jugadores (muchos a muchos)
+    public function jugadores()
+    {
+        return $this->belongsToMany(Jugador::class, 'jugadores_ediciones', 'idEdicion', 'idJugador')
+                    ->withPivot(['idEquipo', 'idCategoria'])
+                    ->withTimestamps();
+    }
 }

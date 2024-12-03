@@ -67,4 +67,8 @@ class InstanciaFinal extends Model
      {
          return $this->belongsTo(Dia::class, 'idDia');
      }
+     public function jugadoresPartido()
+    {
+        return $this->morphMany(JugadorPartido::class, 'partido');
+    }
 }

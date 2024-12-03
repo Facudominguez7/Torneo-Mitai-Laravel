@@ -62,4 +62,9 @@ class Equipo extends Model
     {
         return $this->hasMany(InstanciaFinal::class, 'idEquipoVisitante');
     }
+     // Relación con jugadores (un equipo tiene muchos jugadores)
+     public function jugadores()
+     {
+         return $this->hasMany(Jugador::class, 'idEquipo');
+     }
 }

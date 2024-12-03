@@ -50,4 +50,9 @@ class Categoria extends Model
     {
         return $this->hasMany(InstanciaFinal::class);
     }
+     // Relación con jugadores (una categoría tiene muchos jugadores)
+     public function jugadores()
+     {
+         return $this->hasMany(Jugador::class, 'idCategoria');
+     }
 }
