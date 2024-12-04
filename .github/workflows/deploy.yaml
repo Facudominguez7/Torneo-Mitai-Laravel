@@ -18,44 +18,13 @@ jobs:
       with:
         php-version: '8.3'
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
-
-    - name: Cache NPM dependencies
-      uses: actions/cache@v3
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-npm-
-
-    - name: Install NPM dependencies
-      run: npm install
-
-    - name: Cache Composer dependencies
-      uses: actions/cache@v3
-      with:
-        path: vendor
-        key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-composer-
-
     - name: Install Composer dependencies
       run: composer install --no-dev --prefer-dist --no-progress
 
-    - name: Compilar assets con NPM
-      run: npm run build
-
-    - name: Configurar entorno
+    - name: Configure environment
       run: php artisan config:cache
 
-    - name: Listar contenido del directorio actual
-      run: ls -la
-
-
-    - name: Deploy Laravel App
+    - name: Deploy Laravel App (Dry Run)
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
         server: ${{ secrets.FTP_HOST }}
@@ -63,16 +32,42 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         port: ${{ secrets.FTP_PORT }}
         server-dir: ${{ secrets.FTP_DESTINATION_LARAVELAPP }}
-        exclude: |
-          node_modules/
-          tests/
-          .git/
-          .env
-          .github/
-          storage/debugbar/
-          storage/framework/cache/
-          storage/framework/testing/
         local-dir: ./
+        exclude: |
+          node_modules/**         # Excluye node_modules y su contenido
+          .git/**                 # Excluye .git y su contenido
+          .github/**              # Excluye .github y su contenido
+          .env                    # Excluye el archivo .env
+          storage/framework/cache/** # Excluye el contenido de cache
+          storage/framework/testing/** # Excluye el contenido de testing
+          tests/**                # Excluye la carpeta tests y su contenido
+          *.log                   # Excluye archivos con extensión .log
+          vite.config.js          # Excluye vite.config.js
+          tailwind.config.js      # Excluye tailwind.config.js
+        dry-run: true
+
+    - name: Deploy Laravel App
+      if: always() # Solo despliega si el dry-run no reportó errores
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ${{ secrets.FTP_HOST }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        port: ${{ secrets.FTP_PORT }}
+        server-dir: ${{ secrets.FTP_DESTINATION_LARAVELAPP }}
+        local-dir: ./
+        exclude: |
+          node_modules/**         # Excluye node_modules y su contenido
+          public/**               # Excluye la carpeta public y su contenido
+          .git/**                 # Excluye .git y su contenido
+          .github/**              # Excluye .github y su contenido
+          .env                    # Excluye el archivo .env
+          storage/framework/cache/** # Excluye el contenido de cache
+          storage/framework/testing/** # Excluye el contenido de testing
+          tests/**                # Excluye la carpeta tests y su contenido
+          *.log                   # Excluye archivos con extensión .log
+          vite.config.js          # Excluye vite.config.js
+          tailwind.config.js      # Excluye tailwind.config.js
 
     - name: Deploy Public Folder
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -84,12 +79,9 @@ jobs:
         server-dir: ${{ secrets.FTP_DESTINATION_LARAVELPUBLIC }}
         local-dir: ./public/
         exclude: |
-          .env
-          storage/logs/
-          node_modules/
-          '**/lost+found/**'
+          fotosviejo/**           # Excluye la carpeta fotosviejo y su contenido
 
-    - name: Configurar permisos
+    - name: Configure Permissions
       run: |
         chmod -R 775 storage
         chmod -R 775 bootstrap/cache
