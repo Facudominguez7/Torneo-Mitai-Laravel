@@ -60,21 +60,21 @@ jobs:
         port: ${{ secrets.FTP_PORT }}
         server-dir: ${{ secrets.FTP_DESTINATION_LARAVELAPP }}
         exclude: |
-          **./node_modules/**         # Excluye todo el contenido de node_modules
-          **./.git*/**                 # Excluye todo el contenido de .git
-          **./.git*/                   # Excluye también la carpeta en sí
-          **./tests/**                # Excluye todo el contenido de tests
-          **./storage/framework/cache/** # Excluye el contenido de cache
-          **./storage/framework/testing/** # Excluye el contenido de testing
+          /node_modules/         # Excluye todo el contenido de node_modules
+          /.git*/**                 # Excluye todo el contenido de .git
+          /.git*/                   # Excluye también la carpeta en sí
+          /tests/**                # Excluye todo el contenido de tests
+          /storage/framework/cache/** # Excluye el contenido de cache
+          /storage/framework/testing/** # Excluye el contenido de testing
           .env
-          **./.github*/**              # Excluye el contenido de la carpeta .github
-          **./.github/**                # Excluye también la carpeta .github
+          /.github*/**              # Excluye el contenido de la carpeta .github
+          /.github/**                # Excluye también la carpeta .github
           .gitignore
           .gitattributes
           .editorconfig
           .env.example
-          **/public/
-          **/public/**
+          /public/
+          /public/**
 
     - name: Deploy Public Folder
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -85,8 +85,8 @@ jobs:
         port: ${{ secrets.FTP_PORT }}
         server-dir: ${{ secrets.FTP_DESTINATION_LARAVELPUBLIC }}
         exclude: |
-          **./fotosviejo/
-          **./fotosviejo/**
+          /fotosviejo/
+          /fotosviejo/**
 
     - name: Set permissions
       run: |
