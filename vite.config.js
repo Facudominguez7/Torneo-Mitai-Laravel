@@ -13,4 +13,8 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    build: {
+        outDir: 'public_html/build', // Ruta de salida para los archivos generados
+        manifest: true,              // Asegúrate de que el manifest se genere
+    },
 });
