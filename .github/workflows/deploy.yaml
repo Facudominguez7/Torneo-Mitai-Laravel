@@ -1,40 +1,92 @@
-name: Sharedhosting deploy
+name: Shared Hosting Deploy for Laravel
 
 on:
   push:
     branches:
-      - prod
+      - prod # Cambia "prod" al nombre de tu rama de producción
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
+    # 1. Clonar el repositorio
     - name: Checkout del repositorio
       uses: actions/checkout@v2
 
+    # 2. Configurar entorno PHP
     - name: Configurar entorno PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.3'
+        php-version: '8.3' # Cambia según la versión de PHP de tu servidor
 
-    #- name: Install dependencies
-     # run: composer install --no-dev --prefer-dist --no-scripts --no-progress --no-suggest
+    # 3. Configurar caché para Composer
+    - name: Configurar caché de Composer
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
 
-    #- name: Configure env
-     # env:
-      #  FTP_HOST: ${{ secrets.FTP_HOST }}
-       # FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
-        #FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-        #TP_DESTINATION: ${{ secrets.FTP_DESTINATION }}
-     # run: php artisan config:cache
+    # 4. Instalar dependencias de Composer si es necesario
+    - name: Instalar dependencias
+      run: composer install --no-dev --prefer-dist --optimize-autoloader
+      if: steps.cache.outputs.cache-hit != 'true'
 
-    - name: Deploy to shared hosting
+    # 5. Configurar caché para NPM
+    - name: Configurar caché de NPM
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.npm
+          node_modules
+        key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-npm-
+
+    # 6. Compilar assets si es necesario
+    - name: Compilar assets con NPM
+      run: |
+        npm install
+        npm run build
+      if: steps.cache.outputs.cache-hit != 'true'
+
+    # 7. Preparar configuración de Laravel
+    - name: Configurar entorno
+      run: php artisan config:cache
+
+    # 8. Subir el contenido del proyecto Laravel (excepto la carpeta `public`)
+    - name: Deploy Laravel App
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
         server: ${{ secrets.FTP_HOST }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: ${{ secrets.FTP_DESTINATION }}
-        timeout: 10800
-        protocol: ftps
+        server-dir: ${{ secrets.FTP_DESTINATION_LARAVELAPP }}
+        exclude: |
+          public/
+          node_modules/
+          .env
+          .git/
+        local-dir: .
+
+    # 9. Subir el contenido de la carpeta `public` a `public_html`
+    - name: Deploy Public Folder
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ${{ secrets.FTP_HOST }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        server-dir: ${{ secrets.FTP_DESTINATION_LARAVELPUBLIC }}
+        local-dir: public/
+        exclude: |
+          .env
+          storage/logs/
+          node_modules/
+
+    # 10. Ajustar permisos para carpetas de Laravel
+    - name: Configurar permisos
+      run: |
+        chmod -R 775 storage
+        chmod -R 775 bootstrap/cache
