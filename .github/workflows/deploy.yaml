@@ -63,25 +63,25 @@ jobs:
         port: ${{ secrets.FTP_PORT }}
         server-dir: ${{ secrets.FTP_DESTINATION_LARAVELAPP }}
         exclude: |
-          node_modules/**         # Excluye todo el contenido de node_modules
-          node_modules/           # Excluye también la carpeta en sí
-          .git/**                 # Excluye todo el contenido de .git
-          .git/                   # Excluye también la carpeta en sí
-          tests/**                # Excluye todo el contenido de tests
-          tests/                  # Excluye también la carpeta en sí
-          storage/framework/cache/** # Excluye el contenido de cache
-          storage/framework/cache/   # Excluye también la carpeta cache
-          storage/framework/testing/** # Excluye el contenido de testing
-          storage/framework/testing/   # Excluye también la carpeta testing
-          .env
-          .github/**              # Excluye el contenido de la carpeta .github
-          .github/                # Excluye también la carpeta .github
-          .gitignore
-          .gitattributes
-          .editorconfig
-          .env.example
-          public/
-          public/**
+          **/node_modules/**         # Excluye todo el contenido de node_modules
+          **/node_modules/           # Excluye también la carpeta en sí
+          **/.git/**                 # Excluye todo el contenido de .git
+          **/.git/                   # Excluye también la carpeta en sí
+          **/tests/**                # Excluye todo el contenido de tests
+          **/tests/                  # Excluye también la carpeta en sí
+          **/storage/framework/cache/** # Excluye el contenido de cache
+          **/storage/framework/cache/   # Excluye también la carpeta cache
+          **/storage/framework/testing/** # Excluye el contenido de testing
+          **/storage/framework/testing/   # Excluye también la carpeta testing
+          **/.env
+          **/.github/**              # Excluye el contenido de la carpeta .github
+          **/.github/                # Excluye también la carpeta .github
+          **/.gitignore
+          **/.gitattributes
+          **/.editorconfig
+          **/.env.example
+          **/public/
+          **/public/**
         local-dir: ./
 
     - name: Deploy Public Folder
@@ -93,8 +93,8 @@ jobs:
         port: ${{ secrets.FTP_PORT }}
         server-dir: ${{ secrets.FTP_DESTINATION_LARAVELPUBLIC }}
         exclude: |
-          fotosviejo/
-          fotosviejo/**
+          **/fotosviejo/
+          **/fotosviejo/**
         local-dir: ./public/
 
     - name: Set permissions
