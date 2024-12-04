@@ -55,14 +55,14 @@ jobs:
     # 7. Preparar configuración de Laravel
     - name: Configurar entorno
       run: php artisan config:cache
-
-    # 8. Subir el contenido del proyecto Laravel (excepto la carpeta `public`)
-    - name: Deploy Laravel App
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-      with:
+      # 8. Subir el contenido del proyecto Laravel (excepto la carpeta `public`)
+      - name: Deploy Laravel App
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
         server: ${{ secrets.FTP_HOST }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
+        port: ${{ secrets.FTP_PORT }}
         server-dir: ${{ secrets.FTP_DESTINATION_LARAVELAPP }}
         exclude: |
           public/
@@ -73,13 +73,14 @@ jobs:
           '**/lost+found/**'
         local-dir: ./
 
-    # 9. Subir el contenido de la carpeta `public` a `public_html`
-    - name: Deploy Public Folder
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-      with:
+      # 9. Subir el contenido de la carpeta `public` a `public_html`
+      - name: Deploy Public Folder
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
         server: ${{ secrets.FTP_HOST }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
+        port: ${{ secrets.FTP_PORT }}
         server-dir: ${{ secrets.FTP_DESTINATION_LARAVELPUBLIC }}
         local-dir: ./public/
         exclude: |
