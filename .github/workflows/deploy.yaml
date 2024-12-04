@@ -69,6 +69,7 @@ jobs:
           node_modules/
           .env
           .git/
+          /lost+found
         local-dir: /
 
     # 9. Subir el contenido de la carpeta `public` a `public_html`
@@ -84,6 +85,7 @@ jobs:
           .env
           storage/logs/
           node_modules/
+          /lost+found
 
     # 10. Ajustar permisos para carpetas de Laravel
     - name: Configurar permisos
