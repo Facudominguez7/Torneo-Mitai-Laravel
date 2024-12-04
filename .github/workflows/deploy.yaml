@@ -69,7 +69,7 @@ jobs:
           node_modules/
           .env
           .git/
-        local-dir: .
+        local-dir: /
 
     # 9. Subir el contenido de la carpeta `public` a `public_html`
     - name: Deploy Public Folder
