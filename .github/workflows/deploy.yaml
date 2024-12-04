@@ -59,7 +59,7 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         port: ${{ secrets.FTP_PORT }}
         server-dir: ${{ secrets.FTP_DESTINATION_LARAVELAPP }}
-        exclude: |
+        exclude: 
           **/node_modules/**         # Excluye todo el contenido de node_modules
           **/node_modules/           # Excluye también la carpeta en sí
           **/.git/**                 # Excluye todo el contenido de .git
@@ -81,14 +81,14 @@ jobs:
           **/public/**
 
     - name: Deploy Public Folder
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server: ${{ secrets.FTP_HOST }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         port: ${{ secrets.FTP_PORT }}
         server-dir: ${{ secrets.FTP_DESTINATION_LARAVELPUBLIC }}
-        exclude: |
+        exclude: 
           **/fotosviejo/
           **/fotosviejo/**
 
