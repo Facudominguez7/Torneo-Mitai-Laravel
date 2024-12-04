@@ -26,18 +26,26 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-npm-
 
-    # 6. Compilar assets si es necesario
-    - name: Compilar assets con NPM
-      run: |
-        npm install
-        npm run build
-      if: steps.cache.outputs.cache-hit != 'true'
+    - name: Install NPM dependencies
+      run: npm install
 
-    # 7. Preparar configuración de Laravel
+    - name: Cache Composer dependencies
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
+
+    - name: Install Composer dependencies
+      run: composer install --no-dev --prefer-dist --no-progress --no-suggest
+
+    - name: Compilar assets con NPM
+      run: npm run build
+
     - name: Configurar entorno
       run: php artisan config:cache
 
-    # 8. Subir el contenido del proyecto Laravel (excepto la carpeta `public`)
     - name: Deploy Laravel App
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
@@ -55,7 +63,6 @@ jobs:
           '**/lost+found/**'
         local-dir: ./
 
-    # 9. Subir el contenido de la carpeta `public` a `public_html`
     - name: Deploy Public Folder
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
@@ -71,7 +78,6 @@ jobs:
           node_modules/
           '**/lost+found/**'
 
-    # 10. Ajustar permisos para carpetas de Laravel
     - name: Configurar permisos
       run: |
         chmod -R 775 storage
