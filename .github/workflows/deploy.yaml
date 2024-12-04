@@ -50,7 +50,7 @@ jobs:
 
     - name: Configure environment
       run: php artisan config:cache
-      
+
     - name: List files to be deployed
       run: ls -R
 
@@ -62,7 +62,6 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         port: ${{ secrets.FTP_PORT }}
         server-dir: ${{ secrets.FTP_DESTINATION_LARAVELAPP }}
-        local-dir: ./
         exclude: |
           node_modules/**         # Excluye todo el contenido de node_modules
           node_modules/           # Excluye también la carpeta en sí
@@ -83,6 +82,7 @@ jobs:
           .env.example
           public/
           public/**
+        local-dir: ./
 
     - name: Deploy Public Folder
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -92,10 +92,10 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         port: ${{ secrets.FTP_PORT }}
         server-dir: ${{ secrets.FTP_DESTINATION_LARAVELPUBLIC }}
-        local-dir: ./public/
         exclude: |
           fotosviejo/
           fotosviejo/**
+        local-dir: ./public/
 
     - name: Set permissions
       run: |
