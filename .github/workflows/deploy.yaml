@@ -64,12 +64,12 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         server-dir: ${{ secrets.FTP_DESTINATION_LARAVELAPP }}
-        exclude: |
-          public/
-          node_modules/
-          .env
-          .git/
-          /lost+found
+        exclude:
+        - public/
+        - node_modules/
+        - .env
+        - .git
+        - "lost+found"
         local-dir: /
 
     # 9. Subir el contenido de la carpeta `public` a `public_html`
@@ -81,11 +81,11 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         server-dir: ${{ secrets.FTP_DESTINATION_LARAVELPUBLIC }}
         local-dir: public/
-        exclude: |
-          .env
-          storage/logs/
-          node_modules/
-          /lost+found
+        exclude:
+        -  .env
+        -  storage/logs/
+        -  node_modules/
+        -  /lost+found
 
     # 10. Ajustar permisos para carpetas de Laravel
     - name: Configurar permisos
