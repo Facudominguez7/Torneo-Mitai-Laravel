@@ -67,10 +67,11 @@ jobs:
         exclude: |
           public/
           node_modules/
+          vendor/
           .env
           .git/
           '**/lost+found/**'
-        local-dir: /c:/laragon/www/mitai/
+        local-dir: ./
 
     # 9. Subir el contenido de la carpeta `public` a `public_html`
     - name: Deploy Public Folder
