@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -58,6 +58,12 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT }}
           server-dir: ${{ secrets.FTP_DESTINATION_LARAVELAPP }}
+          exclude: |
+            **/vendor/**
+            **/public/**
+            **/tests/**
+            **/storage/**
+
 
       - name: Deploy Public Folder
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -68,6 +74,8 @@ jobs:
           port: ${{ secrets.FTP_PORT }}
           server-dir: ${{ secrets.FTP_DESTINATION_LARAVELPUBLIC }}
           local-dir: ./public/
+          exclude: |
+            **/fotosviejo/**
 
       - name: Set permissions
         run: |
