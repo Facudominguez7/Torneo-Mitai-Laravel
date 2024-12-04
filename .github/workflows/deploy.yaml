@@ -9,6 +9,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -46,9 +49,6 @@ jobs:
 
       - name: Configure environment
         run: php artisan config:cache
-
-      - name: Checkout code
-        uses: actions/checkout@v4
 
       - name: Deploy Laravel App
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
