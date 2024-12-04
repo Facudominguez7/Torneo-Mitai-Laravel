@@ -4,6 +4,7 @@
 /public/storage
 /public/fotosviejo
 /public/fotos
+/public/index.php
 /storage/*.key
 /vendor
 /head.blade.php
