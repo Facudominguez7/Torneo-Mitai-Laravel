@@ -63,6 +63,14 @@ jobs:
             **/public/**
             **/tests/**
             **/storage/**
+            **/node_modules/**
+            **/.git*
+            **/.git*/**
+            .env
+            .ev.example
+            .gitignore
+            .gitattributes
+            
 
 
       - name: Deploy Public Folder
