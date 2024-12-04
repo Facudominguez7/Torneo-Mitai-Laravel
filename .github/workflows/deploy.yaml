@@ -81,7 +81,7 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         server-dir: ${{ secrets.FTP_DESTINATION_LARAVELPUBLIC }}
-        local-dir: /c:/laragon/www/mitai/public/
+        local-dir: ./public/
         exclude: |
           .env
           storage/logs/
