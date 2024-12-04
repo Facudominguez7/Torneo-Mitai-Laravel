@@ -51,6 +51,10 @@ jobs:
     - name: Configurar entorno
       run: php artisan config:cache
 
+    - name: Listar contenido del directorio actual
+      run: ls -la
+
+
     - name: Deploy Laravel App
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
@@ -60,12 +64,14 @@ jobs:
         port: ${{ secrets.FTP_PORT }}
         server-dir: ${{ secrets.FTP_DESTINATION_LARAVELAPP }}
         exclude: |
-          public/
           node_modules/
-          vendor/
-          .env
+          tests/
           .git/
-          '**/lost+found/**'
+          .env
+          .github/
+          storage/debugbar/
+          storage/framework/cache/
+          storage/framework/testing/
         local-dir: ./
 
     - name: Deploy Public Folder
