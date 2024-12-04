@@ -50,6 +50,9 @@ jobs:
 
     - name: Configure environment
       run: php artisan config:cache
+      
+    - name: List files to be deployed
+      run: ls -R
 
     - name: Deploy Laravel App
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -91,10 +94,8 @@ jobs:
         server-dir: ${{ secrets.FTP_DESTINATION_LARAVELPUBLIC }}
         local-dir: ./public/
         exclude: |
-          .env
-          storage/logs/
-          node_modules/
-          '**/lost+found/**'
+          fotosviejo/
+          fotosviejo/**
 
     - name: Set permissions
       run: |
