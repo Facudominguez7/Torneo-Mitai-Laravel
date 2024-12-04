@@ -70,7 +70,7 @@ jobs:
           .env
           .git/
           '**/lost+found/**'
-        local-dir: /
+        local-dir: /c:/laragon/www/mitai/
 
     # 9. Subir el contenido de la carpeta `public` a `public_html`
     - name: Deploy Public Folder
@@ -80,7 +80,7 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         server-dir: ${{ secrets.FTP_DESTINATION_LARAVELPUBLIC }}
-        local-dir: public/
+        local-dir: /c:/laragon/www/mitai/public/
         exclude: |
           .env
           storage/logs/
