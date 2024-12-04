@@ -13,9 +13,4 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    build: {
-        outDir: '../public_html/build',  // La carpeta build ahora se encuentra en public_html
-        manifest: true,               // Asegúrate de generar el manifest.json
-        emptyOutDir: true,            // Limpia la carpeta antes de generar los archivos
-  },
 });
