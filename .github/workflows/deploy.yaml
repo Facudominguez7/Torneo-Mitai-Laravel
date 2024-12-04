@@ -1,46 +1,27 @@
-name: Shared Hosting Deploy for Laravel
+name: Deploy Laravel App
 
 on:
   push:
     branches:
-      - prod # Cambia "prod" al nombre de tu rama de producción
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. Clonar el repositorio
-    - name: Checkout del repositorio
+    - name: Checkout code
       uses: actions/checkout@v2
 
-    # 2. Configurar entorno PHP
-    - name: Configurar entorno PHP
-      uses: shivammathur/setup-php@v2
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
       with:
-        php-version: '8.3' # Cambia según la versión de PHP de tu servidor
+        node-version: '14'
 
-    # 3. Configurar caché para Composer
-    - name: Configurar caché de Composer
-      uses: actions/cache@v3
+    - name: Cache NPM dependencies
+      uses: actions/cache@v2
       with:
-        path: vendor
-        key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-composer-
-
-    # 4. Instalar dependencias de Composer si es necesario
-    - name: Instalar dependencias
-      run: composer install --no-dev --prefer-dist --optimize-autoloader
-      if: steps.cache.outputs.cache-hit != 'true'
-
-    # 5. Configurar caché para NPM
-    - name: Configurar caché de NPM
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.npm
-          node_modules
+        path: ~/.npm
         key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-npm-
@@ -55,10 +36,11 @@ jobs:
     # 7. Preparar configuración de Laravel
     - name: Configurar entorno
       run: php artisan config:cache
-      # 8. Subir el contenido del proyecto Laravel (excepto la carpeta `public`)
-      - name: Deploy Laravel App
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
+
+    # 8. Subir el contenido del proyecto Laravel (excepto la carpeta `public`)
+    - name: Deploy Laravel App
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
         server: ${{ secrets.FTP_HOST }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
@@ -73,10 +55,10 @@ jobs:
           '**/lost+found/**'
         local-dir: ./
 
-      # 9. Subir el contenido de la carpeta `public` a `public_html`
-      - name: Deploy Public Folder
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
+    # 9. Subir el contenido de la carpeta `public` a `public_html`
+    - name: Deploy Public Folder
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
         server: ${{ secrets.FTP_HOST }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
