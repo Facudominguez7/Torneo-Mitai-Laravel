@@ -59,24 +59,20 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         port: ${{ secrets.FTP_PORT }}
         server-dir: ${{ secrets.FTP_DESTINATION_LARAVELAPP }}
-        exclude: 
-          **/node_modules/**         # Excluye todo el contenido de node_modules
-          **/node_modules/           # Excluye también la carpeta en sí
-          **/.git/**                 # Excluye todo el contenido de .git
-          **/.git/                   # Excluye también la carpeta en sí
-          **/tests/**                # Excluye todo el contenido de tests
-          **/tests/                  # Excluye también la carpeta en sí
-          **/storage/framework/cache/** # Excluye el contenido de cache
-          **/storage/framework/cache/   # Excluye también la carpeta cache
-          **/storage/framework/testing/** # Excluye el contenido de testing
-          **/storage/framework/testing/   # Excluye también la carpeta testing
-          **/.env
-          **/.github/**              # Excluye el contenido de la carpeta .github
-          **/.github/                # Excluye también la carpeta .github
-          **/.gitignore
-          **/.gitattributes
-          **/.editorconfig
-          **/.env.example
+        exclude: |
+          **./node_modules/**         # Excluye todo el contenido de node_modules
+          **./.git*/**                 # Excluye todo el contenido de .git
+          **./.git*/                   # Excluye también la carpeta en sí
+          **./tests/**                # Excluye todo el contenido de tests
+          **./storage/framework/cache/** # Excluye el contenido de cache
+          **./storage/framework/testing/** # Excluye el contenido de testing
+          .env
+          **./.github*/**              # Excluye el contenido de la carpeta .github
+          **./.github/**                # Excluye también la carpeta .github
+          .gitignore
+          .gitattributes
+          .editorconfig
+          .env.example
           **/public/
           **/public/**
 
@@ -88,9 +84,9 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         port: ${{ secrets.FTP_PORT }}
         server-dir: ${{ secrets.FTP_DESTINATION_LARAVELPUBLIC }}
-        exclude: 
-          **/fotosviejo/
-          **/fotosviejo/**
+        exclude: |
+          **./fotosviejo/
+          **./fotosviejo/**
 
     - name: Set permissions
       run: |
