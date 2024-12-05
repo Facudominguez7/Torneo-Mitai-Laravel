@@ -57,32 +57,17 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT }}
-          server-dir: ${{ secrets.FTP_DESTINATION_LARAVELAPP }}
+          server-dir: ${{ secrets.FTP_DESTINATION }}
           exclude: |
             **/vendor/**
-            **/public/**
             **/tests/**
             **/node_modules/**
             **/.git*
             **/.git*/**
             .env
-            .ev.example
+            .env.example
             .gitignore
             .gitattributes
-
-
-
-      - name: Deploy Public Folder
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: ${{ secrets.FTP_PORT }}
-          server-dir: ${{ secrets.FTP_DESTINATION_LARAVELPUBLIC }}
-          local-dir: ./public/
-          exclude: |
-            **/fotosviejo/**
 
       - name: Set permissions
         run: |
