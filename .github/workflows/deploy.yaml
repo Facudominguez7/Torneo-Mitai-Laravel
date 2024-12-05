@@ -31,7 +31,10 @@ jobs:
             ${{ runner.os }}-npm-
 
       - name: Install NPM dependencies
-        run: npm install
+        run: |
+          if ! command -v npm &> /dev/null; then
+            npm install
+          fi
 
       - name: Cache Composer dependencies
         uses: actions/cache@v3
@@ -42,7 +45,10 @@ jobs:
             ${{ runner.os }}-composer-
 
       - name: Install Composer dependencies
-        run: composer install --no-dev --prefer-dist --no-progress
+        run: |
+          if ! command -v composer &> /dev/null; then
+            composer install --no-dev --prefer-dist --no-progress
+          fi
 
       - name: Compile assets with NPM
         run: npm run build
@@ -68,6 +74,12 @@ jobs:
             .env.example
             .gitignore
             .gitattributes
+
+      - name: Install lftp
+        run: |
+          if ! command -v lftp &> /dev/null; then
+            sudo apt-get update && sudo apt-get install -y lftp
+          fi
 
       - name: Move public files to public_html
         run: |
