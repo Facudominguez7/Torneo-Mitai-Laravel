@@ -73,5 +73,5 @@ jobs:
         run: sudo apt-get install -y lftp
 
       - name: Move build folder to public_html
-          run: |
-            lftp -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_HOST }} -e "set ssl:verify-certificate no; mirror -R public/build/ ${{ secrets.FTP_DESTINATION }}public_html/build; quit"
+        run: |
+          lftp -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_HOST }} -e "set ssl:verify-certificate no; mirror -R public/build/ ${{ secrets.FTP_DESTINATION }}public_html/build; quit"
