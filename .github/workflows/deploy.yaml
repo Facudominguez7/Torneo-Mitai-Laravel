@@ -74,4 +74,4 @@ jobs:
 
       - name: Move public files to public_html
         run: |
-          lftp -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_HOST }} -e "mirror -R public/ public_html/; quit"
+          lftp -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_HOST }} -e "set ssl:verify-certificate no; mirror -R public/ public_html/; quit"
