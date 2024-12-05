@@ -69,7 +69,6 @@ jobs:
             .gitignore
             .gitattributes
 
-      - name: Set permissions
+      - name: Move public files to public_html
         run: |
-          chmod -R 775 storage
-          chmod -R 775 bootstrap/cache
+          lftp -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_HOST }} -e "mirror -R public/ public_html/; quit"
