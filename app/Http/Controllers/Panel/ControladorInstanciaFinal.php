@@ -11,12 +11,20 @@ use App\Models\Edicion;
 use App\Models\Equipo;
 use App\Models\Fase;
 use App\Models\InstanciaFinal;
+use App\Services\PartidoService;
 use App\Traits\SeleccionarCategoriaTrait;
 use Illuminate\Http\Request;
 
 class ControladorInstanciaFinal extends Controller
 {
     use SeleccionarCategoriaTrait;
+    protected $partidoService;
+
+    public function __construct(PartidoService $partidoService)
+    {
+        $this->partidoService = $partidoService;
+    }
+
     public function index(Request $request)
     {
         $ediciones = Edicion::all();
@@ -77,10 +85,19 @@ class ControladorInstanciaFinal extends Controller
             ->select('id', 'nombre')
             ->orderBy('nombre', 'desc')
             ->get();
-        $equipos = Equipo::where('idCategoria', $idCategoria)
-            ->where('idEdicion', $idEdicion)
-            ->select('id', 'nombre')
-            ->get();
+        if ($idEdicion > 3) {
+            $equipos = Equipo::select('equipos.id', 'equipos.nombre')
+                ->join('equipo_ediciones', 'equipos.id', '=', 'equipo_ediciones.idEquipo') // 
+                ->where('equipo_ediciones.idEdicion', $idEdicion)                         // Filtrar por edición  
+                ->where('equipos.idCategoria', $idCategoria)                              // Filtrar por categoría
+                ->get();
+        } else {
+            $equipos = Equipo::select('equipos.id', 'equipos.nombre')
+                ->join('equipos_grupos', 'equipos.id', '=', 'equipos_grupos.idEquipo')
+                ->where('equipos.idEdicion', $idEdicion)
+                ->where('idCategoria', $idCategoria)
+                ->get();
+        }
         $copas = Copa::orderByDesc('nombre')->get();
         $partido = new InstanciaFinal();
         return view('Panel.instancia_final.create', compact('ediciones', 'partido', 'EdicionSeleccionada', 'fases', 'equipos', 'idCategoria', 'CategoriaSeleccionada', 'copas'));
@@ -112,12 +129,12 @@ class ControladorInstanciaFinal extends Controller
             $partido->golesEquipoVisitante = $golesEquipoVisitante;
             $partido->penalesEquipoLocal = $penalesEquipoLocal;
             $partido->penalesEquipoVisitante = $penalesEquipoVisitante;
-            $partido->resultadoGlobal = $resultadoGlobal; 
+            $partido->resultadoGlobal = $resultadoGlobal;
             $partido->save();
+            $this->partidoService->actualizarHistorialInstanciasFinales($partido, $golesEquipoLocal, $golesEquipoVisitante);
             return to_route('instancia_final.index', ['idEdicion' => $idEdicion])->with('status', 'Resultado cargado con éxito.');
         }
 
         return view('Panel.cargar-resultado', compact('partido', 'ediciones', 'EdicionSeleccionada'));
     }
-    
 }

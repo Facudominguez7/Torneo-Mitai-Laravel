@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\Equipo;
+use App\Models\InstanciaFinal;
 use App\Models\Partido;
 use App\Models\TablaPosicion;
 
@@ -16,6 +18,7 @@ class PartidoService
         ]);
 
         $this->actualizarTablaPosiciones($partido, $golesEquipoLocal, $golesEquipoVisitante);
+        $this->actualizarHistorialEquipos($partido, $golesEquipoLocal, $golesEquipoVisitante);
     }
 
     protected function actualizarTablaPosiciones(Partido $partido, $golesEquipoLocal, $golesEquipoVisitante)
@@ -24,13 +27,19 @@ class PartidoService
         $equipoLocal = $partido->equipoLocal;
         $equipoVisitante = $partido->equipoVisitante;
 
-        // Actualizar estadísticas del equipo local
-        $tablaLocal = TablaPosicion::firstOrCreate(
-            [
+        // Verificar si la combinación ya existe para el equipo local
+        $tablaLocal = TablaPosicion::where([
+            ['idGrupo', '=', $partido->idGrupo],
+            ['idEquipo', '=', $equipoLocal->id],
+            ['idEdicion', '=', $partido->idEdicion]
+        ])->first();
+
+        if (!$tablaLocal) {
+            // Si no existe, se crea un nuevo registro
+            $tablaLocal = TablaPosicion::create([
                 'idGrupo' => $partido->idGrupo,
                 'idEquipo' => $equipoLocal->id,
-            ],
-            [
+                'idEdicion' => $partido->idEdicion,
                 'golesFavor' => 0,
                 'golesContra' => 0,
                 'diferenciaGoles' => 0,
@@ -39,16 +48,22 @@ class PartidoService
                 'empatado' => 0,
                 'perdido' => 0,
                 'puntos' => 0,
-            ]
-        );
+            ]);
+        }
 
-        // Actualizar estadísticas del equipo visitante
-        $tablaVisitante = TablaPosicion::firstOrCreate(
-            [
+        // Verificar si la combinación ya existe para el equipo visitante
+        $tablaVisitante = TablaPosicion::where([
+            ['idGrupo', '=', $partido->idGrupo],
+            ['idEquipo', '=', $equipoVisitante->id],
+            ['idEdicion', '=', $partido->idEdicion]
+        ])->first();
+
+        if (!$tablaVisitante) {
+            // Si no existe, se crea un nuevo registro
+            $tablaVisitante = TablaPosicion::create([
                 'idGrupo' => $partido->idGrupo,
                 'idEquipo' => $equipoVisitante->id,
-            ],
-            [
+                'idEdicion' => $partido->idEdicion,
                 'golesFavor' => 0,
                 'golesContra' => 0,
                 'diferenciaGoles' => 0,
@@ -57,13 +72,14 @@ class PartidoService
                 'empatado' => 0,
                 'perdido' => 0,
                 'puntos' => 0,
-            ]
-        );
+            ]);
+        }
 
-        // Actualizar lógica de puntos, goles, partidos jugados, etc.
+        // Actualizar estadísticas de cada equipo
         $this->actualizarEstadisticasEquipo($tablaLocal, $golesEquipoLocal, $golesEquipoVisitante);
         $this->actualizarEstadisticasEquipo($tablaVisitante, $golesEquipoVisitante, $golesEquipoLocal);
     }
+
 
     protected function actualizarEstadisticasEquipo($tablaPosicion, $golesAFavor, $golesEnContra)
     {
@@ -83,5 +99,85 @@ class PartidoService
         }
 
         $tablaPosicion->save();
+    }
+
+    public function actualizarHistorialEquipos(Partido $partido, $golesEquipoLocal, $golesEquipoVisitante)
+    {
+        $equipoLocal = $partido->equipoLocal;
+        $equipoVisitante = $partido->equipoVisitante;
+
+        // Incrementar partidos jugados
+        $equipoLocal->increment('partidos_jugados');
+        $equipoVisitante->increment('partidos_jugados');
+
+        // Actualizar victorias, derrotas y empates
+        if ($golesEquipoLocal > $golesEquipoVisitante) {
+            $equipoLocal->increment('victorias');
+            $equipoLocal->increment('puntos', 3); // 3 puntos por victoria
+            $equipoVisitante->increment('derrotas');
+        } elseif ($golesEquipoLocal < $golesEquipoVisitante) {
+            $equipoLocal->increment('derrotas');
+            $equipoVisitante->increment('victorias');
+            $equipoVisitante->increment('puntos', 3); // 3 puntos por victoria
+        } else {
+            $equipoLocal->increment('empates');
+            $equipoLocal->increment('puntos', 1); // 1 punto por empate
+            $equipoVisitante->increment('empates');
+            $equipoVisitante->increment('puntos', 1); // 1 punto por empate
+        }
+
+        // Actualizar goles a favor y en contra
+        $equipoLocal->increment('golesFavor', $golesEquipoLocal);
+        $equipoLocal->increment('golesContra', $golesEquipoVisitante);
+        $equipoVisitante->increment('golesFavor', $golesEquipoVisitante);
+        $equipoVisitante->increment('golesContra', $golesEquipoLocal);
+
+        // Actualizar diferencia de goles
+        $equipoLocal->diferenciaGoles = $equipoLocal->golesFavor - $equipoLocal->golesContra;
+        $equipoVisitante->diferenciaGoles = $equipoVisitante->golesFavor - $equipoVisitante->golesContra;
+
+        // Guardar cambios
+        $equipoLocal->save();
+        $equipoVisitante->save();
+    }
+
+    public function actualizarHistorialInstanciasFinales(InstanciaFinal $partido, $golesEquipoLocal, $golesEquipoVisitante)
+    {
+        // Obtener los equipos involucrados en el partido
+        $equipoLocal = $partido->equipoLocal;
+        $equipoVisitante = $partido->equipoVisitante;
+
+        // Incrementar partidos jugados en la tabla histórica de instancias finales
+        $equipoLocal->increment('partidos_jugados');
+        $equipoVisitante->increment('partidos_jugados');
+
+        // Actualizar victorias, derrotas y empates según el resultado
+        if ($golesEquipoLocal > $golesEquipoVisitante) {
+            // Si el equipo local gana
+            $equipoLocal->increment('victorias');
+            $equipoVisitante->increment('derrotas');
+        } elseif ($golesEquipoLocal < $golesEquipoVisitante) {
+            // Si el equipo visitante gana
+            $equipoVisitante->increment('victorias');
+            $equipoLocal->increment('derrotas');
+        } else {
+            // Si hay empate
+            $equipoLocal->increment('empates');
+            $equipoVisitante->increment('empates');
+        }
+
+        // Actualizar goles a favor y en contra en el historial de instancias finales
+        $equipoLocal->increment('golesFavor', $golesEquipoLocal);
+        $equipoLocal->increment('golesContra', $golesEquipoVisitante);
+        $equipoVisitante->increment('golesFavor', $golesEquipoVisitante);
+        $equipoVisitante->increment('golesContra', $golesEquipoLocal);
+
+        // Actualizar diferencia de goles en el historial de instancias finales
+        $equipoLocal->diferenciaGoles = $equipoLocal->golesFavor - $equipoLocal->golesContra;
+        $equipoVisitante->diferenciaGoles = $equipoVisitante->golesFavor - $equipoVisitante->golesContra;
+
+        // Guardar cambios
+        $equipoLocal->save();
+        $equipoVisitante->save();
     }
 }

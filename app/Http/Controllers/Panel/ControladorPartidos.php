@@ -35,7 +35,7 @@ class ControladorPartidos extends Controller
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
 
         $query = Partido::where('partidos.idEdicion', $idEdicion);
-        
+
         if ($idGrupo) {
             $query->where('partidos.idGrupo', $idGrupo);
         }
@@ -128,7 +128,7 @@ class ControladorPartidos extends Controller
         }
         $grupo = Grupo::where('id', $idGrupo)->select('id', 'nombre')->get();
         $partido = new Partido();
-        return view('Panel.partido.create', compact('ediciones','partido', 'EdicionSeleccionada','GrupoSeleccionado', 'fechas', 'equipos',  'grupo', 'idGrupo', 'idCategoria', 'CategoriaSeleccionada'));
+        return view('Panel.partido.create', compact('ediciones', 'partido', 'EdicionSeleccionada', 'GrupoSeleccionado', 'fechas', 'equipos',  'grupo', 'idGrupo', 'idCategoria', 'CategoriaSeleccionada'));
     }
 
     public function store(StoreRequest $request)
@@ -171,8 +171,8 @@ class ControladorPartidos extends Controller
         $partido = Partido::find($idPartido);
         $golesEquipoLocal = $request->input('golesEquipoLocal');
         $golesEquipoVisitante = $request->input('golesEquipoVisitante');
-        
-        if(isset($golesEquipoLocal) && isset($golesEquipoVisitante)){
+
+        if (isset($golesEquipoLocal) && isset($golesEquipoVisitante)) {
             $this->partidoService->actualizarResultado($partido, $golesEquipoLocal, $golesEquipoVisitante);
             return to_route('partido.index', ['idEdicion' => $idEdicion])->with('status', 'Resultado cargado con éxito.');
         }
