@@ -24,10 +24,6 @@ class Edicion extends Model
     {
         return $this->hasMany(Fecha::class, 'idEdicion');
     }
-    public function dias()
-    {
-        return $this->hasMany(Dia::class, 'idEdicion');
-    }
     public function goleadores()
     {
         return $this->hasMany(Goleador::class, 'idEdicion');
@@ -64,5 +60,10 @@ class Edicion extends Model
         return $this->belongsToMany(Jugador::class, 'jugadores_ediciones', 'idEdicion', 'idJugador')
                     ->withPivot(['idEquipo', 'idCategoria'])
                     ->withTimestamps();
+    }
+    // Relación con equipos ediciones (una edición tiene muchos equipos ediciones)
+    public function equiposEdiciones()
+    {
+        return $this->hasMany(EquipoEdicion::class, 'idEdicion');
     }
 }

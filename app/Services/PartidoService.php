@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Equipo;
+use App\Models\EquipoEdicion;
 use App\Models\InstanciaFinal;
 use App\Models\Partido;
 use App\Models\TablaPosicion;
@@ -31,7 +32,6 @@ class PartidoService
         $tablaLocal = TablaPosicion::where([
             ['idGrupo', '=', $partido->idGrupo],
             ['idEquipo', '=', $equipoLocal->id],
-            ['idEdicion', '=', $partido->idEdicion]
         ])->first();
 
         if (!$tablaLocal) {
@@ -55,7 +55,6 @@ class PartidoService
         $tablaVisitante = TablaPosicion::where([
             ['idGrupo', '=', $partido->idGrupo],
             ['idEquipo', '=', $equipoVisitante->id],
-            ['idEdicion', '=', $partido->idEdicion]
         ])->first();
 
         if (!$tablaVisitante) {
@@ -180,4 +179,44 @@ class PartidoService
         $equipoLocal->save();
         $equipoVisitante->save();
     }
+
+    public function actualizarGolesContraEquipoEdicion($equipoId, $idEdicion, $idGrupo)
+    {
+        // Obtener la instancia de equipo_edicion correspondiente
+        $equipoEdicion = EquipoEdicion::where('idEquipo', $equipoId)
+            ->where('idEdicion', $idEdicion)
+            ->first();
+    
+        if (!$equipoEdicion) {
+            // Manejar el caso en que no se encuentre el equipo_edicion
+            throw new \Exception("EquipoEdicion no encontrado para el equipo $equipoId en la edición $idEdicion");
+        }
+    
+        // Obtener goles en contra de la tabla de posiciones
+        $golesContraFaseGrupos = TablaPosicion::where([
+            ['idGrupo', '=', $idGrupo],
+            ['idEquipo', '=', $equipoId],
+            ['idEdicion', '=', $idEdicion]
+        ])->sum('golesContra');
+    
+        // Obtener goles en contra de las instancias finales
+        $partidosInstanciasFinales = InstanciaFinal::where('idEdicion', $idEdicion)
+            ->where(function ($query) use ($equipoId) {
+                $query->where('idEquipoLocal', $equipoId)
+                      ->orWhere('idEquipoVisitante', $equipoId);
+            })
+            ->get();
+    
+        $golesContraInstanciasFinales = 0;
+        if ($partidosInstanciasFinales->isNotEmpty()) {
+            $golesContraInstanciasFinales = $partidosInstanciasFinales->sum(function ($partido) use ($equipoId) {
+                return $partido->idEquipoLocal == $equipoId ? $partido->golesEquipoVisitante : $partido->golesEquipoLocal;
+            });
+        }
+    
+        // Sumar ambos valores y actualizar en equipo_ediciones
+        $equipoEdicion->golesContra = $golesContraFaseGrupos + $golesContraInstanciasFinales;
+        $equipoEdicion->save();
+    }
+    
 }

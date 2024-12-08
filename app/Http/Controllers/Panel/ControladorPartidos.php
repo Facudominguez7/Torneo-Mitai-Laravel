@@ -174,6 +174,8 @@ class ControladorPartidos extends Controller
 
         if (isset($golesEquipoLocal) && isset($golesEquipoVisitante)) {
             $this->partidoService->actualizarResultado($partido, $golesEquipoLocal, $golesEquipoVisitante);
+            $this->partidoService->actualizarGolesContraEquipoEdicion($partido->idEquipoLocal, $partido->idEdicion, $partido->idGrupo);
+            $this->partidoService->actualizarGolesContraEquipoEdicion($partido->idEquipoVisitante, $partido->idEdicion, $partido->idGrupo);
             return to_route('partido.index', ['idEdicion' => $idEdicion])->with('status', 'Resultado cargado con éxito.');
         }
 

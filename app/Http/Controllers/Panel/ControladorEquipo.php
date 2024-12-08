@@ -18,27 +18,17 @@ class ControladorEquipo extends Controller
     public function index(Request $request)
     {
         $ediciones = Edicion::all();
-        $idEdicion = $request->idEdicion;
-        if ($idEdicion) {
-            if ($idEdicion > 3) {
-            $equipos = Equipo::join('equipo_ediciones', 'equipos.id', '=', 'equipo_ediciones.idEquipo')
-                ->join('categorias', 'equipos.idCategoria', '=', 'categorias.id')
-                ->where('equipo_ediciones.idEdicion', $idEdicion)
-                ->orderBy('categorias.nombreCategoria', 'desc')
-                ->select('equipos.*', 'categorias.nombreCategoria')
-                ->paginate(7);
-            } else {
-            $equipos = Equipo::join('categorias', 'equipos.idCategoria', '=', 'categorias.id')
-                ->where('equipos.idEdicion', $idEdicion)
-                ->orderBy('categorias.nombreCategoria', 'desc')
-                ->select('equipos.*')
-                ->paginate(7);
-            }
-        
-            $equipos->appends(['idEdicion' => $idEdicion]);
-        } else {
-            $equipos = collect(); // Si no hay edición seleccionada, no se cargan equipos.
-        }
+        $idEdicion = (int) $request->idEdicion;
+
+        $equipos = Equipo::join('equipo_ediciones', 'equipos.id', '=', 'equipo_ediciones.idEquipo')
+            ->join('categorias', 'equipos.idCategoria', '=', 'categorias.id')
+            ->orderBy('categorias.nombreCategoria', 'desc')
+            ->orderBy('equipo_ediciones.golesContra', 'asc')
+            ->select('equipos.*', 'categorias.nombreCategoria', 'equipo_ediciones.golesContra as goles_en_contra')
+            ->where('equipo_ediciones.idEdicion', $idEdicion)
+            ->paginate(10); // Utiliza la paginación aquí
+
+        $equipos->appends(['idEdicion' => $idEdicion]);
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
         return view('Panel.equipo.index', compact('EdicionSeleccionada', 'ediciones', 'equipos', 'idEdicion'));
     }
@@ -66,7 +56,7 @@ class ControladorEquipo extends Controller
     {
         $data = $request->validated();
         if ($request->hasFile('foto')) {
-            $data['foto'] = $filename = time().'.'.$data['foto']->extension();
+            $data['foto'] = $filename = time() . '.' . $data['foto']->extension();
             $request->foto->move(public_path('fotos/equipos'), $filename);
         }
         Equipo::create($data);
@@ -107,10 +97,10 @@ class ControladorEquipo extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('foto')) {
-            $data['foto'] = $filename = time().'.'.$data['foto']->extension();
+            $data['foto'] = $filename = time() . '.' . $data['foto']->extension();
             $request->foto->move(public_path('fotos/equipos'), $filename);
-        } 
-        
+        }
+
         $equipo->update($data);
         return to_route('equipo.index', ['idEdicion' => $request->idEdicion])->with('status', 'Equipo Actualizado');
     }
