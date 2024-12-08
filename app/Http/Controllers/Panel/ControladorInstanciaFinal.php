@@ -131,9 +131,10 @@ class ControladorInstanciaFinal extends Controller
             $partido->penalesEquipoVisitante = $penalesEquipoVisitante;
             $partido->resultadoGlobal = $resultadoGlobal;
             $partido->save();
+            $idGrupo = 0;
             $this->partidoService->actualizarHistorialInstanciasFinales($partido, $golesEquipoLocal, $golesEquipoVisitante);
-            $this->partidoService->actualizarGolesContraEquipoEdicion($partido->idEquipoLocal, $partido->idEdicion);
-            $this->partidoService->actualizarGolesContraEquipoEdicion($partido->idEquipoVisitante, $partido->idEdicion);
+            $this->partidoService->actualizarGolesContraEquipoEdicion($partido->idEquipoLocal, $partido->idEdicion, $idGrupo);
+            $this->partidoService->actualizarGolesContraEquipoEdicion($partido->idEquipoVisitante, $partido->idEdicion, $idGrupo);
             return to_route('instancia_final.index', ['idEdicion' => $idEdicion])->with('status', 'Resultado cargado con éxito.');
         }
 

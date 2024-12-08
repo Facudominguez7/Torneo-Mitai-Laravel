@@ -23,7 +23,7 @@ class ControladorEquipo extends Controller
         $equipos = Equipo::join('equipo_ediciones', 'equipos.id', '=', 'equipo_ediciones.idEquipo')
             ->join('categorias', 'equipos.idCategoria', '=', 'categorias.id')
             ->orderBy('categorias.nombreCategoria', 'desc')
-            ->orderBy('equipo_ediciones.golesContra', 'asc')
+            ->orderBy('equipo_ediciones.golesContra', 'desc')
             ->select('equipos.*', 'categorias.nombreCategoria', 'equipo_ediciones.golesContra as goles_en_contra')
             ->where('equipo_ediciones.idEdicion', $idEdicion)
             ->paginate(10); // Utiliza la paginación aquí
