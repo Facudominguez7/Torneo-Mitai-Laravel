@@ -45,8 +45,8 @@ class ControladorSubcampeon extends Controller
         $equipos = Equipo::where('idEdicion', $idEdicion)
             ->where('idCategoria', $idCategoria)
             ->get();
-        $copas = Copa::where('idEdicion', $idEdicion)->get();
-        return view('Panel.subcampeon.create', compact('ediciones', 'campeon', 'EdicionSeleccionada', 'equipos', 'copas', 'CategoriaSeleccionada'));
+            $copas = Copa::orderByDesc('nombre')->get();
+        return view('Panel.subcampeon.create', compact('ediciones', 'subcampeon', 'EdicionSeleccionada', 'equipos', 'copas', 'CategoriaSeleccionada'));
     }
 
 
