@@ -24,6 +24,7 @@ class StoreRequest extends FormRequest
         return [
             'idEquipo' => 'required|integer',
             'idEdicion' => 'required|integer',
+            'golesContra' => 'integer|default:0',
         ];
     }
 }

@@ -193,12 +193,23 @@ class PartidoService
         }
     
         // Obtener goles en contra de la tabla de posiciones
-        $golesContraFaseGrupos = TablaPosicion::where([
-            ['idGrupo', '=', $idGrupo],
-            ['idEquipo', '=', $equipoId],
-            ['idEdicion', '=', $idEdicion]
-        ])->sum('golesContra');
+        $originalIdEdicion = $idEdicion;
+        if (in_array($idEdicion, [1, 2, 3])) {
+            $idEdicion = 0;
+        }
+
+        $golesContraFaseGruposQuery = TablaPosicion::where('idEquipo', $equipoId)
+            ->where('idEdicion', $idEdicion);
+
+        if ($idGrupo != 0) {
+            $golesContraFaseGruposQuery->where('idGrupo', $idGrupo);
+        }
+
+        $golesContraFaseGrupos = $golesContraFaseGruposQuery->sum('golesContra');
     
+        // Restaurar el valor original de idEdicion
+        $idEdicion = $originalIdEdicion;
+
         // Obtener goles en contra de las instancias finales
         $partidosInstanciasFinales = InstanciaFinal::where('idEdicion', $idEdicion)
             ->where(function ($query) use ($equipoId) {
