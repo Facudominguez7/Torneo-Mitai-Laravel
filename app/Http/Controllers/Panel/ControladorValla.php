@@ -27,7 +27,7 @@ class ControladorValla extends Controller
             ->orderBy('cat.nombreCategoria', 'desc')
             ->paginate(7);
         $vallas->appends(['idEdicion' => $idEdicion]);
-        $tipo = 'goleador';
+        $tipo = 'valla';
         return view('Panel.valla.index', compact('tipo', 'ediciones', 'EdicionSeleccionada', 'vallas'));
     }
 
