@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class PlanillaJugador extends Model
+{
+    use HasFactory;
+    protected $table = 'planilla_jugadores';
+    protected $fillable = ['partido_id', 'dni_jugador', 'idEquipo', 'numero_camiseta', 'goles_partido', 'asistio'];
+
+    public function jugador()
+    {
+        return $this->belongsTo(Jugador::class, 'dni_jugador', 'dni');
+    }
+    public function partido()
+    {
+        return $this->belongsTo(Partido::class, 'partido_id');
+    }
+
+}

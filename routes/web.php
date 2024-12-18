@@ -17,6 +17,7 @@ use App\Http\Controllers\Panel\ControladorGoleador;
 use App\Http\Controllers\Panel\ControladorGrupos;
 use App\Http\Controllers\Panel\ControladorInstanciaFinal;
 use App\Http\Controllers\Panel\ControladorPartidos;
+use App\Http\Controllers\Panel\ControladorPlanillaJugador;
 use App\Http\Controllers\Panel\ControladorSubcampeon;
 use App\Http\Controllers\Panel\ControladorValla;
 use App\Http\Controllers\ProfileController;
@@ -67,7 +68,12 @@ Route::group(['prefix' => 'Panel', 'middleware' => ['auth', 'verified', UserAcce
     Route::get('seleccionar-categoria', [ControladorCampeon::class, 'seleccionarCategoria'])->name('seleccionar-categoria');
     Route::get('seleccionar-edicion', [ControladorEquiposEdiciones ::class, 'seleccionarEdicion'])->name('seleccionar-edicion');
     Route::get('/admin', [ControladorHome::class, 'admin'])
-    ->name('admin'); 
+    ->name('admin');
+    Route::prefix('planilla')->group(function () {
+        Route::get('/{partidoId}/{idEdicion}', [ControladorPlanillaJugador::class, 'mostrarPlanilla'])->name('planilla.show');
+        Route::post('/agregar-jugador', [ControladorPlanillaJugador::class, 'agregarJugador'])->name('planilla.agregarJugador');
+        Route::post('/actualizar-jugador', [ControladorPlanillaJugador::class, 'actualizarJugador'])->name('planilla.actualizarJugador');
+    }); 
 });
 
 

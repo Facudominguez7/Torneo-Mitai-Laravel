@@ -48,4 +48,8 @@ class Partido extends Model
     {
         return $this->morphMany(JugadorPartido::class, 'partido');
     }
+    public function planillas()
+    {
+        return $this->hasMany(PlanillaJugador::class, 'partido_id');
+    }
 }
