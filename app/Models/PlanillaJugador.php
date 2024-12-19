@@ -9,7 +9,7 @@ class PlanillaJugador extends Model
 {
     use HasFactory;
     protected $table = 'planilla_jugadores';
-    protected $fillable = ['partido_id', 'dni_jugador', 'idEquipo', 'idEdicion', 'numero_camiseta', 'goles_partido', 'asistio'];
+    protected $fillable = ['partido_id', 'dni_jugador', 'idEquipo', 'idEdicion', 'numero_camiseta', 'goles_partido', 'asistio', 'fecha_nacimiento'];
 
     public function jugador()
     {

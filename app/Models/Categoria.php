@@ -55,4 +55,5 @@ class Categoria extends Model
      {
          return $this->hasMany(Jugador::class, 'idCategoria');
      }
+     
 }

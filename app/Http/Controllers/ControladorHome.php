@@ -44,6 +44,7 @@ class ControladorHome extends Controller
     {
         $ediciones = Edicion::all();
         $idEdicion = $request->query('idEdicion');
+        $idFecha = $request->query('idFecha');
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
         $busquedaFecha = $request->query('busqueda');
 
@@ -54,13 +55,19 @@ class ControladorHome extends Controller
             ->join('categorias as c', 'partidos.idCategoria', '=', 'c.id')
             ->where('partidos.idEdicion', $idEdicion);
 
-        if ($busquedaFecha) {
-            $partidosQuery->where('f.nombre', 'like', '%' . $busquedaFecha . '%');
+        if ($idFecha) {
+            $partidosQuery->where('partidos.idFechas', $idFecha);
         }
 
-        $partidos = $partidosQuery->orderByDesc('f.nombre')->paginate(20);
-        $partidos->appends(['idEdicion' => $idEdicion]);
-        return view('Panel.admin', compact('ediciones', 'EdicionSeleccionada', 'partidos'));
+        $partidos = $partidosQuery->orderByDesc('f.id')
+            ->orderByDesc('c.nombreCategoria')
+            ->get()
+            ->groupBy('nombre_categoria');
+
+        $categorias = Categoria::where('idEdicion', $idEdicion)->get();
+        $fechas = Fecha::where('idEdicion', $idEdicion)->get();
+
+        return view('Panel.admin', compact('ediciones', 'EdicionSeleccionada', 'partidos', 'categorias', 'fechas', 'idFecha'));
     }
 
     public function campeones(Request $request)

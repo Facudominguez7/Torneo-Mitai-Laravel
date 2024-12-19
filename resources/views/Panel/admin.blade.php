@@ -256,84 +256,101 @@
                 </div>
                 <!-- Filtro de Fecha -->
                 <div class="flex justify-center w-auto pb-6">
-                    <div class="relative inline-block text-left w-full md:w-48 filtro-fecha">
-                        <form action="{{ route('admin', ['idEdicion' => $EdicionSeleccionada]) }}" method="GET">
-                            <input type="text" name="busqueda" placeholder="Nombre de la Fecha"
-                                value="{{ request('busqueda') }}"
-                                class="inline-flex items-center justify-between gap-2 bg-white text-gray-700 font-medium border border-gray-300 focus:outline-none hover:border-gray-400 px-4 py-2 rounded-md shadow-sm w-full transition ease-in-out duration-300">
-                            @foreach (request()->except(['busqueda', '_token']) as $key => $value)
-                                <!-- Excluir busqueda y token -->
+                    <div class="relative inline-block text-left w-full md:w-64 filtro-fecha">
+                        <form action="{{ route('admin', ['idEdicion' => $EdicionSeleccionada]) }}" method="GET"
+                            class="flex items-center gap-4">
+                            <div class="relative w-full">
+                                <select id="idFecha" name="idFecha"
+                                    class="appearance-none bg-white text-gray-800 font-medium border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none hover:border-gray-400 px-4 py-2 rounded-lg shadow-md w-auto transition ease-in-out duration-200">
+                                    <option value="">Mostrar Todos</option>
+                                    @foreach ($fechas as $fecha)
+                                        <option value="{{ $fecha->id }}"
+                                            {{ request('idFecha') == $fecha->id ? 'selected' : '' }}>
+                                            {{ $fecha->nombre }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @foreach (request()->except(['idFecha', '_token']) as $key => $value)
+                                <!-- Excluir idFecha y token -->
                                 <input type="hidden" name="{{ $key }}" value="{{ $value }}">
                             @endforeach
+                            <button type="submit"
+                                class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-200">
+                                Filtrar
+                            </button>
                         </form>
                     </div>
                 </div>
-                @foreach ($partidos as $p)
-                    <div class="flex justify-center">
-                        <div class="grid gap-6 p-1 md:p-6 bg-gray-50 w-full md:w-1/2 mb-5">
-                            <div class="bg-white rounded-lg shadow-lg overflow-x-auto md:overflow-x-visible">
-                                <div class="mr-5">
-                                    <h1 class="text-3x1 font-bold">{{ $p->nombre_categoria }}</h1>
-                                </div>
-                                <div
-                                    class="flex flex-col md:flex-row items-center justify-between md:px-6 py-4 border-b">
-                                    <div class="flex items-center gap-4">
-                                        <img src="{{ asset('fotos/equipos/' . $p->foto_local) }}" width="40"
-                                            height="40" alt="" class="rounded-full object-cover" />
-                                        <div class="font-medium text-lg">{{ $p->nombre_local }}</div>
-                                        <div class="text-gray-500">vs</div>
-                                        <img src="{{ asset('fotos/equipos/' . $p->foto_visitante) }}" width="40"
-                                            height="40" alt="" class="rounded-full object-cover" />
-                                        <div class="font-medium text-lg">{{ $p->nombre_visitante }}</div>
-                                    </div>
-                                    <div class="text-2xl font-bold mt-4 md:mt-0 text-center text-[--color-primary]">
-                                        {{ $p->golesEquipoLocal }} - {{ $p->golesEquipoVisitante }}</div>
-                                </div>
-                                <div
-                                    class="flex flex-col md:flex-row items-center justify-between px-6 py-2 text-gray-600">
-                                    <div class="flex items-center gap-2 mb-2 md:mb-0">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1"
-                                            viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1 1 0 011-1z" />
-                                        </svg>
-                                        @if (is_null($p->horario))
-                                            <span>{{ \Carbon\Carbon::parse($p->horario_datetime)->format('d-m-Y H:i') }}</span>
-                                        @else
-                                            <span>{{ $p->horario }} PM</span>
-                                        @endif
-                                    </div>
-                                    <div class="flex items-center gap-2 mb-2 md:mb-0">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1"
-                                            viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1-1z" />
-                                        </svg>
-                                        <span class="whitespace-nowrap">{{ $p->nombre_fecha }}</span>
-                                    </div>
-                                    <div class="flex items-center gap-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1"
-                                            viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1-1z" />
-                                        </svg>
-                                        <span class="whitespace-nowrap">Cancha {{ $p->cancha }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex justify-center mt-4">
-                                <a href="{{ route('planilla.show', ['partidoId' => $p->id, 'idEdicion' => $EdicionSeleccionada->id]) }}">
-                                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                        Planillas
-                                    </button>
-                                </a>
-                            </div>
-                        </div>
+                @foreach ($partidos as $categoria => $partidosPorCategoria)
+                    <div class="mr-5">
+                        <h1 class="text-4xl text-white font-bold text-center">{{ $categoria }}</h1>
                     </div>
+                    @php
+                        $partidosPorFecha = $partidosPorCategoria->groupBy('nombre_fecha');
+                    @endphp
+                    @foreach ($partidosPorFecha as $fecha => $partidos)
+                        <h3 class="text-3xl text-white font-semibold my-2 text-center">{{ $fecha }}
+                        </h3>
+                        @foreach ($partidos as $p)
+                            <div class="flex justify-center">
+                                <div class="grid gap-6 p-1 md:p-6 bg-gray-50 w-full md:w-1/2 mb-5">
+                                    <div class="bg-white rounded-lg shadow-lg overflow-x-auto md:overflow-x-visible">
+                                        <div
+                                            class="flex flex-col md:flex-row items-center justify-between md:px-6 py-4 border-b">
+                                            <div class="flex items-center gap-4">
+                                                <img src="{{ asset('fotos/equipos/' . $p->foto_local) }}"
+                                                    width="40" height="40" alt=""
+                                                    class="rounded-full object-cover" />
+                                                <div class="font-medium text-lg">{{ $p->nombre_local }}</div>
+                                                <div class="text-gray-500">vs</div>
+                                                <div class="font-medium text-lg">{{ $p->nombre_visitante }}</div>
+                                                <img src="{{ asset('fotos/equipos/' . $p->foto_visitante) }}"
+                                                width="40" height="40" alt=""
+                                                class="rounded-full object-cover" />
+                                            </div>
+                                            <div
+                                                class="text-2xl font-bold mt-4 md:mt-0 text-center text-[--color-primary]">
+                                                {{ $p->golesEquipoLocal }} - {{ $p->golesEquipoVisitante }}</div>
+                                        </div>
+                                        <div
+                                            class="flex flex-col md:flex-row items-center justify-between px-6 py-2 text-gray-600">
+                                            <div class="flex items-center gap-2 mb-2 md:mb-0">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1"
+                                                    viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd"
+                                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1 1 0 011-1z" />
+                                                </svg>
+                                                @if (is_null($p->horario))
+                                                    <span>{{ \Carbon\Carbon::parse($p->horario_datetime)->format('d-m-Y H:i') }}</span>
+                                                @else
+                                                    <span>{{ $p->horario }} PM</span>
+                                                @endif
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1"
+                                                    viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd"
+                                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1-1z" />
+                                                </svg>
+                                                <span class="whitespace-nowrap">Cancha {{ $p->cancha }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-center mt-4">
+                                        <a
+                                            href="{{ route('planilla.show', ['partidoId' => $p->id, 'idEdicion' => $EdicionSeleccionada->id]) }}">
+                                            <button
+                                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                                Planillas
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endforeach
                 @endforeach
-                <div class="flex justify-center">
-                    {{ $partidos->links() }}
-                </div>
             @endif
         @endif
         <div class="flex-grow flex items-center justify-center lg:pl-36 mt-0">

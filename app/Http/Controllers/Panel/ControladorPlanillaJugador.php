@@ -35,7 +35,7 @@ class ControladorPlanillaJugador extends Controller
             ->join('equipo_ediciones', 'planilla_jugadores.idEquipo', '=', 'equipo_ediciones.idEquipo')
             ->where('equipo_ediciones.idEquipo', $partido->idEquipoLocal)
             ->where('planilla_jugadores.idEdicion', $idEdicion)
-            ->select('jugadores.*')
+            ->select('jugadores.*', 'planilla_jugadores.fecha_nacimiento')
             ->get();
 
         // Agregar los jugadores faltantes a la planilla del equipo local
@@ -44,6 +44,7 @@ class ControladorPlanillaJugador extends Controller
                 PlanillaJugador::firstOrCreate([
                     'partido_id' => $partidoId,
                     'dni_jugador' => $jugador->dni,
+                    'fecha_nacimiento' => $jugador->fecha_nacimiento,
                     'idEquipo' => $partido->idEquipoLocal,
                     'idEdicion' => $idEdicion,
                 ], [
@@ -66,7 +67,7 @@ class ControladorPlanillaJugador extends Controller
             ->join('equipo_ediciones', 'planilla_jugadores.idEquipo', '=', 'equipo_ediciones.idEquipo')
             ->where('equipo_ediciones.idEquipo', $partido->idEquipoVisitante)
             ->where('planilla_jugadores.idEdicion', $idEdicion)
-            ->select('jugadores.*')
+            ->select('jugadores.*', 'planilla_jugadores.fecha_nacimiento')
             ->get();
 
         // Agregar los jugadores faltantes a la planilla del equipo visitante
@@ -75,6 +76,7 @@ class ControladorPlanillaJugador extends Controller
                 PlanillaJugador::firstOrCreate([
                     'partido_id' => $partidoId,
                     'dni_jugador' => $jugador->dni,
+                    'fecha_nacimiento' => $jugador->fecha_nacimiento,
                     'idEquipo' => $partido->idEquipoVisitante,
                     'idEdicion' => $idEdicion,
                 ], [
@@ -160,6 +162,7 @@ class ControladorPlanillaJugador extends Controller
         $planilla->idEquipo = $equipo->idEquipo; // Usamos el equipo (local o visitante)
         $planilla->idEdicion = $idEdicion; // Asignar la edición
         $planilla->numero_camiseta = $request->numero_camiseta;
+        $planilla->fecha_nacimiento = $request->fecha_nacimiento;
         $planilla->goles = 0;  // Inicializamos los goles a 0
         $planilla->asistio = false;  // Inicializamos asistencia como false
         $planilla->save();
@@ -199,20 +202,21 @@ class ControladorPlanillaJugador extends Controller
         // Actualizar goles en la tabla de goleadores
         $goleador = TablaGoleador::where('dni_jugador', $request->dni_jugador)->first();
         if ($goleador) {
-            $goleador->goles += $request->goles;
+            $goleador->cantidadGoles += $request->goles;
             $goleador->save();
         } else {
             // Crear un nuevo registro en la tabla de goleadores si no existe
             TablaGoleador::create([
-                'dni_jugador' => $request->dni_jugador,
-                'cantidadGoles' => $request->goles,
-                'idEquipo' => $request->equipo_id,
-                'idEdicion' => $request->idEdicion,
-                'idCategoria' => $request->idCategoria,
+            'dni_jugador' => $request->dni_jugador,
+            'cantidadGoles' => $request->goles,
+            'idEquipo' => $request->equipo_id,
+            'idEdicion' => $request->idEdicion,
+            'idCategoria' => $request->idCategoria,
+            'nombre' => $request->apellido . ' ' . $request->nombre,
             ]);
         }
 
         return redirect()->route('planilla.show', ['partidoId' => $request->partido_id, 'idEdicion' => $request->idEdicion])
-            ->with('success', 'Datos de jugador actualizados correctamente.');
+            ->with('status', 'Datos de jugador actualizados correctamente.');
     }
 }
