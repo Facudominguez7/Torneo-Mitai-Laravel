@@ -272,6 +272,9 @@
                     <div class="flex justify-center">
                         <div class="grid gap-6 p-1 md:p-6 bg-gray-50 w-full md:w-1/2 mb-5">
                             <div class="bg-white rounded-lg shadow-lg overflow-x-auto md:overflow-x-visible">
+                                <div class="mr-5">
+                                    <h1 class="text-3x1 font-bold">{{ $p->nombre_categoria }}</h1>
+                                </div>
                                 <div
                                     class="flex flex-col md:flex-row items-center justify-between md:px-6 py-4 border-b">
                                     <div class="flex items-center gap-4">
@@ -304,7 +307,7 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1"
                                             viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd"
-                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1 1 0 011-1z" />
+                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1-1z" />
                                         </svg>
                                         <span class="whitespace-nowrap">{{ $p->nombre_fecha }}</span>
                                     </div>

@@ -24,5 +24,6 @@ class Jugador extends Model
     {
         return $this->hasMany(PlanillaJugador::class, 'dni_jugador', 'dni');
     }
+    
 
 }

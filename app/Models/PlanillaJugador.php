@@ -9,7 +9,7 @@ class PlanillaJugador extends Model
 {
     use HasFactory;
     protected $table = 'planilla_jugadores';
-    protected $fillable = ['partido_id', 'dni_jugador', 'idEquipo', 'numero_camiseta', 'goles_partido', 'asistio'];
+    protected $fillable = ['partido_id', 'dni_jugador', 'idEquipo', 'idEdicion', 'numero_camiseta', 'goles_partido', 'asistio'];
 
     public function jugador()
     {
@@ -18,6 +18,14 @@ class PlanillaJugador extends Model
     public function partido()
     {
         return $this->belongsTo(Partido::class, 'partido_id');
+    }
+    public function equipo()
+    {
+        return $this->belongsTo(EquipoEdicion::class, 'idEquipo', 'idEquipo');
+    }
+    public function edicion()
+    {
+        return $this->belongsTo(Edicion::class, 'idEdicion');
     }
 
 }

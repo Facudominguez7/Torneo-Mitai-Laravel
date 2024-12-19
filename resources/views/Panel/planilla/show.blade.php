@@ -40,24 +40,22 @@
             <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md">Agregar Jugador</button>
         </form>
         <h3 class="text-lg font-semibold mb-2 text-center">Lista de Buena Fe</h3>
-        @if($jugadoresLocal->isEmpty())
+        @if($jugadoresLocalPlanilla->isEmpty())
             <p class="text-center">No hay jugadores en el equipo local.</p>
         @else
             <table class="min-w-full bg-white border border-gray-200 mb-6">
                 <thead>
                     <tr>
                         <th class="px-4 py-2 border-b">Nombre</th>
-                        <th class="px-4 py-2 border-b">Número de Camiseta</th>
                         <th class="px-4 py-2 border-b">Goles</th>
                         <th class="px-4 py-2 border-b">Asistencia</th>
                         <th class="px-4 py-2 border-b">Acción</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($jugadoresLocal as $jugador)
+                    @foreach ($jugadoresLocalPlanilla as $jugador)
                         <tr>
                             <td class="px-4 py-2 border-b text-center">{{ $jugador->nombre }} {{ $jugador->apellido }}</td>
-                            <td class="px-4 py-2 border-b text-center">{{ $jugador->numero_camiseta }}</td>
                             <td class="px-4 py-2 border-b text-center">{{ $jugador->goles }}</td>
                             <td class="px-4 py-2 border-b text-center">{{ $jugador->asistio ? 'Sí' : 'No' }}</td>
                             <td class="px-4 py-2 border-b">
@@ -68,6 +66,8 @@
                                     <input type="hidden" name="dni_jugador" value="{{ $jugador->dni_jugador }}">
                                     <input type="hidden" name="idEdicion" value="{{ $EdicionSeleccionada->id }}">
                                     <div class="flex items-center space-x-2">
+                                        <label for="numero_camiseta" class="text-sm">Número de Camiseta:</label>
+                                        <input type="number" name="numero_camiseta" value="{{ $jugador->numero_camiseta }}" class="w-16 border-gray-300 rounded-md shadow-sm">
                                         <label for="goles" class="text-sm">Goles:</label>
                                         <input type="number" name="goles" value="{{ $jugador->goles }}" class="w-16 border-gray-300 rounded-md shadow-sm">
                                         <label for="asistencia" class="text-sm">Asistencia:</label>
@@ -113,7 +113,7 @@
         </form>
 
         <h3 class="text-lg font-semibold mb-2 text-center">Lista de Buena Fe</h3>
-        @if($jugadoresVisitante->isEmpty())
+        @if($jugadoresVisitantePlanilla->isEmpty())
             <p class="text-center">No hay jugadores en el equipo visitante.</p>
         @else
             <table class="min-w-full bg-white border border-gray-200">
@@ -126,7 +126,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($jugadoresVisitante as $jugador)
+                    @foreach ($jugadoresVisitantePlanilla as $jugador)
                         <tr>
                             <td class="px-4 py-2 border-b text-center">{{ $jugador->nombre }} {{ $jugador->apellido }}</td>
                             <td class="px-4 py-2 border-b text-center">{{ $jugador->goles }}</td>
@@ -138,6 +138,7 @@
                                     <input type="hidden" name="equipo_id" value="{{ $partido->idEquipoVisitante }}">
                                     <input type="hidden" name="dni_jugador" value="{{ $jugador->dni_jugador }}">
                                     <input type="hidden" name="idEdicion" value="{{ $EdicionSeleccionada->id }}">
+                                    <input type="hidden" name="idCategoria" value="{{ $partido->idCategoria }}">
                                     <div class="flex items-center space-x-2">
                                         <label for="goles" class="text-sm">Goles:</label>
                                         <input type="number" name="goles" value="{{ $jugador->goles }}" class="w-16 border-gray-300 rounded-md shadow-sm">
