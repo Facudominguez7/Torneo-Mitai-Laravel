@@ -7,6 +7,7 @@ use App\Models\Edicion;
 use App\Models\EquipoEdicion;
 use App\Models\Jugador;
 use App\Models\Partido;
+use App\Models\InstanciaFinal;
 use App\Models\PlanillaJugador;
 use App\Models\TablaGoleador;
 use Illuminate\Http\Request;
@@ -14,14 +15,17 @@ use Illuminate\Support\Facades\DB;
 
 class ControladorPlanillaJugador extends Controller
 {
-    public function mostrarPlanilla(Request $request, $partidoId)
+    public function mostrarPlanilla(Request $request, $partidoId, $idEdicion, $tipoPartido)
     {
         $ediciones = Edicion::all();
-        $idEdicion = $request->idEdicion;
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
 
-        // Obtener el partido
-        $partido = Partido::findOrFail($partidoId);
+        // Obtener el partido o instancia final
+        if ($tipoPartido === 'instanciaFinal') {
+            $partido = InstanciaFinal::findOrFail($partidoId);
+        } else {
+            $partido = Partido::findOrFail($partidoId);
+        }
 
         // Obtener jugadores locales que ya están en la planilla del partido actual
         $jugadoresLocalExistentes = PlanillaJugador::where('partido_id', $partidoId)
@@ -43,6 +47,7 @@ class ControladorPlanillaJugador extends Controller
             if (!in_array($jugador->dni, $jugadoresLocalExistentes)) {
                 PlanillaJugador::firstOrCreate([
                     'partido_id' => $partidoId,
+                    'partido_type' => $tipoPartido === 'instanciaFinal' ? InstanciaFinal::class : Partido::class,
                     'dni_jugador' => $jugador->dni,
                     'fecha_nacimiento' => $jugador->fecha_nacimiento,
                     'idEquipo' => $partido->idEquipoLocal,
@@ -67,7 +72,7 @@ class ControladorPlanillaJugador extends Controller
             ->join('equipo_ediciones', 'planilla_jugadores.idEquipo', '=', 'equipo_ediciones.idEquipo')
             ->where('equipo_ediciones.idEquipo', $partido->idEquipoVisitante)
             ->where('planilla_jugadores.idEdicion', $idEdicion)
-            ->select('jugadores.*', 'planilla_jugadores.fecha_nacimiento')
+            ->select('jugadores.*', 'planilla_jugadores.fecha_nacimiento', 'planilla_jugadores.partido_type')
             ->get();
 
         // Agregar los jugadores faltantes a la planilla del equipo visitante
@@ -75,6 +80,7 @@ class ControladorPlanillaJugador extends Controller
             if (!in_array($jugador->dni, $jugadoresVisitanteExistentes)) {
                 PlanillaJugador::firstOrCreate([
                     'partido_id' => $partidoId,
+                    'partido_type' => $tipoPartido === 'instanciaFinal' ? InstanciaFinal::class : Partido::class,
                     'dni_jugador' => $jugador->dni,
                     'fecha_nacimiento' => $jugador->fecha_nacimiento,
                     'idEquipo' => $partido->idEquipoVisitante,
@@ -103,7 +109,7 @@ class ControladorPlanillaJugador extends Controller
             ->select('planilla_jugadores.*', 'jugadores.nombre', 'jugadores.apellido')
             ->get();
 
-        return view('Panel.planilla.show', compact('partido', 'jugadoresLocalPlanilla', 'jugadoresVisitantePlanilla', 'ediciones', 'EdicionSeleccionada'));
+        return view('Panel.planilla.show', compact('partido', 'jugadoresLocalPlanilla', 'jugadoresVisitantePlanilla', 'ediciones', 'EdicionSeleccionada', 'tipoPartido'));
     }
 
 
@@ -112,6 +118,7 @@ class ControladorPlanillaJugador extends Controller
     public function agregarJugador(Request $request)
     {
         $idEdicion = $request->idEdicion;
+        $tipoPartido = $request->tipoPartido;
         // Validar que el jugador exista o si es necesario actualizar el dni
         $jugador = Jugador::where('dni', $request->dni_jugador)->first();
 
@@ -158,6 +165,7 @@ class ControladorPlanillaJugador extends Controller
         // Agregar el jugador a la planilla
         $planilla = new PlanillaJugador();
         $planilla->partido_id = $request->partido_id;
+        $planilla->partido_type = $tipoPartido === 'instancia_final' ? InstanciaFinal::class : Partido::class;
         $planilla->dni_jugador = $jugador->dni;
         $planilla->idEquipo = $equipo->idEquipo; // Usamos el equipo (local o visitante)
         $planilla->idEdicion = $idEdicion; // Asignar la edición
@@ -167,21 +175,26 @@ class ControladorPlanillaJugador extends Controller
         $planilla->asistio = false;  // Inicializamos asistencia como false
         $planilla->save();
 
-        return redirect()->route('planilla.show', ['partidoId' => $request->partido_id, 'idEdicion' => $idEdicion])
+        return redirect()->route('planilla.show', ['partidoId' => $request->partido_id, 'idEdicion' => $idEdicion, 'tipoPartido' => $tipoPartido])
             ->with('status', 'Jugador agregado a la planilla con éxito.');
     }
 
     // Actualizar los goles y asistencia de un jugador en la planilla
     public function actualizarJugador(Request $request)
     {
+        $tipoPartido = $request->tipoPartido;
         $planilla = PlanillaJugador::where('partido_id', $request->partido_id)
             ->where('dni_jugador', $request->dni_jugador)
             ->where('idEquipo', $request->equipo_id) // Asegurarse que se actualice en el equipo correcto
             ->first();
 
         if (!$planilla) {
-            return redirect()->back()->with('error', 'Jugador no encontrado en la planilla.');
+            return redirect()->back()->with('status', 'Jugador no encontrado en la planilla.');
         }
+
+        // Guardar los valores actuales antes de actualizar
+        $golesAnteriores = $planilla->goles;
+        $asistioAnteriormente = $planilla->asistio;
 
         // Actualizar goles y asistencia
         $planilla->goles = $request->goles;
@@ -192,9 +205,17 @@ class ControladorPlanillaJugador extends Controller
         // Actualizar goles del jugador en la tabla jugadores
         $jugador = Jugador::where('dni', $request->dni_jugador)->first();
         if ($jugador) {
-            $jugador->goles_totales += $request->goles;
-            if ($request->goles > 0) {
-                $jugador->partidos_totales += 1;
+            // Ajustar los goles totales del jugador
+            $jugador->goles_totales += ($request->goles - $golesAnteriores);
+            // Ajustar los partidos totales del jugador
+            if ($request->goles > 0 || $request->has('asistencia')) {
+                if (!$asistioAnteriormente) {
+                    $jugador->partidos_totales += 1;
+                }
+            } else {
+                if ($asistioAnteriormente) {
+                    $jugador->partidos_totales -= 1;
+                }
             }
             $jugador->save();
         }
@@ -202,21 +223,22 @@ class ControladorPlanillaJugador extends Controller
         // Actualizar goles en la tabla de goleadores
         $goleador = TablaGoleador::where('dni_jugador', $request->dni_jugador)->first();
         if ($goleador) {
-            $goleador->cantidadGoles += $request->goles;
+            // Ajustar los goles totales del goleador
+            $goleador->cantidadGoles += ($request->goles - $golesAnteriores);
             $goleador->save();
         } else {
             // Crear un nuevo registro en la tabla de goleadores si no existe
             TablaGoleador::create([
-            'dni_jugador' => $request->dni_jugador,
-            'cantidadGoles' => $request->goles,
-            'idEquipo' => $request->equipo_id,
-            'idEdicion' => $request->idEdicion,
-            'idCategoria' => $request->idCategoria,
-            'nombre' => $request->apellido . ' ' . $request->nombre,
+                'dni_jugador' => $request->dni_jugador,
+                'cantidadGoles' => $request->goles,
+                'idEquipo' => $request->equipo_id,
+                'idEdicion' => $request->idEdicion,
+                'idCategoria' => $request->idCategoria,
+                'nombre' => $request->apellido . ' ' . $request->nombre,
             ]);
         }
 
-        return redirect()->route('planilla.show', ['partidoId' => $request->partido_id, 'idEdicion' => $request->idEdicion])
+        return redirect()->route('planilla.show', ['partidoId' => $request->partido_id, 'idEdicion' => $request->idEdicion, 'tipoPartido' => $tipoPartido])
             ->with('status', 'Datos de jugador actualizados correctamente.');
     }
 }

@@ -11,6 +11,7 @@
             <input type="hidden" name="partido_id" value="{{ $partido->id }}">
             <input type="hidden" name="equipo_id" value="{{ $partido->idEquipoLocal }}">
             <input type="hidden" name="idEdicion" value="{{ $EdicionSeleccionada->id }}">
+            <input type="hidden" name="tipoPartido" value="{{ $tipoPartido }}">
 
             <!-- Campo para el nombre del jugador -->
             <div class="mb-2">
@@ -66,8 +67,9 @@
                     @foreach ($jugadoresLocalPlanilla as $jugador)
                         <tr>
                             <td class="px-4 py-2 border-b text-center">{{ $jugador->nombre }} {{ $jugador->apellido }}</td>
-                            <td class="px-4 py-2 border-b text-center">{{ \Carbon\Carbon::parse($jugador->fecha_nacimiento)->format('d-m-Y') }}</td>
-                            <td class="px-4 py-2 border-b text-center">{{ $jugador->dni_jugador}}</td>
+                            <td class="px-4 py-2 border-b text-center">
+                                {{ \Carbon\Carbon::parse($jugador->fecha_nacimiento)->format('d-m-Y') }}</td>
+                            <td class="px-4 py-2 border-b text-center">{{ $jugador->dni_jugador }}</td>
                             <td class="px-4 py-2 border-b">
                                 <form action="{{ route('planilla.actualizarJugador') }}" method="POST" class="inline">
                                     @csrf
@@ -78,6 +80,7 @@
                                     <input type="hidden" name="apellido" value="{{ $jugador->apellido }}">
                                     <input type="hidden" name="idEdicion" value="{{ $EdicionSeleccionada->id }}">
                                     <input type="hidden" name="idCategoria" value="{{ $partido->idCategoria }}">
+                                    <input type="hidden" name="tipoPartido" value="{{ $tipoPartido }}">
                                     <div class="flex items-center space-x-2">
                                         <label for="numero_camiseta" class="text-sm">Número de Camiseta:</label>
                                         <input type="number" name="numero_camiseta"
@@ -108,6 +111,7 @@
             <input type="hidden" name="partido_id" value="{{ $partido->id }}">
             <input type="hidden" name="equipo_id" value="{{ $partido->idEquipoVisitante }}">
             <input type="hidden" name="idEdicion" value="{{ $EdicionSeleccionada->id }}">
+            <input type="hidden" name="tipoPartido" value="{{ $tipoPartido }}">
 
             <!-- Campo para el nombre del jugador -->
             <div class="mb-2">
@@ -166,8 +170,9 @@
                         <tr>
                             <td class="px-4 py-2 border-b text-center">{{ $jugador->nombre }} {{ $jugador->apellido }}
                             </td>
-                            <td class="px-4 py-2 border-b text-center">{{ \Carbon\Carbon::parse($jugador->fecha_nacimiento)->format('d-m-Y') }}</td>
-                            <td class="px-4 py-2 border-b text-center">{{ $jugador->dni_jugador}}</td>
+                            <td class="px-4 py-2 border-b text-center">
+                                {{ \Carbon\Carbon::parse($jugador->fecha_nacimiento)->format('d-m-Y') }}</td>
+                            <td class="px-4 py-2 border-b text-center">{{ $jugador->dni_jugador }}</td>
                             <td class="px-4 py-2 border-b">
                                 <form action="{{ route('planilla.actualizarJugador') }}" method="POST" class="inline">
                                     @csrf
@@ -178,7 +183,12 @@
                                     <input type="hidden" name="apellido" value="{{ $jugador->apellido }}">
                                     <input type="hidden" name="idEdicion" value="{{ $EdicionSeleccionada->id }}">
                                     <input type="hidden" name="idCategoria" value="{{ $partido->idCategoria }}">
+                                    <input type="hidden" name="tipoPartido" value="{{ $tipoPartido }}">
                                     <div class="flex items-center space-x-2">
+                                        <label for="numero_camiseta" class="text-sm">Número de Camiseta:</label>
+                                        <input type="number" name="numero_camiseta"
+                                            value="{{ $jugador->numero_camiseta }}"
+                                            class="w-16 border-gray-300 rounded-md shadow-sm">
                                         <label for="goles" class="text-sm">Goles:</label>
                                         <input type="number" name="goles" value="{{ $jugador->goles }}"
                                             class="w-16 border-gray-300 rounded-md shadow-sm">
