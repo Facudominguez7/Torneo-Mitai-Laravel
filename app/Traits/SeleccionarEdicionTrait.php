@@ -15,12 +15,7 @@ trait SeleccionarEdicionTrait
         $ediciones = Edicion::select('id', 'nombre')->get();
         $tipo = $request->tipo;
 
-        $categorias = Categoria::where(function ($query) use ($idEdicion) {
-            $query->where('idEdicion', $idEdicion)
-            ->orWhereNull('idEdicion')
-            ->orWhere('idEdicion', 3)
-            ->orWhere('idEdicion', 2);
-        })
+        $categorias = Categoria::where('idEdicion', $idEdicion)
         ->orderBy('nombreCategoria', 'desc')
         ->get();
 

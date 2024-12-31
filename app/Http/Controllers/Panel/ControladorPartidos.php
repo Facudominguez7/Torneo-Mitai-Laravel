@@ -10,7 +10,9 @@ use App\Models\Equipo;
 use App\Models\EquipoGrupo;
 use App\Models\Fecha;
 use App\Models\Grupo;
+use App\Models\Jugador;
 use App\Models\Partido;
+use App\Models\PlanillaJugador;
 use App\Services\PartidoService;
 use App\Traits\SeleccionarCategoriaTrait;
 use Illuminate\Http\Request;
@@ -114,7 +116,7 @@ class ControladorPartidos extends Controller
             $equipos = Equipo::select('equipos.id', 'equipos.nombre')
                 ->join('equipo_ediciones', 'equipos.id', '=', 'equipo_ediciones.idEquipo') // Relación con ediciones
                 ->join('equipos_grupos', 'equipos.id', '=', 'equipos_grupos.idEquipo')     // Relación con grupos
-                ->where('equipos.idCategoria', $idCategoria)                              // Filtrar por categoría
+                ->where('equipo_ediciones.idCategoria', $idCategoria)                              // Filtrar por categoría
                 ->where('equipo_ediciones.idEdicion', $idEdicion)                         // Filtrar por edición
                 ->where('equipos_grupos.idGrupo', $idGrupo)                               // Filtrar por grupo
                 ->get();

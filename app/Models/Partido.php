@@ -44,8 +44,12 @@ class Partido extends Model
     {
         return $this->belongsTo(Edicion::class, 'idEdicion');
     }
-    public function jugadoresPartido()
+    public function planillas()
     {
-        return $this->morphMany(JugadorPartido::class, 'partido');
+        return $this->hasMany(PlanillaJugador::class, 'partido_id');
+    }
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class, 'idCategoria');
     }
 }

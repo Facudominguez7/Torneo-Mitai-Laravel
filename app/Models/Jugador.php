@@ -9,35 +9,21 @@ class Jugador extends Model
 {
     use HasFactory;
     protected $table = 'jugadores';
+    public $timestamps = false;
+    public $primaryKey = 'dni';
 
     protected $fillable = [
-        'idEquipo',
         'nombre',
+        'apellido',
         'dni',
-        'numero_camiseta',
-        'totalPartidos',
-        'totalGoles',
+        'partidos_totales',
+        'goles_totales',
     ];
 
-    public function equipo()
+    public function planillas()
     {
-        return $this->belongsTo(Equipo::class, 'idEquipo');
+        return $this->hasMany(PlanillaJugador::class, 'dni_jugador', 'dni');
     }
+    
 
-    public function partidos()
-    {
-        return $this->hasMany(JugadorPartido::class, 'idJugador');
-    }
-    // Relación con ediciones (muchos a muchos)
-    public function ediciones()
-    {
-        return $this->belongsToMany(Edicion::class, 'jugadores_ediciones', 'idJugador', 'idEdicion')
-            ->withPivot(['idEquipo', 'idCategoria'])
-            ->withTimestamps();
-    }
-    // Relación con categorías (pertenece a una categoría)
-    public function categoria()
-    {
-        return $this->belongsTo(Categoria::class, 'idCategoria');
-    }
 }

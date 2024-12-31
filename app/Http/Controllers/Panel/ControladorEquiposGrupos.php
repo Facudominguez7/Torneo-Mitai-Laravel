@@ -39,7 +39,7 @@ class ControladorEquiposGrupos extends Controller
 
         if ($idCategoria && $idEdicion) {
             $equipos = Equipo::join('equipo_ediciones', 'equipos.id', '=', 'equipo_ediciones.idEquipo')
-                ->where('equipos.idCategoria', $idCategoria)
+                ->where('equipo_ediciones.idCategoria', $idCategoria)
                 ->where('equipo_ediciones.idEdicion', $idEdicion)
                 ->select('equipos.id', 'equipos.nombre')
                 ->get();

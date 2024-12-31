@@ -256,82 +256,111 @@
                 </div>
                 <!-- Filtro de Fecha -->
                 <div class="flex justify-center w-auto pb-6">
-                    <div class="relative inline-block text-left w-full md:w-48 filtro-fecha">
-                        <form action="{{ route('admin', ['idEdicion' => $EdicionSeleccionada]) }}" method="GET">
-                            <input type="text" name="busqueda" placeholder="Nombre de la Fecha"
-                                value="{{ request('busqueda') }}"
-                                class="inline-flex items-center justify-between gap-2 bg-white text-gray-700 font-medium border border-gray-300 focus:outline-none hover:border-gray-400 px-4 py-2 rounded-md shadow-sm w-full transition ease-in-out duration-300">
-                            @foreach (request()->except(['busqueda', '_token']) as $key => $value)
-                                <!-- Excluir busqueda y token -->
+                    <div class="relative inline-block text-left w-full md:w-64 filtro-fecha">
+                        <form action="{{ route('admin', ['idEdicion' => $EdicionSeleccionada]) }}" method="GET"
+                            class="flex items-center gap-4">
+                            <div class="relative w-full">
+                                <select id="idFecha" name="idFecha"
+                                    class="appearance-none bg-white text-gray-800 font-medium border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none hover:border-gray-400 px-4 py-2 rounded-lg shadow-md w-auto transition ease-in-out duration-200">
+                                    <option value="">Mostrar Todos</option>
+                                    @foreach ($fechas as $fecha)
+                                        <option value="{{ $fecha->id }}"
+                                            {{ request('idFecha') == $fecha->id ? 'selected' : '' }}>
+                                            {{ $fecha->nombre }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @foreach (request()->except(['idFecha', '_token']) as $key => $value)
+                                <!-- Excluir idFecha y token -->
                                 <input type="hidden" name="{{ $key }}" value="{{ $value }}">
                             @endforeach
+                            <button type="submit"
+                                class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-200">
+                                Filtrar
+                            </button>
                         </form>
                     </div>
                 </div>
-                @foreach ($partidos as $p)
-                    <div class="flex justify-center">
-                        <div class="grid gap-6 p-1 md:p-6 bg-gray-50 w-full md:w-1/2 mb-5">
-                            <div class="bg-white rounded-lg shadow-lg overflow-x-auto md:overflow-x-visible">
-                                <div
-                                    class="flex flex-col md:flex-row items-center justify-between md:px-6 py-4 border-b">
-                                    <div class="flex items-center gap-4">
-                                        <img src="{{ asset('fotos/equipos/' . $p->foto_local) }}" width="40"
-                                            height="40" alt="" class="rounded-full object-cover" />
-                                        <div class="font-medium text-lg">{{ $p->nombre_local }}</div>
-                                        <div class="text-gray-500">vs</div>
-                                        <img src="{{ asset('fotos/equipos/' . $p->foto_visitante) }}" width="40"
-                                            height="40" alt="" class="rounded-full object-cover" />
-                                        <div class="font-medium text-lg">{{ $p->nombre_visitante }}</div>
+                @foreach ($partidos as $categoria => $partidosPorCategoria)
+                    <div class="mr-5">
+                        <h1 class="text-4xl text-white font-bold text-center">{{ $categoria }}</h1>
+                    </div>
+                    @php
+                        $partidosPorFecha = $partidosPorCategoria->groupBy('nombre_fecha');
+                    @endphp
+                    @foreach ($partidosPorFecha as $fecha => $partidos)
+                        <h3 class="text-3xl text-white font-semibold my-2 text-center">{{ $fecha }}
+                        </h3>
+                        @foreach ($partidos as $p)
+                            <div class="flex justify-center">
+                                <div class="grid gap-6 p-1 md:p-6 bg-gray-50 w-full md:w-1/2 mb-5">
+                                    <div class="bg-white rounded-lg shadow-lg overflow-x-auto md:overflow-x-visible">
+                                        <div
+                                            class="flex flex-col md:flex-row items-center justify-between md:px-6 py-4 border-b">
+                                            <div class="flex items-center gap-4">
+                                                <img src="{{ asset('fotos/equipos/' . $p->foto_local) }}"
+                                                    width="40" height="40" alt=""
+                                                    class="rounded-full object-cover" />
+                                                <div class="font-medium text-lg">{{ $p->nombre_local }}</div>
+                                                <div class="text-gray-500">vs</div>
+                                                <div class="font-medium text-lg">{{ $p->nombre_visitante }}</div>
+                                                <img src="{{ asset('fotos/equipos/' . $p->foto_visitante) }}"
+                                                width="40" height="40" alt=""
+                                                class="rounded-full object-cover" />
+                                            </div>
+                                            <div
+                                                class="text-2xl font-bold mt-4 md:mt-0 text-center text-[--color-primary]">
+                                                {{ $p->golesEquipoLocal }} - {{ $p->golesEquipoVisitante }}</div>
+                                        </div>
+                                        <div
+                                            class="flex flex-col md:flex-row items-center justify-between px-6 py-2 text-gray-600">
+                                            <div class="flex items-center gap-2 mb-2 md:mb-0">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1"
+                                                    viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd"
+                                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1 1 0 011-1z" />
+                                                </svg>
+                                                @if (is_null($p->horario))
+                                                    <span>{{ \Carbon\Carbon::parse($p->horario_datetime)->format('d-m-Y H:i') }}</span>
+                                                @else
+                                                    <span>{{ $p->horario }} PM</span>
+                                                @endif
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1"
+                                                    viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd"
+                                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1-1z" />
+                                                </svg>
+                                                <span class="whitespace-nowrap">Cancha {{ $p->cancha }}</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="text-2xl font-bold mt-4 md:mt-0 text-center text-[--color-primary]">
-                                        {{ $p->golesEquipoLocal }} - {{ $p->golesEquipoVisitante }}</div>
-                                </div>
-                                <div
-                                    class="flex flex-col md:flex-row items-center justify-between px-6 py-2 text-gray-600">
-                                    <div class="flex items-center gap-2 mb-2 md:mb-0">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1"
-                                            viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1 1 0 011-1z" />
-                                        </svg>
-                                        <span class="whitespace-nowrap">{{ $p->horario }} PM</span>
-                                    </div>
-                                    <div class="flex items-center gap-2 mb-2 md:mb-0">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1"
-                                            viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1 1 0 011-1z" />
-                                        </svg>
-                                        <span class="whitespace-nowrap">{{ $p->nombre_fecha }}</span>
-                                    </div>
-                                    <div class="flex items-center gap-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1"
-                                            viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1-1z" />
-                                        </svg>
-                                        <span class="whitespace-nowrap">Cancha {{ $p->cancha }}</span>
+                                    <div class="flex justify-center mt-4">
+                                        <a
+                                            href="{{ route('planilla.show', ['partidoId' => $p->id, 'idEdicion' => $EdicionSeleccionada->id, 'tipoPartido' => 'partido' ]) }}">
+                                            <button
+                                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                                Planillas
+                                            </button>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        @endforeach
+                    @endforeach
                 @endforeach
-                <div class="flex justify-center">
-                    {{ $partidos->links() }}
-                </div>
             @endif
         @endif
         <div class="flex-grow flex items-center justify-center lg:pl-36 mt-0">
             <section class="w-1/2">
                 @if (session('status'))
                     <div class="flex justify-center">
-                        <div class="flex items-center rounded-xl bg-white p-4 shadow-lg w-1/2">
-                            <div class="flex h-10 w-10 items-center justify-center bg-green-300">
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                                    <path
-                                        d="M64 80c-8.8 0-16 7.2-16 16l0 320c0 8.8 7.2 16 16 16l320 0c8.8 0 16-7.2 16-16l0-320c0-8.8-7.2-16-16-16L64 80zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                        <div id="status-message" class="flex items-center rounded-xl bg-white p-4 shadow-lg w-1/2">
+                            <div class="flex h-10 w-10 items-center justify-center bg-blue-300 rounded-xl">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                    <path d="M256 48C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48zm0 368c-88.2 0-160-71.8-160-160S167.8 96 256 96s160 71.8 160 160-71.8 160-160 160zm0-256c-17.7 0-32 14.3-32 32s14.3 32 32 32 32-14.3 32-32-14.3-32-32-32zm0 96c-17.7 0-32 14.3-32 32v64c0 17.7 14.3 32 32 32s32-14.3 32-32v-64c0-17.7-14.3-32-32-32z"/>
                                 </svg>
                             </div>
                             <div class="ml-6">
@@ -341,6 +370,11 @@
                             </div>
                         </div>
                     </div>
+                    <script>
+                        setTimeout(function() {
+                            document.getElementById('status-message').remove();
+                        }, 5000);
+                    </script>
                 @endif
                 @if (Str::endsWith(request()->route()->getName(), '.show'))
                     @yield('detalle')

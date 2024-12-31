@@ -44,22 +44,30 @@ class ControladorHome extends Controller
     {
         $ediciones = Edicion::all();
         $idEdicion = $request->query('idEdicion');
+        $idFecha = $request->query('idFecha');
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
         $busquedaFecha = $request->query('busqueda');
 
-        $partidosQuery = Partido::select('partidos.*', 'el.nombre as nombre_local', 'ev.nombre as nombre_visitante', 'el.foto as foto_local', 'ev.foto as foto_visitante', 'f.nombre as nombre_fecha')
+        $partidosQuery = Partido::select('partidos.*', 'el.nombre as nombre_local', 'ev.nombre as nombre_visitante', 'el.foto as foto_local', 'ev.foto as foto_visitante', 'f.nombre as nombre_fecha', 'c.nombreCategoria as nombre_categoria')
             ->join('equipos as el', 'partidos.idEquipoLocal', '=', 'el.id')
             ->join('equipos as ev', 'partidos.idEquipoVisitante', '=', 'ev.id')
             ->join('fechas as f', 'partidos.idFechas', '=', 'f.id')
+            ->join('categorias as c', 'partidos.idCategoria', '=', 'c.id')
             ->where('partidos.idEdicion', $idEdicion);
 
-        if ($busquedaFecha) {
-            $partidosQuery->where('f.nombre', 'like', '%' . $busquedaFecha . '%');
+        if ($idFecha) {
+            $partidosQuery->where('partidos.idFechas', $idFecha);
         }
 
-        $partidos = $partidosQuery->orderByDesc('f.nombre')->paginate(20);
-        $partidos->appends(['idEdicion' => $idEdicion]);
-        return view('Panel.admin', compact('ediciones', 'EdicionSeleccionada', 'partidos'));
+        $partidos = $partidosQuery->orderByDesc('f.id')
+            ->orderByDesc('c.nombreCategoria')
+            ->get()
+            ->groupBy('nombre_categoria');
+
+        $categorias = Categoria::where('idEdicion', $idEdicion)->get();
+        $fechas = Fecha::where('idEdicion', $idEdicion)->get();
+
+        return view('Panel.admin', compact('ediciones', 'EdicionSeleccionada', 'partidos', 'categorias', 'fechas', 'idFecha'));
     }
 
     public function campeones(Request $request)
@@ -155,11 +163,7 @@ class ControladorHome extends Controller
         $idFecha = $request->idFecha;
 
         if (isset($EdicionSeleccionada)) {
-            $categorias = Categoria::where(function ($query) use ($idEdicion) {
-                $query->where('idEdicion', $idEdicion)
-                    ->orWhereNull('idEdicion')
-                    ->orWhere('idEdicion', 3);
-            })
+            $categorias = Categoria::where('idEdicion', $idEdicion)
                 ->select('id', 'nombreCategoria')
                 ->orderBy('nombreCategoria', 'desc')
                 ->get();

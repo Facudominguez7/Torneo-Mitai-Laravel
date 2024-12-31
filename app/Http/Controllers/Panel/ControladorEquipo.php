@@ -7,6 +7,7 @@ use App\Http\Requests\Equipo\StoreRequest;
 use App\Models\Categoria;
 use App\Models\Edicion;
 use App\Models\Equipo;
+use App\Models\EquipoEdicion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -55,14 +56,24 @@ class ControladorEquipo extends Controller
     public function store(StoreRequest $request)
     {
         $data = $request->validated();
-        if ($request->hasFile('foto')) {
-            $data['foto'] = $filename = time() . '.' . $data['foto']->extension();
-            $request->foto->move(public_path('fotos/equipos'), $filename);
+
+        if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
+            $filename = time() . '.' . $request->file('foto')->getClientOriginalExtension();
+            $request->file('foto')->move(public_path('fotos/equipos'), $filename);
+            $data['foto'] = $filename; // Solo guarda el nombre del archivo con su extensión
         }
-        Equipo::create($data);
+        $equipo = Equipo::create($data);
+
+        // Crear registro en EquipoEdicion
+        EquipoEdicion::create([
+            'idEquipo' => $equipo->id,
+            'idEdicion' => $request->idEdicion,
+            'idCategoria' => $request->idCategoria,
+            'golesContra' => 0 // o cualquier valor predeterminado que desees
+        ]);
+
         return to_route('equipo.index', ['idEdicion' => $request->idEdicion])->with('status', 'Equipo Creado');
     }
-
     /**
      * Display the specified resource.
      */
@@ -96,9 +107,10 @@ class ControladorEquipo extends Controller
     {
         $data = $request->validated();
 
-        if ($request->hasFile('foto')) {
-            $data['foto'] = $filename = time() . '.' . $data['foto']->extension();
-            $request->foto->move(public_path('fotos/equipos'), $filename);
+        if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
+            $filename = time() . '.' . $request->file('foto')->getClientOriginalExtension();
+            $request->file('foto')->move(public_path('fotos/equipos'), $filename);
+            $data['foto'] = $filename; // Solo guarda el nombre del archivo con su extensión
         }
 
         $equipo->update($data);

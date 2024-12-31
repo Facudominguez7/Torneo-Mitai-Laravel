@@ -17,6 +17,7 @@ class TablaGoleador extends Model
         'cantidadGoles', // Número de goles anotados
         'idEdicion', // ID de la edición del torneo
         'idCategoria',
+        'dni_jugador',
         'nombre',
     ];
     // Relación con la tabla de equipos

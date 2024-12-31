@@ -165,6 +165,14 @@
                             </a>
                         </div>
                     @endif
+                    <div class="flex justify-center mt-4">
+                        <a
+                            href="{{ route('planilla.show', ['partidoId' => $p->id, 'idEdicion' => $EdicionSeleccionada->id, 'tipoPartido' => 'instanciaFinal']) }}">
+                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                Planillas
+                            </button>
+                        </a>
+                    </div>
                 </div>
             </div>
         @endforeach

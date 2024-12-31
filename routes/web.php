@@ -17,13 +17,15 @@ use App\Http\Controllers\Panel\ControladorGoleador;
 use App\Http\Controllers\Panel\ControladorGrupos;
 use App\Http\Controllers\Panel\ControladorInstanciaFinal;
 use App\Http\Controllers\Panel\ControladorPartidos;
+use App\Http\Controllers\Panel\ControladorPlanillaJugador;
 use App\Http\Controllers\Panel\ControladorSubcampeon;
 use App\Http\Controllers\Panel\ControladorValla;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\UserAccesPanelMiddleware;
+use App\Models\Categoria;
 
-Route::get('/auth/redirect',[LoginController::class, 'redirect']);
+Route::get('/auth/redirect', [LoginController::class, 'redirect']);
 Route::get('/auth/google/callback', [LoginController::class, 'callback']);
 
 Route::middleware('auth')->group(function () {
@@ -65,11 +67,20 @@ Route::group(['prefix' => 'Panel', 'middleware' => ['auth', 'verified', UserAcce
     Route::match(['get', 'post'], 'cargar-resultado', [ControladorPartidos::class, 'cargarResultado'])->name('cargar-resultado');
     Route::match(['get', 'post'], 'cargar-resultado-instancia', [ControladorInstanciaFinal::class, 'cargarResultadoInstancia'])->name('cargar-resultado-instancia');
     Route::get('seleccionar-categoria', [ControladorCampeon::class, 'seleccionarCategoria'])->name('seleccionar-categoria');
-    Route::get('seleccionar-edicion', [ControladorEquiposEdiciones ::class, 'seleccionarEdicion'])->name('seleccionar-edicion');
+    Route::get('seleccionar-edicion', [ControladorEquiposEdiciones::class, 'seleccionarEdicion'])->name('seleccionar-edicion');
     Route::get('/admin', [ControladorHome::class, 'admin'])
-    ->name('admin'); 
+        ->name('admin');
+    Route::prefix('planilla')->group(function () {
+        Route::get('/{partidoId}/{idEdicion}/{tipoPartido}', [ControladorPlanillaJugador::class, 'mostrarPlanilla'])->name('planilla.show');
+        Route::post('/agregar-jugador', [ControladorPlanillaJugador::class, 'agregarJugador'])->name('planilla.agregarJugador');
+        Route::post('/actualizar-jugador', [ControladorPlanillaJugador::class, 'actualizarJugador'])->name('planilla.actualizarJugador');
+    });
+    // Rutas para obtener las categorías y equipos por AJAX
+    // En routes/web.php
+    Route::get('/categorias-por-edicion/{id}', [ControladorEdicion::class, 'categoriasPorEdicion'])->name('categorias.por.edicion');
+    Route::get('/equipos-por-categoria/{id}', [ControladorEdicion::class, 'equiposPorCategoria']);
 });
 
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
