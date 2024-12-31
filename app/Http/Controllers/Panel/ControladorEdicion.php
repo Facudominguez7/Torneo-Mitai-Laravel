@@ -23,32 +23,63 @@ class ControladorEdicion extends Controller
         return view('Panel.edicion.index', compact('ediciones', 'EdicionSeleccionada'));
     }
 
+    public function categoriasPorEdicion($id)
+    {
+        // Obtener las categorías asociadas a la edición seleccionada
+        $categorias = Categoria::where('idEdicion', $id)->get();
+
+        // Si no hay categorías para la edición seleccionada, devolver un error
+        if ($categorias->isEmpty()) {
+            return response()->json([
+                'error' => 'No se encontraron categorías para esta edición.'
+            ], 404);
+        }
+
+        // Devolver las categorías en formato JSON
+        return response()->json([
+            'categorias' => $categorias
+        ]);
+    }
+
+    public function equiposPorCategoria($id)
+    {
+        // Obtener los equipos asociados a la categoría seleccionada
+        $equipos = Equipo::where('idCategoria', $id)->get();
+
+        return response()->json([
+            'equipos' => $equipos
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
     public function create(Request $request)
     {
+        // Obtener todas las ediciones
         $ediciones = Edicion::all();
         $edicion = new Edicion();
 
-        // Obtén las categorías disponibles
-        $categorias = Categoria::all();
-        $categorias = Categoria::where('idEdicion', 3)->get();
+        // Inicializar variables
+        $categorias = collect();
+        $equipos = collect();
 
-        // Si se seleccionó una categoría, filtrar los equipos por esa categoría
-        $equipos = Equipo::when($request->idCategoria, function ($query) use ($request) {
-            return $query->where('idCategoria', $request->idCategoria); // Filtrar por categoría seleccionada
-        })->get();
+        // Si el formulario se envió con una edición seleccionada, cargar categorías y equipos
+        $idEdicion = $request->input('idEdicion');
+        $idCategoria = $request->input('idCategoria');
 
-        $idCategoria = $request->idCategoria; // Obtener la categoría seleccionada para pasarla a la vista
+        // Obtener categorías de la edición seleccionada
+        if ($idEdicion) {
+            $categorias = Categoria::where('idEdicion', $idEdicion)->get();
+        }
 
-        // Crear una nueva instancia de Edicion
-        $edicion = new Edicion();
+        // Obtener equipos de la categoría seleccionada
+        if ($idCategoria) {
+            $equipos = Equipo::where('idCategoria', $idCategoria)->get();
+        }
 
-        // Retornar la vista con las variables necesarias
-        return view('Panel.edicion.create', compact('ediciones', 'edicion', 'equipos', 'categorias', 'idCategoria'));
+        return view('Panel.edicion.create', compact('ediciones', 'edicion', 'categorias', 'equipos', 'idEdicion', 'idCategoria'));
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -62,11 +93,42 @@ class ControladorEdicion extends Controller
             'nombre' => $data['nombre'],
         ]);
 
-        // Asignar los equipos seleccionados a la edición
-        $edicion->equipos()->sync($data['equipos']); // Esto sincroniza los equipos seleccionados en la tabla pivot equipo_ediciones
+        // Mapa para relacionar categorías existentes o nuevas
+        $categoriasMap = [];
+
+        // Usar un array para evitar duplicados
+        $uniqueEquipos = array_unique($data['equipos']);
+
+        foreach ($uniqueEquipos as $idEquipo) {
+            $equipo = Equipo::find($idEquipo);
+
+            // Verificar si la categoría del equipo ya está creada en la nueva edición
+            $categoria = Categoria::where('nombreCategoria', $equipo->categoria->nombreCategoria)
+                ->where('idEdicion', $edicion->id)
+                ->first();
+
+            // Si no existe, crearla
+            if (!$categoria) {
+                $categoria = Categoria::create([
+                    'nombreCategoria' => $equipo->categoria->nombreCategoria,
+                    'idEdicion' => $edicion->id,
+                ]);
+            }
+
+            // Guardar la categoría en el mapa
+            $categoriasMap[$equipo->categoria->id] = $categoria->id;
+
+            // Crear la relación en la tabla `equipos_ediciones`
+            $edicion->equiposEdiciones()->create([
+                'idEquipo' => $idEquipo,
+                'idCategoria' => $categoria->id,
+                'golesContra' => 0, // Inicializar goles en contra
+            ]);
+        }
 
         return to_route('edicion.index')->with('status', 'Edición creada con éxito.');
     }
+
 
 
     /**

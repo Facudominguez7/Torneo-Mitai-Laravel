@@ -13,6 +13,7 @@ class EquipoEdicion extends Model
     protected $fillable = [
         'idEquipo',
         'idEdicion',
+        'idCategoria',
         'golesContra'
     ];
 

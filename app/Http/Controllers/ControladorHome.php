@@ -163,11 +163,7 @@ class ControladorHome extends Controller
         $idFecha = $request->idFecha;
 
         if (isset($EdicionSeleccionada)) {
-            $categorias = Categoria::where(function ($query) use ($idEdicion) {
-                $query->where('idEdicion', $idEdicion)
-                    ->orWhereNull('idEdicion')
-                    ->orWhere('idEdicion', 3);
-            })
+            $categorias = Categoria::where('idEdicion', $idEdicion)
                 ->select('id', 'nombreCategoria')
                 ->orderBy('nombreCategoria', 'desc')
                 ->get();

@@ -16,7 +16,7 @@ class ControladorCategoria extends Controller
     {
         $ediciones = Edicion::all();
         $idEdicion = $request->idEdicion;
-        $categorias = Categoria::whereNull('idEdicion')
+        $categorias = Categoria::where('idEdicion', $idEdicion)
             ->orderBy('nombreCategoria', 'desc')
             ->paginate(7);
         $categorias->appends(['idEdicion' => $idEdicion]);
@@ -30,9 +30,9 @@ class ControladorCategoria extends Controller
     public function create(Request $request)
     {
         $ediciones = Edicion::all();
-        $categoria = new Categoria();
         $idEdicion = $request->idEdicion;
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
+        $categoria = new Categoria();
         return view('Panel.categoria.create', compact('ediciones', 'categoria', 'EdicionSeleccionada'));
     }
 
@@ -43,7 +43,7 @@ class ControladorCategoria extends Controller
     {
         $data = $request->validated();
         Categoria::create($data);
-        return to_route('categoria.index', ['idEdicion' => $request->idEdicion]);
+        return to_route('categoria.index', ['idEdicion' => $request->idEdicion])->with('status', 'Categoria creada.');;
     }
 
     /**

@@ -4,7 +4,7 @@
     <div class="mb-5">
         <form action="{{ route($tipo . '.create') }}" method="GET">
             <input type="hidden" name="idEdicion" value="{{ $EdicionSeleccionada->id }}">
-            <label for="idCategoria" class="block text-base font-medium text-white mb-3">
+            <label for="Edicion" class="block text-base font-medium text-white mb-3">
                 Selecciona la Edicion
             </label>
             <select name="edicionfiltro" id="edicionfiltro"
@@ -34,4 +34,13 @@
             </div>
         </form>
     </div>
+    <script>
+        document.getElementById('idEdicion').addEventListener('change', function() {
+            var idEdicion = this.value;
+            var idEdicion = document.querySelector('input[name="edicionfiltro"]').value;
+            var url = "{{ route('seleccionar-edicion') }}";
+            window.location.href =
+                `${url}?idCategoria=${idCategoria}&idEdicion=${idEdicion}&tipo={{ $tipo }}`;
+        });
+    </script>
 @endsection
