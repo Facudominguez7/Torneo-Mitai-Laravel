@@ -357,12 +357,10 @@
             <section class="w-1/2">
                 @if (session('status'))
                     <div class="flex justify-center">
-                        <div class="flex items-center rounded-xl bg-white p-4 shadow-lg w-1/2">
-                            <div class="flex h-10 w-10 items-center justify-center bg-green-300">
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                                    <path
-                                        d="M64 80c-8.8 0-16 7.2-16 16l0 320c0 8.8 7.2 16 16 16l320 0c8.8 0 16-7.2 16-16l0-320c0-8.8-7.2-16-16-16L64 80zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                        <div id="status-message" class="flex items-center rounded-xl bg-white p-4 shadow-lg w-1/2">
+                            <div class="flex h-10 w-10 items-center justify-center bg-blue-300 rounded-xl">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                    <path d="M256 48C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48zm0 368c-88.2 0-160-71.8-160-160S167.8 96 256 96s160 71.8 160 160-71.8 160-160 160zm0-256c-17.7 0-32 14.3-32 32s14.3 32 32 32 32-14.3 32-32-14.3-32-32-32zm0 96c-17.7 0-32 14.3-32 32v64c0 17.7 14.3 32 32 32s32-14.3 32-32v-64c0-17.7-14.3-32-32-32z"/>
                                 </svg>
                             </div>
                             <div class="ml-6">
@@ -372,6 +370,11 @@
                             </div>
                         </div>
                     </div>
+                    <script>
+                        setTimeout(function() {
+                            document.getElementById('status-message').remove();
+                        }, 5000);
+                    </script>
                 @endif
                 @if (Str::endsWith(request()->route()->getName(), '.show'))
                     @yield('detalle')

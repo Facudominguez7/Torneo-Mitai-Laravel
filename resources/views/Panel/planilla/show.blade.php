@@ -2,6 +2,13 @@
 
 @section('detalle')
     <div class="w-full max-w-4xl p-6 bg-white rounded-lg shadow-md">
+        <!-- Botón de Volver -->
+        <a href="{{ route('admin', ['idEdicion' => $EdicionSeleccionada->id]) }}" class="inline-block mb-4 text-blue-500 hover:text-blue-700">
+            <svg class="w-6 h-6 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+            Volver
+        </a>
         <h1 class="text-2xl font-bold mb-4">Planilla de Jugadores - Partido {{ $partido->id }}</h1>
 
         <!-- Equipo Local -->
@@ -12,43 +19,50 @@
             <input type="hidden" name="equipo_id" value="{{ $partido->idEquipoLocal }}">
             <input type="hidden" name="idEdicion" value="{{ $EdicionSeleccionada->id }}">
             <input type="hidden" name="tipoPartido" value="{{ $tipoPartido }}">
+            <details class="mb-4">
+                <summary
+                    class="cursor-pointer text-lg font-medium text-gray-700 bg-gray-200 p-2 rounded-md hover:bg-gray-300 transition duration-300 ease-in-out">
+                    Agregar Jugador a la Lista de Buena Fe
+                </summary>
+                <!-- Campo para el nombre del jugador -->
+                <div class="mb-2">
+                    <label for="nombre_jugador" class="block text-sm font-medium text-gray-700">Nombre del Jugador:</label>
+                    <input type="text" name="nombre_jugador" required
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                </div>
 
-            <!-- Campo para el nombre del jugador -->
-            <div class="mb-2">
-                <label for="nombre_jugador" class="block text-sm font-medium text-gray-700">Nombre del Jugador:</label>
-                <input type="text" name="nombre_jugador" required
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-            </div>
+                <!-- Campo para el apellido del jugador -->
+                <div class="mb-2">
+                    <label for="apellido_jugador" class="block text-sm font-medium text-gray-700">Apellido del
+                        Jugador:</label>
+                    <input type="text" name="apellido_jugador" required
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                </div>
 
-            <!-- Campo para el apellido del jugador -->
-            <div class="mb-2">
-                <label for="apellido_jugador" class="block text-sm font-medium text-gray-700">Apellido del Jugador:</label>
-                <input type="text" name="apellido_jugador" required
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-            </div>
+                <!-- Campo para el DNI del jugador -->
+                <div class="mb-2">
+                    <label for="dni_jugador" class="block text-sm font-medium text-gray-700">DNI Jugador:</label>
+                    <input type="text" name="dni_jugador" required pattern="\d{8}" title="El DNI debe tener 8 dígitos"
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                </div>
 
-            <!-- Campo para el DNI del jugador -->
-            <div class="mb-2">
-                <label for="dni_jugador" class="block text-sm font-medium text-gray-700">DNI Jugador:</label>
-                <input type="text" name="dni_jugador" required pattern="\d{8}" title="El DNI debe tener 8 dígitos"
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-            </div>
+                <!-- Campo para el número de camiseta -->
+                <div class="mb-2">
+                    <label for="numero_camiseta" class="block text-sm font-medium text-gray-700">Número de Camiseta:</label>
+                    <input type="number" name="numero_camiseta" required
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                </div>
+                <!-- Campo para la fecha de nacimiento -->
+                <div class="mb-2">
+                    <label for="fecha_nacimiento" class="block text-sm font-medium text-gray-700">Fecha de
+                        Nacimiento:</label>
+                    <input type="date" name="fecha_nacimiento" required
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                </div>
 
-            <!-- Campo para el número de camiseta -->
-            <div class="mb-2">
-                <label for="numero_camiseta" class="block text-sm font-medium text-gray-700">Número de Camiseta:</label>
-                <input type="number" name="numero_camiseta" required
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-            </div>
-            <!-- Campo para la fecha de nacimiento -->
-            <div class="mb-2">
-                <label for="fecha_nacimiento" class="block text-sm font-medium text-gray-700">Fecha de Nacimiento:</label>
-                <input type="date" name="fecha_nacimiento" required
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-            </div>
-
-            <!-- Botón para agregar el jugador -->
-            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md">Agregar Jugador</button>
+                <!-- Botón para agregar el jugador -->
+                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md">Agregar Jugador</button>
+            </details>
         </form>
         <h3 class="text-lg font-semibold mb-2 text-center">Lista de Buena Fe</h3>
         @if ($jugadoresLocalPlanilla->isEmpty())
@@ -112,44 +126,52 @@
             <input type="hidden" name="equipo_id" value="{{ $partido->idEquipoVisitante }}">
             <input type="hidden" name="idEdicion" value="{{ $EdicionSeleccionada->id }}">
             <input type="hidden" name="tipoPartido" value="{{ $tipoPartido }}">
+            <details class="mb-4">
+                <summary class="cursor-pointer text-lg font-medium text-gray-700 bg-gray-200 p-2 rounded-md hover:bg-gray-300 transition duration-300 ease-in-out">
+                    Agregar Jugador a la Lista de Buena Fe
+                </summary>
+                <!-- Campo para el nombre del jugador -->
+                <div class="mb-2">
+                    <label for="nombre_jugador" class="block text-sm font-medium text-gray-700">Nombre del
+                        Jugador:</label>
+                    <input type="text" name="nombre_jugador" required
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                </div>
 
-            <!-- Campo para el nombre del jugador -->
-            <div class="mb-2">
-                <label for="nombre_jugador" class="block text-sm font-medium text-gray-700">Nombre del Jugador:</label>
-                <input type="text" name="nombre_jugador" required
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-            </div>
+                <!-- Campo para el apellido del jugador -->
+                <div class="mb-2">
+                    <label for="apellido_jugador" class="block text-sm font-medium text-gray-700">Apellido del
+                        Jugador:</label>
+                    <input type="text" name="apellido_jugador" required
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                </div>
 
-            <!-- Campo para el apellido del jugador -->
-            <div class="mb-2">
-                <label for="apellido_jugador" class="block text-sm font-medium text-gray-700">Apellido del
-                    Jugador:</label>
-                <input type="text" name="apellido_jugador" required
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-            </div>
+                <!-- Campo para el DNI del jugador -->
+                <div class="mb-2">
+                    <label for="dni_jugador" class="block text-sm font-medium text-gray-700">DNI Jugador:</label>
+                    <input type="text" name="dni_jugador" required pattern="\d{8}"
+                        title="El DNI debe tener 8 dígitos"
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                </div>
 
-            <!-- Campo para el DNI del jugador -->
-            <div class="mb-2">
-                <label for="dni_jugador" class="block text-sm font-medium text-gray-700">DNI Jugador:</label>
-                <input type="text" name="dni_jugador" required pattern="\d{8}" title="El DNI debe tener 8 dígitos"
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-            </div>
+                <!-- Campo para el número de camiseta -->
+                <div class="mb-2">
+                    <label for="numero_camiseta" class="block text-sm font-medium text-gray-700">Número de
+                        Camiseta:</label>
+                    <input type="number" name="numero_camiseta" required
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                </div>
 
-            <!-- Campo para el número de camiseta -->
-            <div class="mb-2">
-                <label for="numero_camiseta" class="block text-sm font-medium text-gray-700">Número de Camiseta:</label>
-                <input type="number" name="numero_camiseta" required
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-            </div>
+                <!-- Campo para la fecha de nacimiento -->
+                <div class="mb-2">
+                    <label for="fecha_nacimiento" class="block text-sm font-medium text-gray-700">Fecha de
+                        Nacimiento:</label>
+                    <input type="date" name="fecha_nacimiento" required
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                </div>
 
-            <!-- Campo para la fecha de nacimiento -->
-            <div class="mb-2">
-                <label for="fecha_nacimiento" class="block text-sm font-medium text-gray-700">Fecha de Nacimiento:</label>
-                <input type="date" name="fecha_nacimiento" required
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-            </div>
-
-            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md">Agregar Jugador</button>
+                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md">Agregar Jugador</button>
+            </details>
         </form>
 
         <h3 class="text-lg font-semibold mb-2 text-center">Lista de Buena Fe</h3>

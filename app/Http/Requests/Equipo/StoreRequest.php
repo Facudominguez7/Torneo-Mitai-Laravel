@@ -25,7 +25,7 @@ class StoreRequest extends FormRequest
             'nombre' => 'required|min:5|max:50',
             'idCategoria' => 'required|integer',
             'idEdicion' => 'required|integer',
-            'foto' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:10240',
+            'foto' => 'nullable|file|mimes:jpg,jpeg,png|max:2048', 
         ];
     }
 }

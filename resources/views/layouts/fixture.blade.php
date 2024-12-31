@@ -81,41 +81,63 @@
                     Tabla de posiciones
                 </a>
             </div>
+            <h3 class="text-xl text-white font-semibold mb-4">{{ $nombreFecha }}</h3>
             @foreach ($partidos->where('idGrupo', $g->id) as $p)
-                <div class="grid gap-6 p-1 md:p-6 bg-[--color-secondary] w-full md:w-auto">
-                    <div class="bg-white rounded-lg shadow-lg overflow-x-auto md:overflow-x-visible">
-                        <div class="flex flex-col md:flex-row items-center justify-between md:px-6 py-4 border-b">
-                            <div class="flex items-center gap-4 justify-center w-full md:w-auto">
-                                <img class="ml-2" src="{{ asset('fotos/equipos/' . $p->foto_local) }}" width="40"
-                                    height="40" alt="" class="rounded-full object-cover" />
-                                <div class="font-medium text-lg text-center">{{ $p->nombre_local }}</div>
-                                <div class="text-gray-500 text-center">vs</div>
-                                <div class="font-medium text-lg text-center">{{ $p->nombre_visitante }}</div>
-                                <img src="{{ asset('fotos/equipos/' . $p->foto_visitante) }}" width="40"
-                                    height="40" alt="" class="rounded-full object-cover" />
-                            </div>
-                            <div class="text-2xl font-bold mt-4 md:mt-0 text-center text-[--color-primary]">
-                                {{ $p->golesEquipoLocal }} - {{ $p->golesEquipoVisitante }}</div>
+                <div class="grid gap-6 lg:gap-8 lg:p-2 xl:gap-12 xl:p-4">
+                    <div class="bg-card xl:rounded-lg shadow-lg bg-white">
+                        <div class="flex items-center justify-center mt-2">
+                            <h1 class="text-lg xl:text-2xl font-bold">{{$p->fecha->nombre}}</h1>
                         </div>
-                        <div class="flex flex-col md:flex-row items-center justify-between px-6 py-2 text-gray-600">
-                            <div class="flex items-center gap-2 mb-2 md:mb-0">
-                                <span class="whitespace-nowrap">{{ $p->nombre_fecha }}</span>
+                        <div class="flex flex-col md:flex-row items-center justify-between py-4 px-4 lg:px-6 xl:px-8">
+                            <!-- Contenedor general -->
+                            <div class="flex items-center justify-center w-full gap-4 lg:gap-6 xl:gap-8">
+                                <!-- Equipo Local -->
+                                <div class="flex flex-col items-center gap-2 lg:gap-4 w-1/3 text-center">
+                                    <img src="{{ asset('fotos/equipos/' . $p->foto_local) }}" width="50"
+                                        height="50" alt="{{ $p->nombre_local }}"
+                                        class="rounded-full border-2 border-muted-foreground"
+                                        style="aspect-ratio: 1; object-fit: cover;" />
+                                    <div class="text-sm sm:text-base lg:text-lg font-bold truncate">
+                                        {{ $p->nombre_local }}
+                                    </div>
+                                </div>
+                                <!-- Separador VS -->
+                                <div
+                                    class="text-muted-foreground text-center text-sm lg:text-base xl:text-lg font-bold">
+                                    vs
+                                </div>
+                                <!-- Equipo Visitante -->
+                                <div class="flex flex-col items-center gap-2 lg:gap-4 w-1/3 text-center">
+                                    <img src="{{ asset('fotos/equipos/' . $p->foto_visitante) }}" width="50"
+                                        height="50" alt="{{ $p->nombre_visitante }}"
+                                        class="rounded-full border-2 border-muted-foreground"
+                                        style="aspect-ratio: 1; object-fit: cover;" />
+                                    <div class="text-sm sm:text-base lg:text-lg font-bold truncate">
+                                        {{ $p->nombre_visitante }}
+                                    </div>
+                                </div>
                             </div>
-                            <div class="flex items-center gap-2 mb-2 md:mb-0">
-                                @if (is_null($p->horario))
-                                    <img class="w-4 h-4 mr-1" src="{{ asset('fotos/calendario-icono.jpeg') }}"
-                                        alt="">
-                                    <span>{{ \Carbon\Carbon::parse($p->horario_datetime)->format('d-m-Y H:i') }}</span>
-                                @else
-                                    <img class="w-4 h-4 mr-1" src="{{ asset('fotos/reloj-icono.jpeg') }}">
-                                    <span>{{ $p->horario }} PM</span>
-                                @endif
+                            <!-- Goles -->
+                            <div
+                                class="flex flex-col text-center text-lg truncate md:text-xl lg:text-2xl font-bold mt-4 md:mt-0">
+                                {{ $p->golesEquipoLocal }} - {{ $p->golesEquipoVisitante }}
                             </div>
-                            <div class="flex items-center gap-2">
-                                <img class="w-4 h-4 mr-1" src="{{ asset('fotos/cancha-icono.jpeg') }}" alt="">
+                        </div>
+                        <!-- Información adicional -->
+                        <div
+                            class="flex flex-col md:flex-row items-center justify-between md:justify-around px-4 py-2 lg:px-6 xl:px-8 text-muted-foreground">
+                            <div class="flex items-center gap-2 mb-2 md:mb-0 text-sm lg:text-base">
+                                <img class="w-5 h-5 lg:w-6 lg:h-6 mr-1" src="{{ asset('fotos/reloj-icono.jpeg') }}"
+                                    alt="">
+                                <span>{{ \Carbon\Carbon::parse($p->horario_datetime)->format('d-m-Y H:i') }}</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm lg:text-base">
+                                <img class="w-5 h-5 lg:w-6 lg:h-6 mr-1" src="{{ asset('fotos/cancha-icono.jpeg') }}"
+                                    alt="">
                                 <span class="whitespace-nowrap">Cancha {{ $p->cancha }}</span>
                             </div>
                         </div>
+                        <hr class="border-t-2 border-gray-300 my-4 xl:hidden">
                     </div>
                 </div>
             @endforeach

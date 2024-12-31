@@ -1,11 +1,11 @@
 @include('head')
 <div class="bg-[--color-secondary] w-full min-h-screen text-foreground">
     @include('layouts.navigation')
-    <div class="grid gap-6 p-1 md:p-6 md:bg-[--color-secondary] w-full md:w-auto">
-        <div class="bg-white md:p-6">
+    <div class="grid gap-6  md:bg-[--color-secondary] w-full md:w-auto">
+        <div class="bg-gray-300">
             <!-- Formulario para filtrar por categoría -->
             <form method="GET" action="{{ route('instancias-finales') }}"
-                class="mb-4 flex flex-col md:flex-row items-center gap-4">
+                class="mb-4  p-5 flex flex-col md:flex-row items-center gap-4">
                 <label for="categoria" class="font-medium text-2xl">Filtrar por categoría:</label>
                 <input type="hidden" name="idEdicion" value="{{ $EdicionSeleccionada->id }}">
                 <div class="flex flex-row">
@@ -33,87 +33,86 @@
                 <div class="mb-4">
                     <h2 class="text-2xl p-3 text-center font-bold">{{ $categoria }}</h2>
                     @foreach ($partidosPorCategoria->groupBy('nombre_copa') as $copa => $partidosPorCopa)
-                        <div class="mb-2 ml-4">
+                        <div class="mb-2 p-1">
                             <h3 class="text-xl text-center font-semibold">{{ $copa }}</h3>
                             @foreach ($partidosPorCopa->groupBy('nombre_fase') as $fase => $partidosPorFase)
-                                <div class="mb-2">
-                                    <h4 class="text-lg text-center font-semibold">{{ $fase }}</h4>
-                                    @foreach ($partidosPorFase as $p)
-                                        <div class="grid gap-4 p-6">
-                                            <div class="bg-card rounded-lg shadow-sm">
+                                <h4 class="text-lg text-center my-3 font-semibold">{{ $fase }}</h4>
+                                @foreach ($partidosPorFase as $p)
+                                    <div class="grid gap-6 lg:gap-8 lg:p-2 xl:gap-12 xl:p-4">
+                                        <div class="bg-card rounded-lg shadow-lg bg-white">
+                                            <div
+                                                class="flex flex-col md:flex-row items-center justify-between py-4 px-4 lg:px-6 xl:px-8">
+                                                <!-- Contenedor general -->
                                                 <div
-                                                    class="flex flex-col md:flex-row items-center justify-between py-4">
+                                                    class="flex items-center justify-center w-full gap-4 lg:gap-6 xl:gap-8">
+                                                    <!-- Equipo Local -->
                                                     <div
-                                                        class="flex flex-row items-center justify-between w-full gap-4">
-                                                        <!-- Equipo Local -->
-                                                        <div
-                                                            class="flex flex-col items-center md:flex-row md:items-center gap-2 w-1/3 sm:w-auto">
-                                                            <img src="{{ asset('fotos/equipos/' . $p->equipoLocal->foto) }}"
-                                                                width="40" height="40"
-                                                                alt="{{ $p->equipoLocal->nombre }}" class="rounded-full"
-                                                                style="aspect-ratio: 1; object-fit: cover;" />
-                                                            <div
-                                                                class="text-xs sm:text-base font-bold text-center truncate">
-                                                                {{ $p->equipoLocal->nombre }}
-                                                            </div>
-                                                        </div>
-                                                        <!-- Separador VS -->
-                                                        <div
-                                                            class="flex items-center justify-center text-muted-foreground text-center w-1/6 sm:w-auto">
-                                                            vs
-                                                        </div>
-                                                        <!-- Equipo Visitante -->
-                                                        <div
-                                                            class="flex flex-col items-center md:flex-row md:items-center gap-2 w-1/3 sm:w-1/2">
-                                                            <img src="{{ asset('fotos/equipos/' . $p->equipoVisitante->foto) }}"
-                                                                width="40" height="40"
-                                                                alt="{{ $p->equipoVisitante->nombre }}"
-                                                                class="rounded-full"
-                                                                style="aspect-ratio: 1; object-fit: cover;" />
-                                                            <div
-                                                                class="text-xs sm:text-base font-bold text-center truncate">
-                                                                {{ $p->equipoVisitante->nombre }}
-                                                            </div>
+                                                        class="flex flex-col items-center gap-2 lg:gap-4 w-1/3 text-center">
+                                                        <img src="{{ asset('fotos/equipos/' . $p->equipoLocal->foto) }}"
+                                                            width="50" height="50"
+                                                            alt="{{ $p->equipoLocal->nombre }}"
+                                                            class="rounded-full border-2 border-muted-foreground"
+                                                            style="aspect-ratio: 1; object-fit: cover;" />
+                                                        <div class="text-sm sm:text-base lg:text-lg font-bold truncate">
+                                                            {{ $p->equipoLocal->nombre }}
                                                         </div>
                                                     </div>
-
+                                                    <!-- Separador VS -->
                                                     <div
-                                                        class="flex flex-col text-center text-2xl font-bold mt-4 md:mt-0 sm:w-1/12">
-                                                        <span>{{ $p->golesEquipoLocal }} -
-                                                            {{ $p->golesEquipoVisitante }}</span>
-                                                        @if (
-                                                            $p->golesEquipoLocal !== null &&
-                                                                $p->golesEquipoVisitante !== null &&
-                                                                $p->golesEquipoLocal === $p->golesEquipoVisitante &&
-                                                                $p->penalesEquipoLocal !== null &&
-                                                                $p->penalesEquipoVisitante !== null)
-                                                            <span>({{ $p->penalesEquipoLocal }} -
-                                                                {{ $p->penalesEquipoVisitante }})</span>
-                                                        @endif
-                                                        @if (!is_null($p->resultadoGlobal))
-                                                            <span class="text-sm">Global: {{ $p->resultadoGlobal }}</span>
-                                                        @endif
+                                                        class="text-muted-foreground text-center text-sm lg:text-base xl:text-lg font-bold">
+                                                        vs
+                                                    </div>
+                                                    <!-- Equipo Visitante -->
+                                                    <div
+                                                        class="flex flex-col items-center gap-2 lg:gap-4 w-1/3 text-center">
+                                                        <img src="{{ asset('fotos/equipos/' . $p->equipoVisitante->foto) }}"
+                                                            width="50" height="50"
+                                                            alt="{{ $p->equipoVisitante->nombre }}"
+                                                            class="rounded-full border-2 border-muted-foreground"
+                                                            style="aspect-ratio: 1; object-fit: cover;" />
+                                                        <div class="text-sm sm:text-base lg:text-lg font-bold truncate">
+                                                            {{ $p->equipoVisitante->nombre }}
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <!-- Goles -->
                                                 <div
-                                                    class="flex flex-col md:flex-row items-center justify-between px-6 py-2 text-muted-foreground">
-                                                    <div class="flex items-center gap-2 mb-2 md:mb-0">
-                                                        <img class="w-4 h-4 mr-1"
-                                                            src="{{ asset('fotos/reloj-icono.jpeg') }}" alt="">
-                                                        <span>{{ \Carbon\Carbon::parse($p->horario)->format('d-m-Y H:i') }}</span>
-                                                    </div>
-                                                    <div class="flex items-center gap-2">
-                                                        <img class="w-4 h-4 mr-1"
-                                                            src="{{ asset('fotos/cancha-icono.jpeg') }}"
-                                                            alt="">
-                                                        <span class="whitespace-nowrap">Cancha
-                                                            {{ $p->cancha }}</span>
-                                                    </div>
+                                                    class="flex flex-col  text-center text-lg truncate md:text-xl lg:text-2xl font-bold mt-4 md:mt-0">
+                                                    <span>{{ $p->golesEquipoLocal }} -
+                                                        {{ $p->golesEquipoVisitante }}</span>
+                                                    @if (
+                                                        $p->golesEquipoLocal !== null &&
+                                                            $p->golesEquipoVisitante !== null &&
+                                                            $p->golesEquipoLocal === $p->golesEquipoVisitante &&
+                                                            $p->penalesEquipoLocal !== null &&
+                                                            $p->penalesEquipoVisitante !== null)
+                                                        <span>({{ $p->penalesEquipoLocal }} -
+                                                            {{ $p->penalesEquipoVisitante }})</span>
+                                                    @endif
+                                                    @if (!is_null($p->resultadoGlobal))
+                                                        <span class="text-sm md:mr-2">Global:
+                                                            {{ $p->resultadoGlobal }}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <!-- Información adicional -->
+                                            <div
+                                                class="flex flex-col md:flex-row items-center justify-between md:justify-around px-4 py-2 lg:px-6 xl:px-8 text-muted-foreground">
+                                                <div class="flex items-center gap-2 mb-2 md:mb-0 text-sm lg:text-base">
+                                                    <img class="w-5 h-5 lg:w-6 lg:h-6 mr-1"
+                                                        src="{{ asset('fotos/reloj-icono.jpeg') }}" alt="">
+                                                    <span>{{ \Carbon\Carbon::parse($p->horario)->format('d-m-Y H:i') }}</span>
+                                                </div>
+                                                <div class="flex items-center gap-2 text-sm lg:text-base">
+                                                    <img class="w-5 h-5 lg:w-6 lg:h-6 mr-1"
+                                                        src="{{ asset('fotos/cancha-icono.jpeg') }}" alt="">
+                                                    <span class="whitespace-nowrap">Cancha
+                                                        {{ $p->cancha }}</span>
                                                 </div>
                                             </div>
                                         </div>
-                                    @endforeach
-                                </div>
+                                    </div>
+                                @endforeach
                             @endforeach
                         </div>
                     @endforeach
