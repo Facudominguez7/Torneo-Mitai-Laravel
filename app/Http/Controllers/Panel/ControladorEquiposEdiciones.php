@@ -89,9 +89,8 @@ class ControladorEquiposEdiciones extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, EquipoEdicion $equipoedicion)
+    public function destroy(Request $request, Equipo $equipo)
     {
-        $equipoedicion->delete();
-        return redirect()->action([ControladorEquipo::class, 'show'], ['idEdicion' => $request->idEdicion])->with('status', 'Equipo eliminado correctamente');
+        return to_route('equipo.index', ['idEdicion' => $request->idEdicion])->with('status', 'Equipo Eliminado');
     }
 }

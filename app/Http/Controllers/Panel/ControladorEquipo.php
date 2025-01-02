@@ -122,7 +122,14 @@ class ControladorEquipo extends Controller
      */
     public function destroy(Request $request, Equipo $equipo)
     {
-        $equipo->delete();
+        $idEdicion = $request->input('idEdicion');
+        //dd($equipo);
+        $equipoedicion = EquipoEdicion::where('idEdicion', $idEdicion)
+            ->where('idEquipo', $equipo->id)
+            ->first();
+        if ($equipoedicion) {
+            $equipoedicion->delete();
+        }
         return to_route('equipo.index', ['idEdicion' => $request->idEdicion])->with('status', 'Equipo Eliminado');
     }
 }

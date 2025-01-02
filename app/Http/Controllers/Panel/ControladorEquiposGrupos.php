@@ -9,6 +9,7 @@ use App\Models\Edicion;
 use App\Models\Equipo;
 use App\Models\EquipoGrupo;
 use App\Models\Grupo;
+use App\Models\TablaPosicion;
 use App\Traits\SeleccionarCategoriaTrait;
 use Illuminate\Http\Request;
 
@@ -55,7 +56,22 @@ class ControladorEquiposGrupos extends Controller
      */
     public function store(StoreRequest $request)
     {
+        
         EquipoGrupo::create($request->validated());
+        TablaPosicion::firstOrCreate([
+            'idGrupo' => $request->idGrupo,
+            'idEquipo' => $request->idEquipo,
+            'idEdicion' => $request->idEdicion,
+            'golesFavor' => 0,
+            'golesContra' => 0,
+            'diferenciaGoles' => 0,
+            'jugado' => 0,
+            'ganado' => 0,
+            'empatado' => 0,
+            'perdido' => 0,
+            'puntos' => 0,
+        ]);
+        
         return redirect()->action([ControladorGrupos::class, 'index'], ['idEdicion' => $request->idEdicion])->with('status', 'Equipo agregado al grupo correctamente');
     }
 

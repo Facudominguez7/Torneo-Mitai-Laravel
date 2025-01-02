@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\ControladorHome;
 use App\Http\Controllers\Panel\ControladorTablaGoleadores;
 use App\Http\Controllers\Google\LoginController;
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\Panel\ControladorCampeon;
 use App\Http\Controllers\Panel\ControladorCategoria;
 use App\Http\Controllers\Panel\ControladorCopa;
@@ -27,6 +28,7 @@ use App\Models\Categoria;
 
 Route::get('/auth/redirect', [LoginController::class, 'redirect']);
 Route::get('/auth/google/callback', [LoginController::class, 'callback']);
+Route::get('Testloginfo', [LogController::class, 'Testloginfo'])->name('testloginfo');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
