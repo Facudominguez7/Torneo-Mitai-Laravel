@@ -5,7 +5,7 @@
         class="w-full rounded-md border border-gray-300 bg-white py-2 px-4 text-base font-medium text-gray-700 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200" />
 </div>
 
-@if (isset($idEdicion) && isset($idCategoria))
+@if (isset($equipos) && isset($categorias))
     <div class="mb-5">
         <label for="idEdicion" class="mb-3 block text-base font-medium text-white">Seleccione una edición</label>
         <select name="idEdicion" id="idEdicion"
