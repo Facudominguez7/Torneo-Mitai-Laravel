@@ -20,7 +20,7 @@ class ControladorEdicion extends Controller
         $ediciones = Edicion::all();
         $idEdicion = $request->idEdicion;
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
-        return view('Panel.edicion.index', compact('ediciones', 'EdicionSeleccionada'));
+        return view('Panel.edicion.index', compact('ediciones', 'EdicionSeleccionada', 'idEdicion'));
     }
 
     public function categoriasPorEdicion($id)
