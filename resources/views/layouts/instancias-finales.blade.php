@@ -1,12 +1,12 @@
 @include('head')
-<div class="bg-[--color-secondary] w-full min-h-screen text-foreground">
+<div class="bg-[--color-primary] w-full min-h-screen text-foreground">
     @include('layouts.navigation')
-    <div class="grid gap-6  md:bg-[--color-secondary] w-full md:w-auto">
-        <div class="bg-gray-300">
+    <div class="grid gap-6 w-full md:w-auto">
+        <div>
             <!-- Formulario para filtrar por categoría -->
             <form method="GET" action="{{ route('instancias-finales') }}"
                 class="mb-4  p-5 flex flex-col md:flex-row items-center gap-4">
-                <label for="categoria" class="font-medium text-2xl">Filtrar por categoría:</label>
+                <label for="categoria" class="font-medium text-2xl text-white">Filtrar por categoría:</label>
                 <input type="hidden" name="idEdicion" value="{{ $EdicionSeleccionada->id }}">
                 <div class="flex flex-row">
                     <div class="relative">
@@ -31,15 +31,15 @@
             @endphp
             @foreach ($partidos->groupBy('nombre_categoria') as $categoria => $partidosPorCategoria)
                 <div class="mb-4">
-                    <h2 class="text-2xl p-3 text-center font-bold">{{ $categoria }}</h2>
+                    <h2 class="text-2xl p-3 text-center font-bold text-white">{{ $categoria }}</h2>
                     @foreach ($partidosPorCategoria->groupBy('nombre_copa') as $copa => $partidosPorCopa)
                         <div class="mb-2 p-1">
-                            <h3 class="text-xl text-center font-semibold">{{ $copa }}</h3>
+                            <h3 class="text-xl text-center font-semibold text-white">{{ $copa }}</h3>
                             @foreach ($partidosPorCopa->groupBy('nombre_fase') as $fase => $partidosPorFase)
-                                <h4 class="text-lg text-center my-3 font-semibold">{{ $fase }}</h4>
+                                <h4 class="text-lg text-center my-3 font-semibold text-white">{{ $fase }}</h4>
                                 @foreach ($partidosPorFase as $p)
                                     <div class="grid gap-6 lg:gap-8 lg:p-2 xl:gap-12 xl:p-4">
-                                        <div class="bg-card rounded-lg shadow-lg bg-white">
+                                        <div class="bg-card xl:rounded-lg shadow-lg bg-white">
                                             <div
                                                 class="flex flex-col md:flex-row items-center justify-between py-4 px-4 lg:px-6 xl:px-8">
                                                 <!-- Contenedor general -->

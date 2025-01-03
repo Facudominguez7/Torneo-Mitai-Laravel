@@ -118,11 +118,11 @@
                                         Detalle
                                     </a>
                                 </button>
-                                <form class="mb-0" action="{{ route('equipo.destroy', $e) }}" method="post">
+                                <form class="mb-0" action="{{ route('equipo.destroy', $e->id) }}" method="post">
                                     @method('DELETE')
                                     @csrf
                                     <input type="number" id="idEdicion" name="idEdicion" class="hidden"
-                                        value="{{ $e->idEdicion }}">
+                                        value="{{ $EdicionSeleccionada->id }}">
                                     <button class="btn btn-eliminar" type="submit">Eliminar</button>
                                 </form>
                             </div>
