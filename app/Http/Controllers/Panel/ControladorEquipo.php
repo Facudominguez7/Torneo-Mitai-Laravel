@@ -59,7 +59,7 @@ class ControladorEquipo extends Controller
 
         if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
             $filename = time() . '.' . $request->file('foto')->getClientOriginalExtension();
-            $request->file('foto')->move(public_path('fotos/equipos'), $filename);
+            $request->file('foto')->move(public_path('../public_html/fotos/equipos'), $filename);
             $data['foto'] = $filename; // Solo guarda el nombre del archivo con su extensión
         }
         $equipo = Equipo::create($data);
@@ -109,7 +109,7 @@ class ControladorEquipo extends Controller
 
         if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
             $filename = time() . '.' . $request->file('foto')->getClientOriginalExtension();
-            $request->file('foto')->move(public_path('fotos/equipos'), $filename);
+            $request->file('foto')->move(public_path('../public_html/fotos/equipos'), $filename);
             $data['foto'] = $filename; // Solo guarda el nombre del archivo con su extensión
         }
 
