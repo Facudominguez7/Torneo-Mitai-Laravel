@@ -172,30 +172,31 @@
     </main>
     <footer class="bg-black text-white text-center py-6 mt-10">
         <p class="text-sm md:text-base">&copy; Mita'í {{ date('Y') }}. Todos los derechos reservados.</p>
-        <p class="text-sm md:text-base mt-2">Sitio desarrollado por <span class="font-semibold">Facundo Díaz Domínguez</span>.</p>
+        <p class="text-sm md:text-base mt-2">Sitio desarrollado por <span class="font-semibold">Facundo Díaz
+                Domínguez</span>.</p>
         <p class="mt-4">
-            <a 
-                href="https://www.linkedin.com/in/facundodiazdominguez" 
-                class="text-blue-400 hover:underline focus:ring focus:ring-blue-500 rounded" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                lang="es"
-            >
+            <a href="https://www.linkedin.com/in/facundo-diaz-dominguez-0a826b230"
+                class="text-blue-400 hover:underline focus:ring focus:ring-blue-500 rounded" target="_blank"
+                rel="noopener noreferrer" lang="es">
                 Conéctate conmigo en LinkedIn
             </a>
         </p>
     </footer>
 </body>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         // Verifica si el modal ya fue mostrado
         if (!localStorage.getItem('promoModalShown')) {
             // Dispara el evento para abrir el modal
-            window.dispatchEvent(new CustomEvent('open-modal', { detail: 'promo-torneo' }));
+            window.dispatchEvent(new CustomEvent('open-modal', {
+                detail: 'promo-torneo'
+            }));
 
             // Cierra el modal automáticamente después de 3 segundos
             setTimeout(() => {
-                window.dispatchEvent(new CustomEvent('close-modal', { detail: 'promo-torneo' }));
+                window.dispatchEvent(new CustomEvent('close-modal', {
+                    detail: 'promo-torneo'
+                }));
             }, 3000);
 
             // Marca como mostrado en el almacenamiento local
@@ -203,4 +204,5 @@
         }
     });
 </script>
+
 </html>
