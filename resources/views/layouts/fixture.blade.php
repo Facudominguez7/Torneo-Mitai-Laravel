@@ -97,7 +97,7 @@
                                     <div class="flex flex-col items-center gap-2 lg:gap-4 w-1/3 text-center">
                                         <img src="{{ asset('fotos/equipos/' . $p->foto_local) }}" width="50"
                                             height="50" alt="{{ $p->nombre_local }}"
-                                            class=" border-2 border-muted-foreground"
+                                            class="shadow-xl"
                                             style="aspect-ratio: 1; object-fit: cover;" />
                                         <div class="text-sm sm:text-base lg:text-lg font-bold truncate">
                                             {{ $p->nombre_local }}
@@ -112,7 +112,7 @@
                                     <div class="flex flex-col items-center gap-2 lg:gap-4 w-1/3 text-center">
                                         <img src="{{ asset('fotos/equipos/' . $p->foto_visitante) }}" width="50"
                                             height="50" alt="{{ $p->nombre_visitante }}"
-                                            class="border-2 border-muted-foreground"
+                                            class="shadow-xl"
                                             style="aspect-ratio: 1; object-fit: cover;" />
                                         <div class="text-sm sm:text-base lg:text-lg font-bold truncate">
                                             {{ $p->nombre_visitante }}
