@@ -27,7 +27,7 @@
                     Mita'í
                 </h1>
                 <div class="flex flex-col justify-center items-center w-full">
-                @if (isset($EdicionSeleccionada) || isset($ultimaEdicion))
+                    @if (isset($EdicionSeleccionada) || isset($ultimaEdicion))
                         @if (isset($EdicionSeleccionada))
                             <a href="{{ route('fixture', ['idEdicion' => $EdicionSeleccionada]) }}"
                                 class="bg-yellow-100 hover:bg-yellow-300 text-black font-bold py-2 px-4 rounded">
@@ -68,19 +68,19 @@
                                 <div class="px-6 py-4">
                                     <div class="font-bold text-xl mb-2 text-black">Campeones</div>
                                     @if (isset($EdicionSeleccionada) || isset($ultimaEdicion))
-                                    <div class="mt-5">
-                                        @if (isset($EdicionSeleccionada))
-                                        <a href="{{ route('campeones', ['idEdicion' => $EdicionSeleccionada]) }}"
-                                            class="bg-black hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded">
-                                            Ver más
-                                        </a>
-                                        @else
-                                        <a href="{{ route('campeones', ['idEdicion' => $ultimaEdicion]) }}"
-                                            class="bg-black hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded">
-                                            Ver más
-                                        </a>
-                                        @endif
-                                    </div>
+                                        <div class="mt-5">
+                                            @if (isset($EdicionSeleccionada))
+                                                <a href="{{ route('campeones', ['idEdicion' => $EdicionSeleccionada]) }}"
+                                                    class="bg-black hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded">
+                                                    Ver más
+                                                </a>
+                                            @else
+                                                <a href="{{ route('campeones', ['idEdicion' => $ultimaEdicion]) }}"
+                                                    class="bg-black hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded">
+                                                    Ver más
+                                                </a>
+                                            @endif
+                                        </div>
                                     @endif
                                 </div>
                             </div>
@@ -94,19 +94,19 @@
                                 <div class="px-6 py-4">
                                     <div class="font-bold text-xl mb-2 text-black">Subcampeones</div>
                                     @if (isset($EdicionSeleccionada) || isset($ultimaEdicion))
-                                    <div class="mt-5">
-                                        @if (isset($EdicionSeleccionada))
-                                        <a href="{{ route('subcampeones', ['idEdicion' => $EdicionSeleccionada]) }}"
-                                            class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                                            Ver más
-                                        </a>
-                                        @else
-                                        <a href="{{ route('subcampeones', ['idEdicion' => $ultimaEdicion]) }}"
-                                            class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                                            Ver más
-                                        </a>
-                                        @endif
-                                    </div>
+                                        <div class="mt-5">
+                                            @if (isset($EdicionSeleccionada))
+                                                <a href="{{ route('subcampeones', ['idEdicion' => $EdicionSeleccionada]) }}"
+                                                    class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                                                    Ver más
+                                                </a>
+                                            @else
+                                                <a href="{{ route('subcampeones', ['idEdicion' => $ultimaEdicion]) }}"
+                                                    class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                                                    Ver más
+                                                </a>
+                                            @endif
+                                        </div>
                                     @endif
                                 </div>
                             </div>
@@ -120,19 +120,19 @@
                                 <div class="px-6 py-4">
                                     <div class="font-bold text-xl mb-2 text-black">Vallas Menos Vencidas</div>
                                     @if (isset($EdicionSeleccionada) || isset($ultimaEdicion))
-                                    <div class="mt-5">
-                                        @if (isset($EdicionSeleccionada))
-                                        <a href="{{ route('vallas', ['idEdicion' => $EdicionSeleccionada]) }}"
-                                            class="bg-green-800 hover:bg-green-900 text-white font-bold py-2 px-4 rounded">
-                                            Ver más
-                                        </a>
-                                        @else
-                                        <a href="{{ route('vallas', ['idEdicion' => $ultimaEdicion]) }}"
-                                            class="bg-green-800 hover:bg-green-900 text-white font-bold py-2 px-4 rounded">
-                                            Ver más
-                                        </a>
-                                        @endif
-                                    </div>
+                                        <div class="mt-5">
+                                            @if (isset($EdicionSeleccionada))
+                                                <a href="{{ route('vallas', ['idEdicion' => $EdicionSeleccionada]) }}"
+                                                    class="bg-green-800 hover:bg-green-900 text-white font-bold py-2 px-4 rounded">
+                                                    Ver más
+                                                </a>
+                                            @else
+                                                <a href="{{ route('vallas', ['idEdicion' => $ultimaEdicion]) }}"
+                                                    class="bg-green-800 hover:bg-green-900 text-white font-bold py-2 px-4 rounded">
+                                                    Ver más
+                                                </a>
+                                            @endif
+                                        </div>
                                     @endif
                                 </div>
                             </div>
@@ -146,20 +146,20 @@
                                 <div class="px-6 py-4">
                                     <div class="font-bold text-xl mb-2 text-black">Goleadores</div>
                                     @if (isset($EdicionSeleccionada) || isset($ultimaEdicion))
-                                    <div class="mt-5">
-                                        @if (isset($EdicionSeleccionada))
-                                        <a href="{{ route('goleadores', ['idEdicion' => $EdicionSeleccionada]) }}"
-                                            class="bg-white hover:bg-blue-400 text-black font-bold py-2 px-4 rounded">
-                                            Ver más
-                                        </a>
-                                        @else
-                                        <a href="{{ route('goleadores', ['idEdicion' => $ultimaEdicion]) }}"
-                                            class="bg-white hover:bg-blue-400 text-black font-bold py-2 px-4 rounded">
-                                            Ver más
-                                        </a>
-                                        @endif
-                                        </a>
-                                    </div>
+                                        <div class="mt-5">
+                                            @if (isset($EdicionSeleccionada))
+                                                <a href="{{ route('goleadores', ['idEdicion' => $EdicionSeleccionada]) }}"
+                                                    class="bg-white hover:bg-blue-400 text-black font-bold py-2 px-4 rounded">
+                                                    Ver más
+                                                </a>
+                                            @else
+                                                <a href="{{ route('goleadores', ['idEdicion' => $ultimaEdicion]) }}"
+                                                    class="bg-white hover:bg-blue-400 text-black font-bold py-2 px-4 rounded">
+                                                    Ver más
+                                                </a>
+                                            @endif
+                                            </a>
+                                        </div>
                                     @endif
                                 </div>
                             </div>
@@ -170,6 +170,21 @@
 
         </div>
     </main>
+    <footer class="bg-black text-white text-center py-6 mt-10">
+        <p class="text-sm md:text-base">&copy; {{ date('Y') }} Todos los derechos reservados.</p>
+        <p class="text-sm md:text-base mt-2">Sitio desarrollado por <span class="font-semibold">Facundo Díaz Domínguez</span>.</p>
+        <p class="mt-4">
+            <a 
+                href="https://www.linkedin.com/in/facundodiazdominguez" 
+                class="text-blue-400 hover:underline focus:ring focus:ring-blue-500 rounded" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                lang="es"
+            >
+                Conéctate conmigo en LinkedIn
+            </a>
+        </p>
+    </footer>
 </body>
 <script>
     /*

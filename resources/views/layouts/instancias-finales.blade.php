@@ -1,7 +1,7 @@
 @include('head')
-<div class="bg-[--color-primary] w-full min-h-screen text-foreground">
+<div class="bg-[--color-primary] w-full min-h-screen text-foreground flex flex-col">
     @include('layouts.navigation')
-    <div class="grid gap-6 w-full md:w-auto">
+    <main class="grid gap-6 w-full md:w-auto flex-grow">
         <div>
             <!-- Formulario para filtrar por categoría -->
             <form method="GET" action="{{ route('instancias-finales') }}"
@@ -119,5 +119,6 @@
                 </div>
             @endforeach
         </div>
-    </div>
+    </main>
+    @include('layouts.footer')
 </div>

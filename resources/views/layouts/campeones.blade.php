@@ -1,7 +1,7 @@
 @include('head')
-<div class="min-h-screen bg-[--color-primary]">
+<div class="min-h-screen bg-[--color-primary] flex flex-col">
     @include('layouts.navigation')
-    <div class="container mx-auto px-4 py-8">
+    <main class="container mx-auto px-4 py-8 flex-grow">
         <?php
         $indexOro = 0;
         $indexPlata = 0;
@@ -52,5 +52,6 @@
             }
         }
         ?>
-    </div>
+    </main>
+    @include('layouts.footer')
 </div>
