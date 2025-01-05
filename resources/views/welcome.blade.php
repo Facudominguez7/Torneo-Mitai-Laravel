@@ -171,7 +171,7 @@
         </div>
     </main>
     <footer class="bg-black text-white text-center py-6 mt-10">
-        <p class="text-sm md:text-base">&copy; {{ date('Y') }} Todos los derechos reservados.</p>
+        <p class="text-sm md:text-base">&copy; Mita'í {{ date('Y') }}. Todos los derechos reservados.</p>
         <p class="text-sm md:text-base mt-2">Sitio desarrollado por <span class="font-semibold">Facundo Díaz Domínguez</span>.</p>
         <p class="mt-4">
             <a 
@@ -187,11 +187,20 @@
     </footer>
 </body>
 <script>
-    /*
     document.addEventListener('DOMContentLoaded', function () {
-        window.dispatchEvent(new CustomEvent('open-modal', { detail: 'promo-torneo' }));
-    });
-    */
-</script>
+        // Verifica si el modal ya fue mostrado
+        if (!localStorage.getItem('promoModalShown')) {
+            // Dispara el evento para abrir el modal
+            window.dispatchEvent(new CustomEvent('open-modal', { detail: 'promo-torneo' }));
 
+            // Cierra el modal automáticamente después de 3 segundos
+            setTimeout(() => {
+                window.dispatchEvent(new CustomEvent('close-modal', { detail: 'promo-torneo' }));
+            }, 3000);
+
+            // Marca como mostrado en el almacenamiento local
+            localStorage.setItem('promoModalShown', 'true');
+        }
+    });
+</script>
 </html>

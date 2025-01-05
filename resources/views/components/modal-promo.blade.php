@@ -17,17 +17,6 @@ $maxWidth = [
 <div
     x-data="{
         show: @js($show),
-        showForm: false,  // Controla la visibilidad del formulario
-        focusables() {
-            let selector = 'a, button, input:not([type=\'hidden\']), textarea, select, details, [tabindex]:not([tabindex=\'-1\'])'
-            return [...$el.querySelectorAll(selector)].filter(el => !el.hasAttribute('disabled'))
-        },
-        firstFocusable() { return this.focusables()[0] },
-        lastFocusable() { return this.focusables().slice(-1)[0] },
-        nextFocusable() { return this.focusables()[this.nextFocusableIndex()] || this.firstFocusable() },
-        prevFocusable() { return this.focusables()[this.prevFocusableIndex()] || this.lastFocusable() },
-        nextFocusableIndex() { return (this.focusables().indexOf(document.activeElement) + 1) % (this.focusables().length + 1) },
-        prevFocusableIndex() { return Math.max(0, this.focusables().indexOf(document.activeElement)) - 1 },
     }"
     x-init="$watch('show', value => {
         if (value) {
@@ -71,7 +60,7 @@ $maxWidth = [
         x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
     >
 
-        <!-- Botón para cerrar el modal (en la esquina superior derecha) -->
+        <!-- Botón para cerrar el modal -->
         <button 
             x-on:click="show = false"
             class="absolute top-0 right-0 mt-2 mr-1 text-gray-600 hover:text-gray-600"
@@ -81,38 +70,18 @@ $maxWidth = [
             </svg>
         </button>
 
-        <!-- Imagen del torneo -->
+        <!-- Contenido del registro -->
         <div class="p-6 text-center">
-            <img src="{{ asset('fotos/promo-torneo.png') }}" alt="Promoción del Torneo" class="w-full h-auto rounded-lg mb-4">
-            <h2 class="text-xl font-bold mb-4">¡No te Quedes Afuera!</h2>
-            <button
-                class="bg-blue-500 text-white px-4 py-2 rounded hidden"
-                x-on:click="showForm = true"
+            <h2 class="text-xl font-bold mb-4">¡Regístrate y no te pierdas las novedades!</h2>
+            <p class="text-sm text-gray-600 mb-4">
+                Únete a nuestra comunidad para recibir todas las noticias y actualizaciones del torneo.
+            </p>
+            <a 
+                href="{{ route('register') }}" 
+                class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition duration-300"
             >
-                Quiero recibir más información
-            </button>
-        </div>
-
-        <!-- Formulario para más información -->
-        <div x-show="showForm" class="p-6">
-            <form method="POST" action="/ruta-para-enviar-datos">
-                @csrf
-                <div class="mb-4">
-                    <label for="name" class="block text-gray-700">Nombre:</label>
-                    <input type="text" id="name" name="name" class="w-full border-gray-300 rounded-lg">
-                </div>
-                <div class="mb-4">
-                    <label for="surname" class="block text-gray-700">Apellido:</label>
-                    <input type="text" id="surname" name="surname" class="w-full border-gray-300 rounded-lg">
-                </div>
-                <div class="mb-4">
-                    <label for="phone" class="block text-gray-700">Número de Teléfono:</label>
-                    <input type="text" id="phone" name="phone" class="w-full border-gray-300 rounded-lg">
-                </div>
-                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">
-                    Enviar Información
-                </button>
-            </form>
+                Registrarme Ahora
+            </a>
         </div>
     </div>
 </div>
