@@ -51,7 +51,7 @@
                                                         <img src="{{ asset('fotos/equipos/' . $p->equipoLocal->foto) }}"
                                                             width="50" height="50"
                                                             alt="{{ $p->equipoLocal->nombre }}"
-                                                            class="rounded-full border-2 border-muted-foreground"
+                                                            class="border-2 border-muted-foreground"
                                                             style="aspect-ratio: 1; object-fit: cover;" />
                                                         <div class="text-sm sm:text-base lg:text-lg font-bold truncate">
                                                             {{ $p->equipoLocal->nombre }}
@@ -68,7 +68,7 @@
                                                         <img src="{{ asset('fotos/equipos/' . $p->equipoVisitante->foto) }}"
                                                             width="50" height="50"
                                                             alt="{{ $p->equipoVisitante->nombre }}"
-                                                            class="rounded-full border-2 border-muted-foreground"
+                                                            class="border-2 border-muted-foreground"
                                                             style="aspect-ratio: 1; object-fit: cover;" />
                                                         <div class="text-sm sm:text-base lg:text-lg font-bold truncate">
                                                             {{ $p->equipoVisitante->nombre }}

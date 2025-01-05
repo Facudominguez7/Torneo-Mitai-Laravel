@@ -301,13 +301,13 @@
                                             <div class="flex items-center gap-4">
                                                 <img src="{{ asset('fotos/equipos/' . $p->foto_local) }}"
                                                     width="40" height="40" alt=""
-                                                    class="rounded-full object-cover" />
+                                                    class="object-cover" />
                                                 <div class="font-medium text-lg">{{ $p->nombre_local }}</div>
                                                 <div class="text-gray-500">vs</div>
                                                 <div class="font-medium text-lg">{{ $p->nombre_visitante }}</div>
                                                 <img src="{{ asset('fotos/equipos/' . $p->foto_visitante) }}"
                                                 width="40" height="40" alt=""
-                                                class="rounded-full object-cover" />
+                                                class="object-cover" />
                                             </div>
                                             <div
                                                 class="text-2xl font-bold mt-4 md:mt-0 text-center text-[--color-primary]">
