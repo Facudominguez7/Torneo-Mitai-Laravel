@@ -339,7 +339,7 @@
                                     </div>
                                     <div class="flex justify-center mt-4">
                                         <a
-                                            href="{{ route('planilla.show', ['partidoId' => $p->id, 'idEdicion' => $EdicionSeleccionada->id, 'tipoPartido' => 'partido' ]) }}">
+                                            href="{{ route('planilla.show', ['partidoId' => $p->id, 'idEdicion' => $EdicionSeleccionada->id, 'tipoPartido' => 'partido', 'idFecha' => $idFecha ]) }}">
                                             <button
                                                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                                 Planillas
@@ -354,7 +354,7 @@
             @endif
         @endif
         <div class="flex-grow flex items-center justify-center lg:pl-36 mt-0">
-            <section class="w-1/2">
+            <section class="w-1/2 md:w-3/4">
                 @if (session('status'))
                     <div class="flex justify-center">
                         <div id="status-message" class="flex items-center rounded-xl bg-white p-4 shadow-lg w-1/2">

@@ -73,7 +73,7 @@ Route::group(['prefix' => 'Panel', 'middleware' => ['auth', 'verified', UserAcce
     Route::get('/admin', [ControladorHome::class, 'admin'])
         ->name('admin');
     Route::prefix('planilla')->group(function () {
-        Route::get('/{partidoId}/{idEdicion}/{tipoPartido}', [ControladorPlanillaJugador::class, 'mostrarPlanilla'])->name('planilla.show');
+        Route::get('/{partidoId}/{idEdicion}/{tipoPartido}/{idFecha}', [ControladorPlanillaJugador::class, 'mostrarPlanilla'])->name('planilla.show');
         Route::post('/agregar-jugador', [ControladorPlanillaJugador::class, 'agregarJugador'])->name('planilla.agregarJugador');
         Route::post('/actualizar-jugador', [ControladorPlanillaJugador::class, 'actualizarJugador'])->name('planilla.actualizarJugador');
     });

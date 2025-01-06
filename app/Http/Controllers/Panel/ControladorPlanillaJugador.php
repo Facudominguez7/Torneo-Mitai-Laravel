@@ -15,10 +15,11 @@ use Illuminate\Support\Facades\DB;
 
 class ControladorPlanillaJugador extends Controller
 {
-    public function mostrarPlanilla(Request $request, $partidoId, $idEdicion, $tipoPartido)
+    public function mostrarPlanilla(Request $request, $partidoId, $idEdicion, $tipoPartido, $idFecha)
     {
         $ediciones = Edicion::all();
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
+        $fechaSeleccionada = $idFecha;
 
         // Obtener el partido o instancia final
         if ($tipoPartido === 'instanciaFinal') {
@@ -109,7 +110,7 @@ class ControladorPlanillaJugador extends Controller
             ->select('planilla_jugadores.*', 'jugadores.nombre', 'jugadores.apellido')
             ->get();
 
-        return view('Panel.planilla.show', compact('partido', 'jugadoresLocalPlanilla', 'jugadoresVisitantePlanilla', 'ediciones', 'EdicionSeleccionada', 'tipoPartido'));
+        return view('Panel.planilla.show', compact('partido', 'jugadoresLocalPlanilla', 'jugadoresVisitantePlanilla', 'ediciones', 'EdicionSeleccionada', 'tipoPartido', 'fechaSeleccionada'));
     }
 
 
