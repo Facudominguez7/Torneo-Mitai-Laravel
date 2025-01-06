@@ -54,7 +54,7 @@ class ControladorPlanillaJugador extends Controller
                     'idEquipo' => $partido->idEquipoLocal,
                     'idEdicion' => $idEdicion,
                 ], [
-                    'numero_camiseta' => 0, 
+                    'numero_camiseta' => 0,
                     'goles' => 0,
                     'asistio' => false,
                 ]);
@@ -87,7 +87,7 @@ class ControladorPlanillaJugador extends Controller
                     'idEquipo' => $partido->idEquipoVisitante,
                     'idEdicion' => $idEdicion,
                 ], [
-                    'numero_camiseta' => 0, 
+                    'numero_camiseta' => 0,
                     'goles' => 0,
                     'asistio' => false,
                 ]);
@@ -144,9 +144,9 @@ class ControladorPlanillaJugador extends Controller
 
         // Verificar si el jugador ya está asignado a otro equipo de la misma categoría y edición
         $existeJugadorEnElMismoEquipo = PlanillaJugador::join('equipo_ediciones', 'equipo_ediciones.idEquipo', '=', 'planilla_jugadores.idEquipo')
-            ->where('planilla_jugadores.dni_jugador', $jugador->dni)  
-            ->where('planilla_jugadores.idEquipo', '!=', $equipo->idEquipo) 
-            ->where('equipo_ediciones.idEdicion', $idEdicion)  
+            ->where('planilla_jugadores.dni_jugador', $jugador->dni)
+            ->where('planilla_jugadores.idEquipo', '!=', $equipo->idEquipo)
+            ->where('equipo_ediciones.idEdicion', $idEdicion)
             ->exists();
 
         if ($existeJugadorEnElMismoEquipo) {
@@ -169,12 +169,12 @@ class ControladorPlanillaJugador extends Controller
         $planilla->partido_id = $request->partido_id;
         $planilla->partido_type = $tipoPartido === 'instancia_final' ? InstanciaFinal::class : Partido::class;
         $planilla->dni_jugador = $jugador->dni;
-        $planilla->idEquipo = $equipo->idEquipo; 
-        $planilla->idEdicion = $idEdicion; 
+        $planilla->idEquipo = $equipo->idEquipo;
+        $planilla->idEdicion = $idEdicion;
         $planilla->numero_camiseta = $request->numero_camiseta;
         $planilla->fecha_nacimiento = $request->fecha_nacimiento;
-        $planilla->goles = 0; 
-        $planilla->asistio = false; 
+        $planilla->goles = 0;
+        $planilla->asistio = false;
         $planilla->save();
 
         return redirect()->route('planilla.show', ['partidoId' => $request->partido_id, 'idEdicion' => $idEdicion, 'tipoPartido' => $tipoPartido, 'idFecha' => $fechaSeleccionada])
@@ -230,15 +230,17 @@ class ControladorPlanillaJugador extends Controller
             $goleador->cantidadGoles += ($request->goles - $golesAnteriores);
             $goleador->save();
         } else {
-            // Crear un nuevo registro en la tabla de goleadores si no existe
-            TablaGoleador::create([
-                'dni_jugador' => $request->dni_jugador,
-                'cantidadGoles' => $request->goles,
-                'idEquipo' => $request->equipo_id,
-                'idEdicion' => $request->idEdicion,
-                'idCategoria' => $request->idCategoria,
-                'nombre' => $request->apellido . ' ' . $request->nombre,
-            ]);
+            // Crear un nuevo registro en la tabla de goleadores si no existe y si tiene 1 gol o más
+            if ($request->goles > 0) {
+                TablaGoleador::create([
+                    'dni_jugador' => $request->dni_jugador,
+                    'cantidadGoles' => $request->goles,
+                    'idEquipo' => $request->equipo_id,
+                    'idEdicion' => $request->idEdicion,
+                    'idCategoria' => $request->idCategoria,
+                    'nombre' => $request->apellido . ' ' . $request->nombre,
+                ]);
+            }
         }
 
         return redirect()->route('planilla.show', ['partidoId' => $request->partido_id, 'idEdicion' => $request->idEdicion, 'tipoPartido' => $tipoPartido, 'idFecha' => $fechaSeleccionada])
