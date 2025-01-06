@@ -18,6 +18,7 @@
             <input type="hidden" name="partido_id" value="{{ $partido->id }}">
             <input type="hidden" name="equipo_id" value="{{ $partido->idEquipoLocal }}">
             <input type="hidden" name="idEdicion" value="{{ $EdicionSeleccionada->id }}">
+            <input type="hidden" name="idFecha" value="{{ $fechaSeleccionada }}">
             <input type="hidden" name="tipoPartido" value="{{ $tipoPartido }}">
             <details class="mb-4">
                 <summary
@@ -93,6 +94,7 @@
                                     <input type="hidden" name="nombre" value="{{ $jugador->nombre }}">
                                     <input type="hidden" name="apellido" value="{{ $jugador->apellido }}">
                                     <input type="hidden" name="idEdicion" value="{{ $EdicionSeleccionada->id }}">
+                                    <input type="hidden" name="idFecha" value="{{ $fechaSeleccionada }}">
                                     <input type="hidden" name="idCategoria" value="{{ $partido->idCategoria }}">
                                     <input type="hidden" name="tipoPartido" value="{{ $tipoPartido }}">
                                     <div class="flex items-center space-x-2">
@@ -125,6 +127,7 @@
             <input type="hidden" name="partido_id" value="{{ $partido->id }}">
             <input type="hidden" name="equipo_id" value="{{ $partido->idEquipoVisitante }}">
             <input type="hidden" name="idEdicion" value="{{ $EdicionSeleccionada->id }}">
+            <input type="hidden" name="idFecha" value="{{ $fechaSeleccionada }}">
             <input type="hidden" name="tipoPartido" value="{{ $tipoPartido }}">
             <details class="mb-4">
                 <summary class="cursor-pointer text-lg font-medium text-gray-700 bg-gray-200 p-2 rounded-md hover:bg-gray-300 transition duration-300 ease-in-out">
@@ -204,6 +207,7 @@
                                     <input type="hidden" name="nombre" value="{{ $jugador->nombre }}">
                                     <input type="hidden" name="apellido" value="{{ $jugador->apellido }}">
                                     <input type="hidden" name="idEdicion" value="{{ $EdicionSeleccionada->id }}">
+                                    <input type="hidden" name="idFecha" value="{{ $fechaSeleccionada }}">
                                     <input type="hidden" name="idCategoria" value="{{ $partido->idCategoria }}">
                                     <input type="hidden" name="tipoPartido" value="{{ $tipoPartido }}">
                                     <div class="flex items-center space-x-2">

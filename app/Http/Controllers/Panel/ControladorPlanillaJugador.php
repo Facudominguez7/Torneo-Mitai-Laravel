@@ -120,6 +120,7 @@ class ControladorPlanillaJugador extends Controller
     {
         $idEdicion = $request->idEdicion;
         $tipoPartido = $request->tipoPartido;
+        $fechaSeleccionada = $request->idFecha;
         // Validar que el jugador exista o si es necesario actualizar el dni
         $jugador = Jugador::where('dni', $request->dni_jugador)->first();
 
@@ -176,7 +177,7 @@ class ControladorPlanillaJugador extends Controller
         $planilla->asistio = false; 
         $planilla->save();
 
-        return redirect()->route('planilla.show', ['partidoId' => $request->partido_id, 'idEdicion' => $idEdicion, 'tipoPartido' => $tipoPartido])
+        return redirect()->route('planilla.show', ['partidoId' => $request->partido_id, 'idEdicion' => $idEdicion, 'tipoPartido' => $tipoPartido, 'idFecha' => $fechaSeleccionada])
             ->with('status', 'Jugador agregado a la planilla con éxito.');
     }
 
@@ -184,6 +185,7 @@ class ControladorPlanillaJugador extends Controller
     public function actualizarJugador(Request $request)
     {
         $tipoPartido = $request->tipoPartido;
+        $fechaSeleccionada = $request->idFecha;
         $planilla = PlanillaJugador::where('partido_id', $request->partido_id)
             ->where('dni_jugador', $request->dni_jugador)
             ->where('idEquipo', $request->equipo_id)
@@ -239,7 +241,7 @@ class ControladorPlanillaJugador extends Controller
             ]);
         }
 
-        return redirect()->route('planilla.show', ['partidoId' => $request->partido_id, 'idEdicion' => $request->idEdicion, 'tipoPartido' => $tipoPartido])
+        return redirect()->route('planilla.show', ['partidoId' => $request->partido_id, 'idEdicion' => $request->idEdicion, 'tipoPartido' => $tipoPartido, 'idFecha' => $fechaSeleccionada])
             ->with('status', 'Datos de jugador actualizados correctamente.');
     }
 }
