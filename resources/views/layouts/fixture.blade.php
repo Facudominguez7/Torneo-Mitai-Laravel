@@ -82,7 +82,6 @@
                         Tabla de posiciones
                     </a>
                 </div>
-                <h3 class="text-xl text-white font-semibold mb-4">{{ $nombreFecha }}</h3>
                 @foreach ($partidos->where('idGrupo', $g->id) as $p)
                     <div class="grid gap-6 lg:gap-8 lg:p-2 xl:gap-12 xl:p-4">
                         <div class="bg-card xl:rounded-lg shadow-lg bg-white">
@@ -95,10 +94,7 @@
                                 <div class="flex items-center justify-center w-full gap-4 lg:gap-6 xl:gap-8">
                                     <!-- Equipo Local -->
                                     <div class="flex flex-col items-center gap-2 lg:gap-4 w-1/3 text-center">
-                                        <img src="{{ asset('fotos/equipos/' . $p->foto_local) }}" width="50"
-                                            height="50" alt="{{ $p->nombre_local }}"
-                                            class="shadow-xl"
-                                            style="aspect-ratio: 1; object-fit: cover;" />
+                                        <img src="{{ asset('fotos/equipos/' . $p->foto_local) }}" alt="{{ $p->nombre_local }}" class="shadow-xl w-1/5" />
                                         <div class="text-sm sm:text-base lg:text-lg font-bold truncate">
                                             {{ $p->nombre_local }}
                                         </div>
@@ -110,10 +106,8 @@
                                     </div>
                                     <!-- Equipo Visitante -->
                                     <div class="flex flex-col items-center gap-2 lg:gap-4 w-1/3 text-center">
-                                        <img src="{{ asset('fotos/equipos/' . $p->foto_visitante) }}" width="50"
-                                            height="50" alt="{{ $p->nombre_visitante }}"
-                                            class="shadow-xl"
-                                            style="aspect-ratio: 1; object-fit: cover;" />
+                                        <img src="{{ asset('fotos/equipos/' . $p->foto_visitante) }}" alt="{{ $p->nombre_visitante }}" class="shadow-xl w-1/5"
+                                             />
                                         <div class="text-sm sm:text-base lg:text-lg font-bold truncate">
                                             {{ $p->nombre_visitante }}
                                         </div>

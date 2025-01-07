@@ -48,15 +48,15 @@
                                     </td>
                                     <td
                                         class="flex items-center py-3 text-sm text-gray-700 md:justify-center bg-gray-100 gap-2 w-full flex-nowrap">
-                                        <div class="pr-2 md:hidden">
-                                            {{ $posicion }}
+                                        <div class="pl-2 md:hidden">
+                                            {{ $posicion }}°
                                         </div>
                                         <img class="w-8 h-8 flex-shrink-0"
                                             src="{{ asset('fotos/equipos/' . $filaTabla->fotoEquipo) }}"
                                             alt="logo {{ $filaTabla->nombreEquipo }}"
-                                            style="aspect-ratio: 1/1; object-fit: cover;">
+                                            class="w-1/5">
                                         <span
-                                            class="inline md:hidden whitespace-normal break-words max-w-[120px] flex-shrink-0 pr-8">
+                                            class="inline md:hidden whitespace-normal break-words max-w-[95px] flex-shrink-0 pr-8">
                                             {{ $filaTabla->nombreEquipo }}
                                         </span>
                                     </td>
