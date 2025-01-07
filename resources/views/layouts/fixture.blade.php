@@ -94,7 +94,7 @@
                                 <div class="flex items-center justify-center w-full gap-4 lg:gap-6 xl:gap-8">
                                     <!-- Equipo Local -->
                                     <div class="flex flex-col items-center gap-2 lg:gap-4 w-1/3 text-center">
-                                        <img src="{{ asset('fotos/equipos/' . $p->foto_local) }}" alt="{{ $p->nombre_local }}" class="shadow-xl w-1/5" />
+                                        <img src="{{ asset('fotos/equipos/' . $p->foto_local) }}" alt="{{ $p->nombre_local }}" class="shadow-xl w-1/2 md:w-1/5" />
                                         <div class="text-sm sm:text-base lg:text-lg font-bold truncate">
                                             {{ $p->nombre_local }}
                                         </div>
@@ -106,7 +106,7 @@
                                     </div>
                                     <!-- Equipo Visitante -->
                                     <div class="flex flex-col items-center gap-2 lg:gap-4 w-1/3 text-center">
-                                        <img src="{{ asset('fotos/equipos/' . $p->foto_visitante) }}" alt="{{ $p->nombre_visitante }}" class="shadow-xl w-1/5"
+                                        <img src="{{ asset('fotos/equipos/' . $p->foto_visitante) }}" alt="{{ $p->nombre_visitante }}" class="shadow-xl w-1/2 md:w-1/5"
                                              />
                                         <div class="text-sm sm:text-base lg:text-lg font-bold truncate">
                                             {{ $p->nombre_visitante }}
