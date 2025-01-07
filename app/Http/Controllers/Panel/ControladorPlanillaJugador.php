@@ -40,7 +40,7 @@ class ControladorPlanillaJugador extends Controller
             ->join('equipo_ediciones', 'planilla_jugadores.idEquipo', '=', 'equipo_ediciones.idEquipo')
             ->where('equipo_ediciones.idEquipo', $partido->idEquipoLocal)
             ->where('planilla_jugadores.idEdicion', $idEdicion)
-            ->select('jugadores.*', 'planilla_jugadores.fecha_nacimiento')
+            ->select('jugadores.*', 'planilla_jugadores.fecha_nacimiento' , 'planilla_jugadores.idCategoria', 'planilla_jugadores.partido_type')
             ->get();
 
         // Agregar los jugadores faltantes a la planilla del equipo local
@@ -53,6 +53,7 @@ class ControladorPlanillaJugador extends Controller
                     'fecha_nacimiento' => $jugador->fecha_nacimiento,
                     'idEquipo' => $partido->idEquipoLocal,
                     'idEdicion' => $idEdicion,
+                    'idCategoria' => $jugador->idCategoria,
                 ], [
                     'numero_camiseta' => 0,
                     'goles' => 0,
@@ -73,8 +74,9 @@ class ControladorPlanillaJugador extends Controller
             ->join('equipo_ediciones', 'planilla_jugadores.idEquipo', '=', 'equipo_ediciones.idEquipo')
             ->where('equipo_ediciones.idEquipo', $partido->idEquipoVisitante)
             ->where('planilla_jugadores.idEdicion', $idEdicion)
-            ->select('jugadores.*', 'planilla_jugadores.fecha_nacimiento', 'planilla_jugadores.partido_type')
+            ->select('jugadores.*', 'planilla_jugadores.fecha_nacimiento', 'planilla_jugadores.partido_type', 'planilla_jugadores.idCategoria')
             ->get();
+    
 
         // Agregar los jugadores faltantes a la planilla del equipo visitante
         foreach ($jugadoresVisitante as $jugador) {
@@ -86,6 +88,7 @@ class ControladorPlanillaJugador extends Controller
                     'fecha_nacimiento' => $jugador->fecha_nacimiento,
                     'idEquipo' => $partido->idEquipoVisitante,
                     'idEdicion' => $idEdicion,
+                    'idCategoria' => $jugador->idCategoria,
                 ], [
                     'numero_camiseta' => 0,
                     'goles' => 0,

@@ -61,6 +61,9 @@ class ControladorHome extends Controller
 
         $partidos = $partidosQuery->orderByDesc('f.id')
             ->orderByDesc('c.nombreCategoria')
+            ->when($partidosQuery->whereNotNull('partidos.horario_datetime'), function ($query) {
+            return $query->orderBy('partidos.horario_datetime', 'asc');
+            })
             ->get()
             ->groupBy('nombre_categoria');
 
