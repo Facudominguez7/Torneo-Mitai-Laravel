@@ -173,6 +173,7 @@ class ControladorPlanillaJugador extends Controller
         $planilla->idEdicion = $idEdicion;
         $planilla->numero_camiseta = $request->numero_camiseta;
         $planilla->fecha_nacimiento = $request->fecha_nacimiento;
+        $planilla->idCategoria = $request->idCategoria;
         $planilla->goles = 0;
         $planilla->asistio = false;
         $planilla->save();

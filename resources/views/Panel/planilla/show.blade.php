@@ -20,6 +20,7 @@
             <input type="hidden" name="idEdicion" value="{{ $EdicionSeleccionada->id }}">
             <input type="hidden" name="idFecha" value="{{ $fechaSeleccionada }}">
             <input type="hidden" name="tipoPartido" value="{{ $tipoPartido }}">
+            <input type="hidden" name="idCategoria" value="{{ $partido->idCategoria }}">
             <details class="mb-4">
                 <summary
                     class="cursor-pointer text-lg font-medium text-gray-700 bg-gray-200 p-2 rounded-md hover:bg-gray-300 transition duration-300 ease-in-out">
@@ -129,6 +130,7 @@
             <input type="hidden" name="idEdicion" value="{{ $EdicionSeleccionada->id }}">
             <input type="hidden" name="idFecha" value="{{ $fechaSeleccionada }}">
             <input type="hidden" name="tipoPartido" value="{{ $tipoPartido }}">
+            <input type="hidden" name="idCategoria" value="{{ $partido->idCategoria }}">
             <details class="mb-4">
                 <summary class="cursor-pointer text-lg font-medium text-gray-700 bg-gray-200 p-2 rounded-md hover:bg-gray-300 transition duration-300 ease-in-out">
                     Agregar Jugador a la Lista de Buena Fe
