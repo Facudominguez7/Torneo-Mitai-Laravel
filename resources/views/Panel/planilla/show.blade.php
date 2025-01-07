@@ -3,9 +3,11 @@
 @section('detalle')
     <div class="w-full p-6 bg-white rounded-lg shadow-md">
         <!-- Botón de Volver -->
-        <a href="{{ route('admin', ['idEdicion' => $EdicionSeleccionada->id, 'idFecha' => $fechaSeleccionada]) }}" class="inline-block mb-4 text-blue-500 hover:text-blue-700">
-            <svg class="w-6 h-6 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        <a href="{{ route('admin', ['idEdicion' => $EdicionSeleccionada->id, 'idFecha' => $fechaSeleccionada]) }}"
+            class="inline-block mb-4 text-blue-500 hover:text-blue-700">
+            <svg class="w-6 h-6 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
             Volver
         </a>
@@ -82,10 +84,12 @@
                 <tbody>
                     @foreach ($jugadoresLocalPlanilla as $jugador)
                         <tr>
-                            <td class="px-4 py-2 border-b text-center">{{ $jugador->nombre }} {{ $jugador->apellido }}</td>
+                            <td class="px-4 py-2 border-b text-center">{{ $jugador->nombre }} {{ $jugador->apellido }}
+                            </td>
                             <td class="px-4 py-2 border-b text-center">
                                 {{ \Carbon\Carbon::parse($jugador->fecha_nacimiento)->format('d-m-Y') }}</td>
-                            <td class="px-4 py-2 border-b text-center">{{ $jugador->dni_jugador }}</td>
+                            <td class="px-4 py-2 border-b text-center">
+                                {{ number_format($jugador->dni_jugador, 0, '', '.') }}</td>
                             <td class="px-4 py-2 border-b">
                                 <form action="{{ route('planilla.actualizarJugador') }}" method="POST" class="inline">
                                     @csrf
@@ -132,7 +136,8 @@
             <input type="hidden" name="tipoPartido" value="{{ $tipoPartido }}">
             <input type="hidden" name="idCategoria" value="{{ $partido->idCategoria }}">
             <details class="mb-4">
-                <summary class="cursor-pointer text-lg font-medium text-gray-700 bg-gray-200 p-2 rounded-md hover:bg-gray-300 transition duration-300 ease-in-out">
+                <summary
+                    class="cursor-pointer text-lg font-medium text-gray-700 bg-gray-200 p-2 rounded-md hover:bg-gray-300 transition duration-300 ease-in-out">
                     Agregar Jugador a la Lista de Buena Fe
                 </summary>
                 <!-- Campo para el nombre del jugador -->
@@ -199,7 +204,8 @@
                             </td>
                             <td class="px-4 py-2 border-b text-center">
                                 {{ \Carbon\Carbon::parse($jugador->fecha_nacimiento)->format('d-m-Y') }}</td>
-                            <td class="px-4 py-2 border-b text-center">{{ $jugador->dni_jugador }}</td>
+                            <td class="px-4 py-2 border-b text-center">
+                                {{ number_format($jugador->dni_jugador, 0, '', '.') }}</td>
                             <td class="px-4 py-2 border-b">
                                 <form action="{{ route('planilla.actualizarJugador') }}" method="POST" class="inline">
                                     @csrf
