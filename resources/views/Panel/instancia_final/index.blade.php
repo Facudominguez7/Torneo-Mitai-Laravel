@@ -60,12 +60,12 @@
         <div class="flex items-center justify-center flex-row mt-5 mb-0">
             @if (isset($nombreFase))
                 <div class="mr-5">
-                    <h1 class="text-3x1 font-bold">{{ $nombreFase }}</h1>
+                    <h1 class="text-4xl font-bold">{{ $nombreFase }}</h1>
                 </div>
             @endif
             @if (isset($nombreCategoria))
                 <div class="mr-5">
-                    <h1 class="text-3x1 font-bold">{{ $nombreCategoria }}</h1>
+                    <h1 class="text-4xl font-bold">{{ $nombreCategoria }}</h1>
                 </div>
             @endif
         </div>
@@ -80,7 +80,7 @@
                 @endif
                 <div class="px-6 text-muted-foreground text-center">
                     <div class="font-bold">ID Partido: {{ $p->id }}</div>
-                    <div class="font-bold text-2xl">{{ $p->fase->nombre }}</div>
+                    <div class="font-bold text-3xl">{{ $p->fase->nombre }}</div>
                     @if (isset($p->copa->nombre))
                         <span class="font-bold">{{ $p->copa->nombre }}</span>
                     @endif
