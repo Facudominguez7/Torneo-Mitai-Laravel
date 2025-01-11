@@ -46,7 +46,7 @@
                 <!-- Campo para el DNI del jugador -->
                 <div class="mb-2">
                     <label for="dni_jugador" class="block text-sm font-medium text-gray-700">DNI Jugador:</label>
-                    <input type="text" name="dni_jugador" required pattern="\d{8}" title="El DNI debe tener 8 dígitos"
+                    <input type="text" name="dni_jugador" required pattern="\d{7,}" title="El DNI debe tener 7 dígitos o más"
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
                 </div>
 
@@ -159,8 +159,7 @@
                 <!-- Campo para el DNI del jugador -->
                 <div class="mb-2">
                     <label for="dni_jugador" class="block text-sm font-medium text-gray-700">DNI Jugador:</label>
-                    <input type="text" name="dni_jugador" required pattern="\d{8}"
-                        title="El DNI debe tener 8 dígitos"
+                    <input type="text" name="dni_jugador" required pattern="\d{7,}" title="El DNI debe tener 7 dígitos o más"
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
                 </div>
 
