@@ -72,7 +72,7 @@
     </div>
     <div class="bg-white p-6">
         @foreach ($partidos as $p)
-            <div class="grid gap-4 p-6">
+            <div class="grid border-4 border-black gap-4">
                 @if (!$idCategoria || isset($idFase))
                     <div class="px-6 text-muted-foreground text-center">
                         <div class="font-bold text-4xl">{{ $p->categoria->nombreCategoria }}</div>
@@ -143,6 +143,7 @@
                     </div>
                 </div>
             </div>
+            <hr class="border-4">
         @endforeach
     </div>
 
