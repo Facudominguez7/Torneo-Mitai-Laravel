@@ -80,7 +80,7 @@
                 @endif
                 <div class="px-6 text-muted-foreground text-center">
                     <div class="font-bold">ID Partido: {{ $p->id }}</div>
-                    <div class="font-bold text-2xl">{{ $p->fase->nombre }}</div>
+                    <div class="font-bold text-3xl">{{ $p->fase->nombre }}</div>
                     @if (isset($p->copa->nombre))
                         <span class="font-bold">{{ $p->copa->nombre }}</span>
                     @endif
