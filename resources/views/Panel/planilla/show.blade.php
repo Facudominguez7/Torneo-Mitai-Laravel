@@ -3,11 +3,11 @@
 @section('detalle')
     <div class="w-full p-6 bg-white rounded-lg shadow-md">
         <!-- Botón de Volver -->
-        <a href="{{ route('admin', ['idEdicion' => $EdicionSeleccionada->id, 'idFecha' => $fechaSeleccionada]) }}"
+        <a href="{{ $tipoPartido === 'instanciaFinal' ? route('instancia_final', ['idEdicion' => $EdicionSeleccionada->id, 'idFecha' => $fechaSeleccionada]) : route('admin', ['idEdicion' => $EdicionSeleccionada->id, 'idFecha' => $fechaSeleccionada]) }}"
             class="inline-block mb-4 text-blue-500 hover:text-blue-700">
             <svg class="w-6 h-6 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
             Volver
         </a>

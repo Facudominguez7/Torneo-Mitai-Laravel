@@ -20,18 +20,8 @@
             <div x-data="{ open: false }" class="relative inline-block text-left ml-5 filtro-fase">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center gap-2 text-black">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1 1 0 011-1z"
-                                    clip-rule="evenodd" />
-                            </svg>
+                        <button class="inline-flex items-center gap-2 text-black bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-full transition-all duration-300">
                             Filtrar por fase
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1 1 0 011-1z"
-                                    clip-rule="evenodd" />
-                            </svg>
                         </button>
                     </x-slot>
                     <x-slot name="content">
@@ -47,18 +37,8 @@
             <div x-data="{ open: false }" class="relative inline-block text-left filtro-categoria">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center gap-2 text-black">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1 1 0 011-1z"
-                                    clip-rule="evenodd" />
-                            </svg>
+                        <button class="inline-flex items-center gap-2 text-black bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-full transition-all duration-300">
                             Seleccionar Categoria
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1 1 0 011-1z"
-                                    clip-rule="evenodd" />
-                            </svg>
                         </button>
                     </x-slot>
                     <x-slot name="content">
@@ -95,12 +75,12 @@
             <div class="grid gap-4 p-6">
                 @if (!$idCategoria || isset($idFase))
                     <div class="px-6 text-muted-foreground text-center">
-                        <div class="font-bold">{{ $p->categoria->nombreCategoria }}</div>
+                        <div class="font-bold text-4xl">{{ $p->categoria->nombreCategoria }}</div>
                     </div>
                 @endif
                 <div class="px-6 text-muted-foreground text-center">
                     <div class="font-bold">ID Partido: {{ $p->id }}</div>
-                    <div class="font-bold">{{ $p->fase->nombre }}</div>
+                    <div class="font-bold text-2xl">{{ $p->fase->nombre }}</div>
                     @if (isset($p->copa->nombre))
                         <span class="font-bold">{{ $p->copa->nombre }}</span>
                     @endif
@@ -111,12 +91,12 @@
                             <img src="{{ asset('fotos/equipos/' . $p->equipoLocal->foto) }}" width="40" height="40"
                                 alt="{{ $p->equipoLocal->nombre }}" class="rounded-full"
                                 style="aspect-ratio: 40/40; object-fit: cover;" />
-                            <div class="font-medium">{{ $p->equipoLocal->nombre }}</div>
+                            <div class="text-lg">{{ $p->equipoLocal->nombre }}</div>
                             <div class="text-muted-foreground">vs</div>
+                            <div class="text-lg">{{ $p->equipoVisitante->nombre }}</div>
                             <img src="{{ asset('fotos/equipos/' . $p->equipoVisitante->foto) }}" width="40"
                                 height="40" alt="{{ $p->equipoVisitante->nombre }}" class="rounded-full"
                                 style="aspect-ratio: 40/40; object-fit: cover;" />
-                            <div class="font-medium">{{ $p->equipoVisitante->nombre }}</div>
                         </div>
                         <div class="flex flex-col text-center text-2xl font-bold mt-4 md:mt-0">
                             <span>{{ $p->golesEquipoLocal }} - {{ $p->golesEquipoVisitante }}</span>
@@ -137,21 +117,9 @@
                     </div>
                     <div class="flex flex-col md:flex-row items-center justify-between px-6 py-2 text-muted-foreground">
                         <div class="flex items-center gap-2 mb-2 md:mb-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1 inline-block" viewBox="0 0 20 20"
-                                fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1 1 0 011-1z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                            <span>{{ \Carbon\Carbon::parse($p->horario)->format('d-m-Y H:i') }}</span>
+                            <span class="text-xl">{{ \Carbon\Carbon::parse($p->horario)->format('d-m-Y H:i') }}</span>
                         </div>
                         <div class="flex flex-col items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1 inline-block" viewBox="0 0 20 20"
-                                fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12zm0-10a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H7a1 1 0 110-2h3V7a1 1 0 011-1z"
-                                    clip-rule="evenodd" />
-                            </svg>
                             <span>Cancha {{ $p->cancha }}</span>
                         </div>
                     </div>
@@ -165,7 +133,7 @@
                             </a>
                         </div>
                     @endif
-                    <div class="flex justify-center mt-4">
+                    <div class="flex justify-center my-4">
                         <a
                             href="{{ route('planilla.show', ['partidoId' => $p->id, 'idEdicion' => $EdicionSeleccionada->id, 'tipoPartido' => 'instanciaFinal', 'idFecha' => 0]) }}">
                             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
