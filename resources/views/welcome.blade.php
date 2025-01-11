@@ -173,7 +173,7 @@
     <footer class="bg-black text-white text-center py-6 mt-10">
         <p class="text-sm md:text-base">&copy; Mita'í {{ date('Y') }}. Todos los derechos reservados.</p>
         <p class="text-sm md:text-base mt-2">Sitio desarrollado por <span class="font-semibold">Facundo Díaz
-                Domínguezz</span>.</p>
+                Domínguez</span>.</p>
         <p class="mt-4">
             <a href="https://www.linkedin.com/in/facundo-diaz-dominguez-0a826b230"
                 class="text-blue-400 hover:underline focus:ring focus:ring-blue-500 rounded" target="_blank"
