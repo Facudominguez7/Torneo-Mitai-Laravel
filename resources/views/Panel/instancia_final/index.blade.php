@@ -60,12 +60,12 @@
         <div class="flex items-center justify-center flex-row mt-5 mb-0">
             @if (isset($nombreFase))
                 <div class="mr-5">
-                    <h1 class="text-3x1 font-bold">{{ $nombreFase }}</h1>
+                    <h1 class="text-4xl font-bold">{{ $nombreFase }}</h1>
                 </div>
             @endif
             @if (isset($nombreCategoria))
                 <div class="mr-5">
-                    <h1 class="text-3x1 font-bold">{{ $nombreCategoria }}</h1>
+                    <h1 class="text-4xl font-bold">{{ $nombreCategoria }}</h1>
                 </div>
             @endif
         </div>
