@@ -40,7 +40,14 @@ class ControladorPlanillaJugador extends Controller
             ->join('equipo_ediciones', 'planilla_jugadores.idEquipo', '=', 'equipo_ediciones.idEquipo')
             ->where('equipo_ediciones.idEquipo', $partido->idEquipoLocal)
             ->where('planilla_jugadores.idEdicion', $idEdicion)
-            ->select('jugadores.*', 'planilla_jugadores.fecha_nacimiento' , 'planilla_jugadores.idCategoria', 'planilla_jugadores.partido_type' , 'planilla_jugadores.numero_camiseta')
+            ->select('jugadores.*', 'planilla_jugadores.fecha_nacimiento', 'planilla_jugadores.idCategoria', 'planilla_jugadores.partido_type')
+            ->selectSub(function ($query) {
+                $query->from('planilla_jugadores')
+                    ->select('numero_camiseta')
+                    ->whereColumn('dni_jugador', 'jugadores.dni')
+                    ->orderByDesc('updated_at') // Ordenar por la última actualización
+                    ->limit(1);
+            }, 'numero_camiseta') // Alias para que se use como número de camiseta final
             ->get();
 
         // Agregar los jugadores faltantes a la planilla del equipo local
@@ -74,9 +81,16 @@ class ControladorPlanillaJugador extends Controller
             ->join('equipo_ediciones', 'planilla_jugadores.idEquipo', '=', 'equipo_ediciones.idEquipo')
             ->where('equipo_ediciones.idEquipo', $partido->idEquipoVisitante)
             ->where('planilla_jugadores.idEdicion', $idEdicion)
-            ->select('jugadores.*', 'planilla_jugadores.fecha_nacimiento', 'planilla_jugadores.partido_type', 'planilla_jugadores.idCategoria', 'planilla_jugadores.numero_camiseta')
+            ->select('jugadores.*', 'planilla_jugadores.fecha_nacimiento', 'planilla_jugadores.idCategoria', 'planilla_jugadores.partido_type')
+            ->selectSub(function ($query) {
+                $query->from('planilla_jugadores')
+                    ->select('numero_camiseta')
+                    ->whereColumn('dni_jugador', 'jugadores.dni')
+                    ->orderByDesc('updated_at') // Ordenar por última actualización
+                    ->limit(1);
+            }, 'numero_camiseta') // Alias para que se use como número de camiseta final
             ->get();
-    
+
 
         // Agregar los jugadores faltantes a la planilla del equipo visitante
         foreach ($jugadoresVisitante as $jugador) {
