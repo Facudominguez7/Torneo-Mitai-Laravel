@@ -56,7 +56,7 @@ class ControladorInstanciaFinal extends Controller
             ])
             ->select('instancias_finales.*')
             ->orderByDesc('instancias_finales.id')
-            ->paginate(7);
+            ->get();
 
         $categorias = Categoria::where('idEdicion', $idEdicion)
             ->select('id', 'nombreCategoria')

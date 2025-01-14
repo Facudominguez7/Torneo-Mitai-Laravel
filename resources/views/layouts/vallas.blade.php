@@ -18,10 +18,10 @@
                             Arquero de la {{ $categoria_nombre }}
                         </h2>
                         <div class="mt-4 flex items-center justify-center">
-                            <img class="h-24 w-24 rounded-full object-cover mr-4"
+                            <img class="h-24 w-24 object-cover mr-4"
                                 src="{{ asset('fotos/equipos/' . $foto_equipo) }}" alt="{{ $nombre_equipo }}">
                             <div>
-                                @if (!isset($nombre_jugador))
+                                @if (isset($nombre_jugador))
                                     <h3 class="text-lg font-medium text-gray-900">
                                         {{ $nombre_jugador }}
                                     </h3>

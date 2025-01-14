@@ -147,9 +147,6 @@
         @endforeach
     </div>
 
-    <div class="flex justify-center mt-5">
-        {{ $partidos->links() }}
-    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
