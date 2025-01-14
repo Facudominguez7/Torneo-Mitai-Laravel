@@ -8,7 +8,7 @@
         @foreach ($equipos as $equipo)
             <option value="{{ $equipo->id }}"
                 {{ old('idEquipo', $campeon->idEquipo) == $equipo->id ? 'selected' : '' }}>
-                {{ $equipo->nombre }}
+                {{ $equipo->nombreEquipo }}
             </option>
         @endforeach
     </select>
