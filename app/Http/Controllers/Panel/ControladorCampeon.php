@@ -23,7 +23,7 @@ class ControladorCampeon extends Controller
         $idEdicion = $request->idEdicion;
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
         $campeones = Campeon::join('ediciones as ed', 'campeones.idEdicion', '=', 'ed.id')
-            ->join('equipo as e', 'campeones.idEquipo', '=', 'e.id')
+            ->join('equipos as e', 'campeones.idEquipo', '=', 'e.id')
             ->join('copas as co', 'campeones.idCopa', '=', 'co.id')
             ->join('categorias as cat', 'campeones.idCategoria', '=', 'cat.id')
             ->select('campeones.*', 'e.nombre as nombreEquipo', 'cat.nombreCategoria as nombreCategoria', 'co.nombre as nombreCopa', 'e.id as idEquipo')
