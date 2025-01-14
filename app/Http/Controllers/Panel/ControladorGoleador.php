@@ -7,6 +7,7 @@ use App\Http\Requests\Goleador\StoreRequest;
 use App\Models\Categoria;
 use App\Models\Edicion;
 use App\Models\Equipo;
+use App\Models\EquipoEdicion;
 use App\Models\Goleador;
 use App\Traits\SeleccionarCategoriaTrait;
 use Illuminate\Http\Request;
@@ -45,8 +46,10 @@ class ControladorGoleador extends Controller
         $idCategoria = $request->input('idCategoria');
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
         $CategoriaSeleccionada = $idCategoria ? Categoria::find($idCategoria) : null;
-        $equipos = Equipo::where('idEdicion', $idEdicion)
-            ->where('idCategoria', $idCategoria)
+        $equipos = EquipoEdicion::join('equipos as e', 'equipo_ediciones.idEquipo', '=', 'e.id')
+            ->where('equipo_ediciones.idEdicion', $idEdicion)
+            ->where('equipo_ediciones.idCategoria', $idCategoria)
+            ->select('equipo_ediciones.*', 'e.nombre as nombreEquipo')
             ->get();
         return view('Panel.goleador.create', compact('ediciones', 'goleador', 'EdicionSeleccionada', 'equipos', 'CategoriaSeleccionada'));
     }
@@ -81,7 +84,7 @@ class ControladorGoleador extends Controller
         $equipos = Equipo::where('idEdicion', $idEdicion)
             ->where('idCategoria', $idCategoria)
             ->get();
-        return view('Panel.goleador.edit', compact('ediciones', 'goleador', 'equipos','idCategoria', 'EdicionSeleccionada'));
+        return view('Panel.goleador.edit', compact('ediciones', 'goleador', 'equipos', 'idCategoria', 'EdicionSeleccionada'));
     }
 
     /**
