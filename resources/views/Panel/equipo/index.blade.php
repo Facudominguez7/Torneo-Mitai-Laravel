@@ -26,6 +26,22 @@
             </div>
         @endif
     </div>
+    <div class="flex justify-center mb-4">
+        <form action="{{ route('equipo.index') }}" method="GET" class="flex space-x-4">
+            <input type="hidden" name="idEdicion" value="{{ $idEdicion }}">
+            <select name="idCategoria" class="border border-gray-300 rounded-lg px-4 py-2">
+                <option value="">Todas las Categorías</option>
+                @foreach ($categorias as $categoria)
+                    <option value="{{ $categoria->id }}" {{ $idCategoria == $categoria->id ? 'selected' : '' }}>
+                        {{ $categoria->nombreCategoria }}
+                    </option>
+                @endforeach
+            </select>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                Filtrar
+            </button>
+        </form>
+    </div>
     <div class="mx-auto w-full max-w-2xl flex justify-center items-stretch pb-2 px-2 sm:px-6 lg:px-8">
         <table class="border-collapse w-full mt-2">
             <thead>

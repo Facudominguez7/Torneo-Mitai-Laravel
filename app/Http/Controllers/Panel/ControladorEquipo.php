@@ -20,18 +20,26 @@ class ControladorEquipo extends Controller
     {
         $ediciones = Edicion::all();
         $idEdicion = (int) $request->idEdicion;
+        $idCategoria = $request->idCategoria; // Capturar el filtro de categoría
 
-        $equipos = Equipo::join('equipo_ediciones', 'equipos.id', '=', 'equipo_ediciones.idEquipo')
+        $query = Equipo::join('equipo_ediciones', 'equipos.id', '=', 'equipo_ediciones.idEquipo')
             ->join('categorias', 'equipos.idCategoria', '=', 'categorias.id')
             ->orderBy('categorias.nombreCategoria', 'desc')
             ->orderBy('equipo_ediciones.golesContra', 'asc')
             ->select('equipos.*', 'categorias.nombreCategoria', 'equipo_ediciones.golesContra as goles_en_contra')
-            ->where('equipo_ediciones.idEdicion', $idEdicion)
-            ->paginate(20); // Utiliza la paginación aquí
+            ->where('equipo_ediciones.idEdicion', $idEdicion);
 
-        $equipos->appends(['idEdicion' => $idEdicion]);
+        if ($idCategoria) {
+            $query->where('categorias.id', $idCategoria); // Filtrar por categoría si está presente
+        }
+
+        $equipos = $query->paginate(20);
+        $equipos->appends(['idEdicion' => $idEdicion, 'idCategoria' => $idCategoria]);
+
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
-        return view('Panel.equipo.index', compact('EdicionSeleccionada', 'ediciones', 'equipos', 'idEdicion'));
+        $categorias = Categoria::where('idEdicion', $idEdicion)->orderBy('nombreCategoria', 'desc')->get(); // Obtener categorías de la edición seleccionada
+
+        return view('Panel.equipo.index', compact('EdicionSeleccionada', 'ediciones', 'equipos', 'idEdicion', 'categorias', 'idCategoria'));
     }
 
     /**
@@ -81,8 +89,20 @@ class ControladorEquipo extends Controller
     {
         $ediciones = Edicion::all();
         $idEdicion = $request->idEdicion;
+        $idCategoria = $request->idCategoria;
+
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
-        return view('Panel.equipo.show', compact('equipo', 'ediciones', 'idEdicion', 'EdicionSeleccionada'));
+
+        // Filtrar equipos por categoría si se selecciona una
+        $equipos = EquipoEdicion::where('idCategoria', $idCategoria)
+            ->whereHas('ediciones', function ($query) use ($idEdicion) {
+                $query->where('idEdicion', $idEdicion);
+            })
+            ->get();
+
+        $categorias = Categoria::where('idEdicion', $idEdicion)->get();
+
+        return view('Panel.equipo.show', compact('equipo', 'ediciones', 'idEdicion', 'EdicionSeleccionada', 'categorias', 'equipos', 'idCategoria'));
     }
 
     /**

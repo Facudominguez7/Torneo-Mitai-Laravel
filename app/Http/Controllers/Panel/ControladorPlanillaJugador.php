@@ -199,69 +199,79 @@ class ControladorPlanillaJugador extends Controller
             ->with('status', 'Jugador agregado a la planilla con éxito.');
     }
 
-    // Actualizar los goles y asistencia de un jugador en la planilla
-    public function actualizarJugador(Request $request)
+    public function actualizarJugadores(Request $request)
     {
         $tipoPartido = $request->tipoPartido;
         $fechaSeleccionada = $request->idFecha;
-        $planilla = PlanillaJugador::where('partido_id', $request->partido_id)
-            ->where('dni_jugador', $request->dni_jugador)
-            ->where('idEquipo', $request->equipo_id)
-            ->first();
+        $idEdicion = $request->idEdicion;
 
-        if (!$planilla) {
-            return redirect()->back()->with('status', 'Jugador no encontrado en la planilla.');
-        }
+        // Recorrer todos los jugadores enviados en el formulario
+        foreach ($request->jugadores as $dni => $datos) {
+            // Buscar la planilla del jugador
+            $planilla = PlanillaJugador::where('partido_id', $request->partido_id)
+                ->where('dni_jugador', $dni)
+                ->first();
 
-        // Guardar los valores actuales antes de actualizar
-        $golesAnteriores = $planilla->goles;
-        $asistioAnteriormente = $planilla->asistio;
+            if (!$planilla) {
+                continue; // Si no se encuentra la planilla, pasar al siguiente jugador
+            }
 
-        // Actualizar goles y asistencia
-        $planilla->goles = $request->goles;
-        $planilla->asistio = $request->has('asistencia');
-        $planilla->numero_camiseta = $request->numero_camiseta;
-        $planilla->save();
+            // Guardar los valores actuales antes de actualizar
+            $golesAnteriores = $planilla->goles;
+            $asistioAnteriormente = $planilla->asistio;
 
-        // Actualizar goles del jugador en la tabla jugadores
-        $jugador = Jugador::where('dni', $request->dni_jugador)->first();
-        if ($jugador) {
-            // Ajustar los goles totales del jugador
-            $jugador->goles_totales += ($request->goles - $golesAnteriores);
-            // Ajustar los partidos totales del jugador
-            if ($request->goles > 0 || $request->has('asistencia')) {
-                if (!$asistioAnteriormente) {
-                    $jugador->partidos_totales += 1;
+            // Actualizar los datos de la planilla
+            $planilla->goles = $datos['goles'] ?? $planilla->goles;
+            $planilla->asistio = isset($datos['asistencia']);
+            $planilla->numero_camiseta = $datos['numero_camiseta'] ?? $planilla->numero_camiseta;
+            $planilla->save();
+
+            // Actualizar los datos del jugador en la tabla jugadores
+            $jugador = Jugador::where('dni', $dni)->first();
+            if ($jugador) {
+                // Ajustar los goles totales del jugador
+                $jugador->goles_totales += ($planilla->goles - $golesAnteriores);
+
+                // Ajustar los partidos totales del jugador
+                if ($planilla->goles > 0 || $planilla->asistio) {
+                    if (!$asistioAnteriormente) {
+                        $jugador->partidos_totales += 1;
+                    }
+                } else {
+                    if ($asistioAnteriormente) {
+                        $jugador->partidos_totales -= 1;
+                    }
                 }
+                $jugador->save();
+            }
+
+            // Actualizar los datos en la tabla de goleadores
+            $goleador = TablaGoleador::where('dni_jugador', $dni)->first();
+            if ($goleador) {
+                // Ajustar los goles totales del goleador
+                $goleador->cantidadGoles += ($planilla->goles - $golesAnteriores);
+                $goleador->save();
             } else {
-                if ($asistioAnteriormente) {
-                    $jugador->partidos_totales -= 1;
+                // Crear un nuevo registro en la tabla de goleadores si no existe y si tiene 1 gol o más
+                if ($planilla->goles > 0) {
+                    TablaGoleador::create([
+                        'dni_jugador' => $dni,
+                        'cantidadGoles' => $planilla->goles,
+                        'idEquipo' => $planilla->idEquipo,
+                        'idEdicion' => $idEdicion,
+                        'idCategoria' => $planilla->idCategoria,
+                        'nombre' => $jugador->apellido . ' ' . $jugador->nombre,
+                    ]);
                 }
             }
-            $jugador->save();
         }
 
-        // Actualizar goles en la tabla de goleadores
-        $goleador = TablaGoleador::where('dni_jugador', $request->dni_jugador)->first();
-        if ($goleador) {
-            // Ajustar los goles totales del goleador
-            $goleador->cantidadGoles += ($request->goles - $golesAnteriores);
-            $goleador->save();
-        } else {
-            // Crear un nuevo registro en la tabla de goleadores si no existe y si tiene 1 gol o más
-            if ($request->goles > 0) {
-                TablaGoleador::create([
-                    'dni_jugador' => $request->dni_jugador,
-                    'cantidadGoles' => $request->goles,
-                    'idEquipo' => $request->equipo_id,
-                    'idEdicion' => $request->idEdicion,
-                    'idCategoria' => $request->idCategoria,
-                    'nombre' => $request->apellido . ' ' . $request->nombre,
-                ]);
-            }
-        }
-
-        return redirect()->route('planilla.show', ['partidoId' => $request->partido_id, 'idEdicion' => $request->idEdicion, 'tipoPartido' => $tipoPartido, 'idFecha' => $fechaSeleccionada])
-            ->with('status', 'Datos de jugador actualizados correctamente.');
+        // Redirigir de vuelta a la vista con un mensaje de éxito
+        return redirect()->route('planilla.show', [
+            'partidoId' => $request->partido_id,
+            'idEdicion' => $idEdicion,
+            'tipoPartido' => $tipoPartido,
+            'idFecha' => $fechaSeleccionada,
+        ])->with('status', 'Jugadores actualizados correctamente.');
     }
 }
