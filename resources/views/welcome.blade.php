@@ -31,7 +31,7 @@
                         @if (isset($EdicionSeleccionada))
                             <a href="{{ route('fixture', ['idEdicion' => $EdicionSeleccionada]) }}"
                                 class="bg-yellow-100 hover:bg-yellow-300 text-black font-bold py-2 px-4 rounded">
-                                Fase de Gruposs
+                                Fase de Grupos
                             </a>
                             <a href="{{ route('instancias-finales', ['idEdicion' => $EdicionSeleccionada]) }}"
                                 class="bg-red-100 mt-2 hover:bg-red-300 text-black font-bold py-2 px-4 rounded">
