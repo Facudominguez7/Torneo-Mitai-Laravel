@@ -246,7 +246,9 @@ class ControladorPlanillaJugador extends Controller
             }
 
             // Actualizar los datos en la tabla de goleadores
-            $goleador = TablaGoleador::where('dni_jugador', $dni)->first();
+            $goleador = TablaGoleador::where('dni_jugador', $dni)
+                ->where('idEdicion', $idEdicion)
+                ->first();
             if ($goleador) {
                 // Ajustar los goles totales del goleador
                 $goleador->cantidadGoles += ($planilla->goles - $golesAnteriores);

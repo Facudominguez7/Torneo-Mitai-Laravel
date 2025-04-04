@@ -30,7 +30,7 @@ class ControladorEquipo extends Controller
             ->where('equipo_ediciones.idEdicion', $idEdicion);
 
         if ($idCategoria) {
-            $query->where('categorias.id', $idCategoria); // Filtrar por categoría si está presente
+            $query->where('equipo_ediciones.idCategoria', $idCategoria); // Filtrar por categoría si está presente
         }
 
         $equipos = $query->paginate(20);
