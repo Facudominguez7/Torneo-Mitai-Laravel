@@ -52,12 +52,16 @@ class ControladorHome extends Controller
         $busquedaFecha = $request->query('busqueda');
         
 
+        $ultimaFecha = Fecha::where('idEdicion', $idEdicion)->latest('id')->first();
         $partidosQuery = Partido::select('partidos.*', 'el.nombre as nombre_local', 'ev.nombre as nombre_visitante', 'el.foto as foto_local', 'ev.foto as foto_visitante', 'f.nombre as nombre_fecha', 'c.nombreCategoria as nombre_categoria')
             ->join('equipos as el', 'partidos.idEquipoLocal', '=', 'el.id')
             ->join('equipos as ev', 'partidos.idEquipoVisitante', '=', 'ev.id')
             ->join('fechas as f', 'partidos.idFechas', '=', 'f.id')
             ->join('categorias as c', 'partidos.idCategoria', '=', 'c.id')
-            ->where('partidos.idEdicion', $idEdicion);
+            ->where('partidos.idEdicion', $idEdicion)
+            ->when($ultimaFecha, function ($query) use ($ultimaFecha) {
+            return $query->where('partidos.idFechas', $ultimaFecha->id);
+            });
 
         if ($horario) {
             $partidosQuery->where('partidos.horario_datetime', $horario);
