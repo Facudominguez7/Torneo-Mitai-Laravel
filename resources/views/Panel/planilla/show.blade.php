@@ -5,7 +5,7 @@
 
     <div class="w-full p-6 bg-white rounded-lg shadow-md">
         <!-- Botón de Volver -->
-        <a href="{{ $tipoPartido === 'instanciaFinal' ? route('instancia_final', ['idEdicion' => $EdicionSeleccionada->id, 'idFecha' => $fechaSeleccionada]) : route('admin', ['idEdicion' => $EdicionSeleccionada->id, 'idFecha' => $fechaSeleccionada]) }}"
+        <a href="{{ $tipoPartido === 'instanciaFinal' ? route('instancia_final', ['idEdicion' => $EdicionSeleccionada->id, 'horario' => $horarioSeleccionado]) : route('admin', ['idEdicion' => $EdicionSeleccionada->id, 'horario' => $horarioSeleccionado]) }}"
             class="inline-block mb-4 text-blue-500 hover:text-blue-700">
             <svg class="w-6 h-6 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg">
@@ -22,7 +22,7 @@
             <input type="hidden" name="partido_id" value="{{ $partido->id }}">
             <input type="hidden" name="equipo_id" value="{{ $partido->idEquipoLocal }}">
             <input type="hidden" name="idEdicion" value="{{ $EdicionSeleccionada->id }}">
-            <input type="hidden" name="idFecha" value="{{ $fechaSeleccionada }}">
+            <input type="hidden" name="horario" value="{{ $horarioSeleccionado }}">
             <input type="hidden" name="tipoPartido" value="{{ $tipoPartido }}">
             <input type="hidden" name="idCategoria" value="{{ $partido->idCategoria }}">
             <details class="mb-4">
@@ -77,7 +77,7 @@
             @csrf
             <input type="hidden" name="partido_id" value="{{ $partido->id }}">
             <input type="hidden" name="idEdicion" value="{{ $EdicionSeleccionada->id }}">
-            <input type="hidden" name="idFecha" value="{{ $fechaSeleccionada }}">
+            <input type="hidden" name="horario" value="{{ $horarioSeleccionado }}">
             <input type="hidden" name="tipoPartido" value="{{ $tipoPartido }}">
 
             @if ($jugadoresLocalPlanilla->isEmpty())
@@ -137,7 +137,7 @@
             <input type="hidden" name="partido_id" value="{{ $partido->id }}">
             <input type="hidden" name="equipo_id" value="{{ $partido->idEquipoVisitante }}">
             <input type="hidden" name="idEdicion" value="{{ $EdicionSeleccionada->id }}">
-            <input type="hidden" name="idFecha" value="{{ $fechaSeleccionada }}">
+            <input type="hidden" name="horario" value="{{ $horarioSeleccionado }}">
             <input type="hidden" name="tipoPartido" value="{{ $tipoPartido }}">
             <input type="hidden" name="idCategoria" value="{{ $partido->idCategoria }}">
             <details class="mb-4">
@@ -195,7 +195,7 @@
             @csrf
             <input type="hidden" name="partido_id" value="{{ $partido->id }}">
             <input type="hidden" name="idEdicion" value="{{ $EdicionSeleccionada->id }}">
-            <input type="hidden" name="idFecha" value="{{ $fechaSeleccionada }}">
+            <input type="hidden" name="horario" value="{{ $horarioSeleccionado }}">
             <input type="hidden" name="tipoPartido" value="{{ $tipoPartido }}">
 
             @if ($jugadoresVisitantePlanilla->isEmpty())

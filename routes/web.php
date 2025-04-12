@@ -65,7 +65,7 @@ Route::group(['prefix' => 'Panel', 'middleware' => ['auth', 'verified', UserAcce
     Route::resource('partido', ControladorPartidos::class);
     Route::resource('tabla_goleador', ControladorTablaGoleadores::class);
     Route::resource('instancia_final', ControladorInstanciaFinal::class);
-    Route::get('/instancia_final/{idEdicion}/{idFecha}', [ControladorInstanciaFinal::class, 'index'])->name('instancia_final');
+    Route::get('/instancia_final/{idEdicion}/{horario?}', [ControladorInstanciaFinal::class, 'index'])->name('instancia_final');
     Route::resource('fase', ControladorFase::class);
     Route::match(['get', 'post'], 'cargar-resultado', [ControladorPartidos::class, 'cargarResultado'])->name('cargar-resultado');
     Route::match(['get', 'post'], 'cargar-resultado-instancia', [ControladorInstanciaFinal::class, 'cargarResultadoInstancia'])->name('cargar-resultado-instancia');
@@ -74,7 +74,7 @@ Route::group(['prefix' => 'Panel', 'middleware' => ['auth', 'verified', UserAcce
     Route::get('/admin', [ControladorHome::class, 'admin'])
         ->name('admin');
     Route::prefix('planilla')->group(function () {
-        Route::get('/{partidoId}/{idEdicion}/{tipoPartido}/{idFecha}', [ControladorPlanillaJugador::class, 'mostrarPlanilla'])->name('planilla.show');
+        Route::get('/{partidoId}/{idEdicion}/{tipoPartido}/{horario?}', [ControladorPlanillaJugador::class, 'mostrarPlanilla'])->name('planilla.show');
         Route::post('/agregar-jugador', [ControladorPlanillaJugador::class, 'agregarJugador'])->name('planilla.agregarJugador');
         Route::post('/actualizar-jugador', [ControladorPlanillaJugador::class, 'actualizarJugadores'])->name('planilla.actualizarJugadores');
     });

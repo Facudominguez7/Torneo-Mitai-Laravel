@@ -15,11 +15,11 @@ use Illuminate\Support\Facades\DB;
 
 class ControladorPlanillaJugador extends Controller
 {
-    public function mostrarPlanilla(Request $request, $partidoId, $idEdicion, $tipoPartido, $idFecha)
+    public function mostrarPlanilla(Request $request, $partidoId, $idEdicion, $tipoPartido, $horario)
     {
         $ediciones = Edicion::all();
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
-        $fechaSeleccionada = $idFecha;
+        $horarioSeleccionado = $horario;
 
         // Obtener el partido o instancia final
         if ($tipoPartido === 'instanciaFinal') {
@@ -127,7 +127,7 @@ class ControladorPlanillaJugador extends Controller
             ->select('planilla_jugadores.*', 'jugadores.nombre', 'jugadores.apellido')
             ->get();
 
-        return view('Panel.planilla.show', compact('partido', 'jugadoresLocalPlanilla', 'jugadoresVisitantePlanilla', 'ediciones', 'EdicionSeleccionada', 'tipoPartido', 'fechaSeleccionada'));
+        return view('Panel.planilla.show', compact('partido', 'jugadoresLocalPlanilla', 'jugadoresVisitantePlanilla', 'ediciones', 'EdicionSeleccionada', 'tipoPartido', 'horarioSeleccionado'));
     }
 
 
@@ -137,7 +137,7 @@ class ControladorPlanillaJugador extends Controller
     {
         $idEdicion = $request->idEdicion;
         $tipoPartido = $request->tipoPartido;
-        $fechaSeleccionada = $request->idFecha;
+        $horarioSeleccionado = $request->horario;
         // Validar que el jugador exista o si es necesario actualizar el dni
         $jugador = Jugador::where('dni', $request->dni_jugador)->first();
 
@@ -195,14 +195,14 @@ class ControladorPlanillaJugador extends Controller
         $planilla->asistio = false;
         $planilla->save();
 
-        return redirect()->route('planilla.show', ['partidoId' => $request->partido_id, 'idEdicion' => $idEdicion, 'tipoPartido' => $tipoPartido, 'idFecha' => $fechaSeleccionada])
+        return redirect()->route('planilla.show', ['partidoId' => $request->partido_id, 'idEdicion' => $idEdicion, 'tipoPartido' => $tipoPartido, 'horario' => $horarioSeleccionado])
             ->with('status', 'Jugador agregado a la planilla con éxito.');
     }
 
     public function actualizarJugadores(Request $request)
     {
         $tipoPartido = $request->tipoPartido;
-        $fechaSeleccionada = $request->idFecha;
+        $horarioSeleccionado = $request->horario;
         $idEdicion = $request->idEdicion;
 
         // Recorrer todos los jugadores enviados en el formulario
@@ -273,7 +273,7 @@ class ControladorPlanillaJugador extends Controller
             'partidoId' => $request->partido_id,
             'idEdicion' => $idEdicion,
             'tipoPartido' => $tipoPartido,
-            'idFecha' => $fechaSeleccionada,
+            'horario' => $horarioSeleccionado,
         ])->with('status', 'Jugadores actualizados correctamente.');
     }
 }

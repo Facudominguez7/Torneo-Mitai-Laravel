@@ -44,9 +44,13 @@ class ControladorHome extends Controller
     {
         $ediciones = Edicion::all();
         $idEdicion = $request->query('idEdicion');
-        $idFecha = $request->query('idFecha');
+        $horario = $request->query('horario');
+        if ($horario) {
+            $horario = date('Y-m-d H:i:s', strtotime('next Sunday ' . $horario));
+        }
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
         $busquedaFecha = $request->query('busqueda');
+        
 
         $partidosQuery = Partido::select('partidos.*', 'el.nombre as nombre_local', 'ev.nombre as nombre_visitante', 'el.foto as foto_local', 'ev.foto as foto_visitante', 'f.nombre as nombre_fecha', 'c.nombreCategoria as nombre_categoria')
             ->join('equipos as el', 'partidos.idEquipoLocal', '=', 'el.id')
@@ -55,8 +59,8 @@ class ControladorHome extends Controller
             ->join('categorias as c', 'partidos.idCategoria', '=', 'c.id')
             ->where('partidos.idEdicion', $idEdicion);
 
-        if ($idFecha) {
-            $partidosQuery->where('partidos.idFechas', $idFecha);
+        if ($horario) {
+            $partidosQuery->where('partidos.horario_datetime', $horario);
         }
 
         $partidos = $partidosQuery->orderByDesc('f.id')
@@ -68,9 +72,9 @@ class ControladorHome extends Controller
             ->groupBy('nombre_categoria');
 
         $categorias = Categoria::where('idEdicion', $idEdicion)->get();
-        $fechas = Fecha::where('idEdicion', $idEdicion)->get();
+        //$fechas = Fecha::where('idEdicion', $idEdicion)->get();
 
-        return view('Panel.admin', compact('ediciones', 'EdicionSeleccionada', 'partidos', 'categorias', 'fechas', 'idFecha'));
+        return view('Panel.admin', compact('ediciones', 'EdicionSeleccionada', 'partidos', 'categorias', 'horario'));
     }
 
     public function campeones(Request $request)

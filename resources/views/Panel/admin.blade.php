@@ -254,25 +254,26 @@
                         </a>
                     </div>
                 </div>
-                <!-- Filtro de Fecha -->
+                <!-- Filtro de horario -->
                 <div class="flex justify-center w-auto pb-6">
                     <div class="relative inline-block text-left w-full md:w-64 filtro-fecha">
+                        <p class="text-center text-white">filtro por horario</p>
                         <form action="{{ route('admin', ['idEdicion' => $EdicionSeleccionada]) }}" method="GET"
                             class="flex items-center gap-4">
                             <div class="relative w-full">
-                                <select id="idFecha" name="idFecha"
+                                <select id="horario" name="horario"
                                     class="appearance-none bg-white text-gray-800 font-medium border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none hover:border-gray-400 px-4 py-2 rounded-lg shadow-md w-auto transition ease-in-out duration-200">
                                     <option value="">Mostrar Todos</option>
-                                    @foreach ($fechas as $fecha)
-                                        <option value="{{ $fecha->id }}"
-                                            {{ request('idFecha') == $fecha->id ? 'selected' : '' }}>
-                                            {{ $fecha->nombre }}
+                                    @foreach (['15:00', '16:00', '17:00', '18:00', '19:00'] as $horario)
+                                        <option value="{{ $horario }}"
+                                            {{ request('horario') == $horario ? 'selected' : '' }}>
+                                            {{ $horario }} hs
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
-                            @foreach (request()->except(['idFecha', '_token']) as $key => $value)
-                                <!-- Excluir idFecha y token -->
+                            @foreach (request()->except(['horario', '_token']) as $key => $value)
+                                <!-- Excluir horario y token -->
                                 <input type="hidden" name="{{ $key }}" value="{{ $value }}">
                             @endforeach
                             <button type="submit"
@@ -339,7 +340,7 @@
                                     </div>
                                     <div class="flex justify-center mt-4">
                                         <a
-                                            href="{{ route('planilla.show', ['partidoId' => $p->id, 'idEdicion' => $EdicionSeleccionada->id, 'tipoPartido' => 'partido', 'idFecha' => $idFecha ?? 0 ]) }}">
+                                            href="{{ route('planilla.show', ['partidoId' => $p->id, 'idEdicion' => $EdicionSeleccionada->id, 'tipoPartido' => 'partido', 'horario' => $horario ?? 0 ]) }}">
                                             <button
                                                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                                 Planillas
