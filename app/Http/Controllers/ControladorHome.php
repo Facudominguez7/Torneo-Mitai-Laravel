@@ -46,7 +46,11 @@ class ControladorHome extends Controller
         $idEdicion = $request->query('idEdicion');
         $horario = $request->query('horario');
         if ($horario) {
-            $horario = date('Y-m-d H:i:s', strtotime('next Sunday ' . $horario));
+            if (date('w', strtotime($horario)) == 0) { // Si es domingo
+                $horario = date('Y-m-d H:i:s', strtotime($horario));
+            } else {
+                $horario = date('Y-m-d H:i:s', strtotime('next Sunday ' . $horario));
+            }
         }
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
         $busquedaFecha = $request->query('busqueda');
