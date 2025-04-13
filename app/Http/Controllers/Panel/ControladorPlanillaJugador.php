@@ -164,6 +164,7 @@ class ControladorPlanillaJugador extends Controller
             ->where('planilla_jugadores.dni_jugador', $jugador->dni)
             ->where('planilla_jugadores.idEquipo', '!=', $equipo->idEquipo)
             ->where('equipo_ediciones.idEdicion', $idEdicion)
+            ->where('equipo_ediciones.idCategoria', $request->idCategoria)
             ->exists();
 
         if ($existeJugadorEnElMismoEquipo) {
