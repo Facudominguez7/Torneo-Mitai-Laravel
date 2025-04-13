@@ -44,6 +44,7 @@ class ControladorHome extends Controller
     {
         $ediciones = Edicion::all();
         $idEdicion = $request->query('idEdicion');
+        $horarioString = $request->query('horario');
         $horario = $request->query('horario');
         if ($horario) {
             if (date('w', strtotime($horario)) == 0) { // Si es domingo
@@ -81,8 +82,9 @@ class ControladorHome extends Controller
 
         $categorias = Categoria::where('idEdicion', $idEdicion)->get();
         //$fechas = Fecha::where('idEdicion', $idEdicion)->get();
+        
 
-        return view('Panel.admin', compact('ediciones', 'EdicionSeleccionada', 'partidos', 'categorias', 'horario'));
+        return view('Panel.admin', compact('ediciones', 'EdicionSeleccionada', 'partidos', 'categorias', 'horarioString'));
     }
 
     public function campeones(Request $request)
