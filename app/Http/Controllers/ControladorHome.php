@@ -55,7 +55,26 @@ class ControladorHome extends Controller
         }
         $EdicionSeleccionada = $idEdicion ? Edicion::find($idEdicion) : null;
         $busquedaFecha = $request->query('busqueda');
-        
+
+        // Obtener la última fecha de la edición seleccionada
+        $ultimaFecha = Fecha::where('idEdicion', $idEdicion)->latest('id')->first();
+
+        // Obtener horarios únicos de los partidos de la última fecha
+        $horariosDisponibles = collect();
+        if ($ultimaFecha) {
+            $horariosDisponibles = Partido::where('idEdicion', $idEdicion)
+                ->where('idFechas', $ultimaFecha->id)
+                ->whereNotNull('horario_datetime')
+                ->pluck('horario_datetime')
+                ->map(function ($datetime) {
+                    return \Carbon\Carbon::parse($datetime)->format('H:i');
+                })
+                ->unique()
+                ->sort()
+                ->values();
+        }
+
+
 
         $ultimaFecha = Fecha::where('idEdicion', $idEdicion)->latest('id')->first();
         $partidosQuery = Partido::select('partidos.*', 'el.nombre as nombre_local', 'ev.nombre as nombre_visitante', 'el.foto as foto_local', 'ev.foto as foto_visitante', 'f.nombre as nombre_fecha', 'c.nombreCategoria as nombre_categoria')
@@ -65,7 +84,7 @@ class ControladorHome extends Controller
             ->join('categorias as c', 'partidos.idCategoria', '=', 'c.id')
             ->where('partidos.idEdicion', $idEdicion)
             ->when($ultimaFecha, function ($query) use ($ultimaFecha) {
-            return $query->where('partidos.idFechas', $ultimaFecha->id);
+                return $query->where('partidos.idFechas', $ultimaFecha->id);
             });
 
         if ($horario) {
@@ -75,16 +94,15 @@ class ControladorHome extends Controller
         $partidos = $partidosQuery->orderByDesc('f.id')
             ->orderByDesc('c.nombreCategoria')
             ->when($partidosQuery->whereNotNull('partidos.horario_datetime'), function ($query) {
-            return $query->orderBy('partidos.horario_datetime', 'asc');
+                return $query->orderBy('partidos.horario_datetime', 'asc');
             })
             ->get()
             ->groupBy('nombre_categoria');
 
         $categorias = Categoria::where('idEdicion', $idEdicion)->get();
-        //$fechas = Fecha::where('idEdicion', $idEdicion)->get();
-        
 
-        return view('Panel.admin', compact('ediciones', 'EdicionSeleccionada', 'partidos', 'categorias', 'horarioString'));
+
+        return view('Panel.admin', compact('ediciones', 'EdicionSeleccionada', 'partidos', 'categorias', 'horarioString', 'horariosDisponibles'));
     }
 
     public function campeones(Request $request)
