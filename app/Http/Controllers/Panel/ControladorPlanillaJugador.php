@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
+use App\Models\Categoria;
 use App\Models\Edicion;
 use App\Models\EquipoEdicion;
 use App\Models\Jugador;
@@ -132,74 +133,169 @@ class ControladorPlanillaJugador extends Controller
 
 
 
-    // Agregar un jugador a la planilla del partido, especificando si es equipo local o visitante
     public function agregarJugador(Request $request)
     {
         $idEdicion = $request->idEdicion;
         $tipoPartido = $request->tipoPartido;
         $horarioSeleccionado = $request->horario;
-        // Validar que el jugador exista o si es necesario actualizar el dni
+        $fecha_nacimiento = $request->fecha_nacimiento;
+        $partidoId = $request->partido_id;
+
+        // Validar si ya existe un jugador con el mismo DNI
         $jugador = Jugador::where('dni', $request->dni_jugador)->first();
 
-        // Si el jugador no existe, se puede crear o actualizar el jugador con el nuevo dni y datos
-        if (!$jugador) {
-            $jugador = new Jugador();
-            $jugador->dni = $request->dni_jugador;  // Asignar el DNI si el jugador no existe
-            $jugador->nombre = $request->nombre_jugador;
-            $jugador->apellido = $request->apellido_jugador;
-            // Guardar los cambios del jugador (o crear el jugador si no existía)
-            $jugador->save();
+        if ($jugador) {
+            // Validar si el nombre o apellido no coincide
+            if ($jugador->nombre !== $request->nombre_jugador || $jugador->apellido !== $request->apellido_jugador) {
+                return redirect()->back()->with('status', 'Ya existe un jugador con este DNI, pero con un nombre o apellido diferente.');
+            }
+
+            // Verificar si el jugador ya está asignado al equipo actual
+            if (PlanillaJugador::where('dni_jugador', $request->dni_jugador)
+                ->where('idEquipo', $request->equipo_id)
+                ->where('idEdicion', $idEdicion)
+                ->exists()
+            ) {
+                return redirect()->back()->with('status', 'El jugador ya pertenece a este equipo.');
+            }
+
+            // Verificar si el jugador pertenece a otro equipo de la misma categoría y edición
+            $jugadorEnOtroEquipo = PlanillaJugador::where('dni_jugador', $request->dni_jugador)
+                ->where('idEquipo', '!=', $request->equipo_id)
+                ->where('idEdicion', $idEdicion)
+                ->where('idCategoria', $request->idCategoria)
+                ->first();
+
+            if ($jugadorEnOtroEquipo) {
+                // Realizar un join desde EquipoEdicion para obtener el nombre del equipo
+                $equipoAsignado = EquipoEdicion::join('equipos', 'equipo_ediciones.idEquipo', '=', 'equipos.id')
+                    ->where('equipo_ediciones.idEquipo', $jugadorEnOtroEquipo->idEquipo)
+                    ->select('equipos.nombre')
+                    ->first();
+                $mensaje = 'El jugador ya está asignado al equipo ' . $equipoAsignado->nombre . ' en la misma categoría y edición.';
+                return redirect()->back()->with('status', $mensaje);
+            }
+
+            // Obtener las categorías del jugador y del equipo actual
+            $categoriasJugador = PlanillaJugador::join('equipo_ediciones', 'planilla_jugadores.idEquipo', '=', 'equipo_ediciones.idEquipo')
+                ->join('categorias', 'equipo_ediciones.idCategoria', '=', 'categorias.id')
+                ->join('equipos', 'equipo_ediciones.idEquipo', '=', 'equipos.id')
+                ->where('planilla_jugadores.dni_jugador', $request->dni_jugador)
+                ->where('categorias.idEdicion', $idEdicion)
+                ->where('equipos.nombre', '!=', function ($query) use ($request) {
+                    $query->select('equipos.nombre')
+                        ->from('equipos')
+                        ->join('equipo_ediciones', 'equipos.id', '=', 'equipo_ediciones.idEquipo')
+                        ->where('equipo_ediciones.idEquipo', $request->equipo_id)
+                        ->limit(1);
+                }) // Comparar nombres de equipos
+                ->select('categorias.nombreCategoria', 'equipos.nombre as nombreEquipo')
+                ->get();
+
+
+            // Extraer el año de la categoría del equipo actual
+            $categoriaEquipoActual = Categoria::find($request->idCategoria);
+
+            $anioEquipoActual = (int) filter_var($categoriaEquipoActual->nombreCategoria, FILTER_SANITIZE_NUMBER_INT);
+
+            // Verificar si el jugador pertenece a una categoría más chica en otro equipo
+            foreach ($categoriasJugador as $categoriaJugador) {
+                $anioCategoriaJugador = (int) filter_var($categoriaJugador->nombreCategoria, FILTER_SANITIZE_NUMBER_INT);
+
+                if ($anioCategoriaJugador > $anioEquipoActual) {
+                    $mensaje = 'El jugador ya pertenece al equipo "' . $categoriaJugador->nombreEquipo . '" en la"' . $categoriaJugador->nombreCategoria . '". No puede jugar en una categoría más grande para un equipo diferente.';
+                    return redirect()->back()->with('status', $mensaje);
+                }
+            }
+        } else {
+            // Crear un nuevo jugador si no existe
+            $jugador = Jugador::create([
+                'dni' => $request->dni_jugador,
+                'nombre' => $request->nombre_jugador,
+                'apellido' => $request->apellido_jugador,
+                'fecha_nacimiento' => $fecha_nacimiento,
+            ]);
         }
 
-        // Obtener el equipo (local o visitante) al que se va a agregar el jugador
+        // Obtener el equipo al que se va a agregar el jugador
         $equipo = EquipoEdicion::where('idEquipo', $request->equipo_id)
             ->where('idEdicion', $idEdicion)
             ->first();
+
         if (!$equipo) {
             return redirect()->back()->with('status', 'Equipo no encontrado.');
         }
 
-        // Verificar si el jugador ya está asignado a otro equipo de la misma categoría y edición
-        $existeJugadorEnElMismoEquipo = PlanillaJugador::join('equipo_ediciones', 'equipo_ediciones.idEquipo', '=', 'planilla_jugadores.idEquipo')
-            ->where('planilla_jugadores.dni_jugador', $jugador->dni)
-            ->where('planilla_jugadores.idEquipo', '!=', $equipo->idEquipo)
-            ->where('equipo_ediciones.idEdicion', $idEdicion)
-            ->where('equipo_ediciones.idCategoria', $request->idCategoria)
-            ->exists();
+        // Obtener la categoría del equipo
+        $categoriaEquipo = Categoria::find($equipo->idCategoria);
 
-        if ($existeJugadorEnElMismoEquipo) {
-            return redirect()->back()->with('status', 'El jugador ya está asignado a otro equipo en la misma edición.');
+        if (!$categoriaEquipo) {
+            return redirect()->back()->with('status', 'Categoría del equipo no encontrada.');
         }
 
-        // Verificar si el jugador ya está en la planilla del mismo equipo y edición
-        $existeJugadorEnPlanilla = PlanillaJugador::where('partido_id', $request->partido_id)
-            ->where('dni_jugador', $jugador->dni)
-            ->where('idEquipo', $equipo->idEquipo)
-            ->where('idEdicion', $idEdicion)
-            ->exists();
+        // Calcular la edad del jugador basándote solo en el año actual
+        $edadJugador = now()->year - \Carbon\Carbon::parse($fecha_nacimiento)->year;
 
-        if ($existeJugadorEnPlanilla) {
-            return redirect()->back()->with('status', 'El jugador ya está en la planilla de este equipo y edición.');
+
+        // Definir la edad máxima permitida para la categoría del equipo
+        $edadMaximaCategoria = $this->obtenerEdadMaximaPorCategoria(strtolower(str_replace(['á', 'é', 'í', 'ó', 'ú'], ['a', 'e', 'i', 'o', 'u'], $categoriaEquipo->nombreCategoria)));
+
+
+        // Regla especial para Femenino Sub 13
+        if ($categoriaEquipo->nombreCategoria === 'Femenino Sub 13' && $edadJugador === 14) {
+            $jugadoras14 = PlanillaJugador::where('idEquipo', $equipo->idEquipo)
+                ->where('idCategoria', $equipo->idCategoria)
+                ->where('idEdicion', $idEdicion)
+                ->whereYear('fecha_nacimiento', 2011)
+                ->count();
+
+            if ($jugadoras14 >= 2) {
+                return redirect()->back()->with('status', 'Ya hay dos chicas nacidas en 2011 (14 años) en esta categoría. No se puede agregar otra.');
+            }
+        } elseif ($edadJugador > $edadMaximaCategoria) {
+            return redirect()->back()->with('status', 'El jugador es demasiado mayor para esta categoría.');
         }
 
         // Agregar el jugador a la planilla
-        $planilla = new PlanillaJugador();
-        $planilla->partido_id = $request->partido_id;
-        $planilla->partido_type = $tipoPartido === 'instancia_final' ? InstanciaFinal::class : Partido::class;
-        $planilla->dni_jugador = $jugador->dni;
-        $planilla->idEquipo = $equipo->idEquipo;
-        $planilla->idEdicion = $idEdicion;
-        $planilla->numero_camiseta = $request->numero_camiseta;
-        $planilla->fecha_nacimiento = $request->fecha_nacimiento;
-        $planilla->idCategoria = $request->idCategoria;
-        $planilla->goles = 0;
-        $planilla->asistio = false;
-        $planilla->save();
+        PlanillaJugador::create([
+            'partido_id' => $partidoId,
+            'partido_type' => $tipoPartido === 'instancia_final' ? InstanciaFinal::class : Partido::class,
+            'dni_jugador' => $jugador->dni,
+            'idEquipo' => $equipo->idEquipo,
+            'idEdicion' => $idEdicion,
+            'numero_camiseta' => $request->numero_camiseta,
+            'fecha_nacimiento' => $fecha_nacimiento,
+            'idCategoria' => $equipo->idCategoria,
+            'goles' => 0,
+            'asistio' => false,
+        ]);
 
-        return redirect()->route('planilla.show', ['partidoId' => $request->partido_id, 'idEdicion' => $idEdicion, 'tipoPartido' => $tipoPartido, 'horario' => $horarioSeleccionado])
-            ->with('status', 'Jugador agregado a la planilla con éxito.');
+        return redirect()->route('planilla.show', [
+            'partidoId' => $partidoId,
+            'idEdicion' => $idEdicion,
+            'tipoPartido' => $tipoPartido,
+            'horario' => $horarioSeleccionado,
+        ])->with('status', 'Jugador agregado a la planilla con éxito.');
     }
 
+    /**
+     * Obtener la edad máxima permitida para una categoría específica.
+     */
+    private function obtenerEdadMaximaPorCategoria($nombreCategoria)
+    {
+        // Define las edades máximas para cada categoría
+        $edadesMaximas = [
+            'categoria 2018' => 7,
+            'categoria 2017' => 8,
+            'categoria 2016' => 9,
+            'categoria 2015' => 10,
+            'categoria 2014' => 11,
+            'categoria 2013' => 12,
+            'femenino sub 13' => 13,
+        ];
+
+        return $edadesMaximas[$nombreCategoria] ?? 0; // Retorna 0 si la categoría no está definida
+    }
     public function actualizarJugadores(Request $request)
     {
         $tipoPartido = $request->tipoPartido;

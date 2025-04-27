@@ -369,7 +369,7 @@
                 <script>
                     setTimeout(function() {
                         document.getElementById('status-message').remove();
-                    }, 5000);
+                    }, 60000);
                 </script>
                 @endif
                 @if (Str::endsWith(request()->route()->getName(), '.show'))
