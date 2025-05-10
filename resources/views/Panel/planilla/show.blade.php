@@ -20,6 +20,7 @@
     <!-- Botón para generar el PDF -->
     <div class="flex justify-end">
         <a href="{{ route('reporte.jugadores', ['equipoId' => $partido->idEquipoLocal, 'idEdicion' => $EdicionSeleccionada->id, 'partidoId' => $partido->id]) }}"
+            target="_blank"
             class="inline-block mb-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition duration-300">
             Generar PDF
         </a>
@@ -139,13 +140,14 @@
 
     <!-- Equipo Visitante -->
     <h2 class="text-xl font-semibold mb-2 text-center">{{ $partido->equipoVisitante->nombre }}</h2>
-     <!-- Botón para generar el PDF -->
-     <div class="flex justify-end">
-        <a href="{{ route('reporte.jugadores', ['equipoId' => $partido->idEquipoVisitante, 'idEdicion' => $EdicionSeleccionada->id, 'partidoId' => $partido->id]) }}"
-            class="inline-block mb-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition duration-300">
-            Generar PDF
-        </a>
-     </div>
+    <!-- Botón para generar el PDF -->
+    <div class="flex justify-end">
+       <a href="{{ route('reporte.jugadores', ['equipoId' => $partido->idEquipoVisitante, 'idEdicion' => $EdicionSeleccionada->id, 'partidoId' => $partido->id]) }}"
+          target="_blank"
+          class="inline-block mb-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition duration-300">
+          Generar PDF
+       </a>
+    </div>
     <form action="{{ route('planilla.agregarJugador') }}" method="POST" class="mb-4">
         @csrf
         <input type="hidden" name="partido_id" value="{{ $partido->id }}">

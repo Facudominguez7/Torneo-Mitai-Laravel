@@ -32,14 +32,14 @@
             flex-grow: 1;
         }
         .header .team-info img {
-            height: 60px;
-            margin-bottom: 10px;
+            height: 100px;
+            margin-bottom: 15px;
         }
         .header img.logo {
             position: absolute;
             top: 0;
             right: 0;
-            height: 80px;
+            height: 100px;
         }
     </style>
 </head>
@@ -47,12 +47,12 @@
     <div class="header">
         <!-- Foto del equipo -->
         <div class="team-info">
-            <img src="{{ public_path('fotos/equipos/' . $equipo->foto) }}" alt="Foto del equipo">
-            <h2>Equipo: {{ $equipo->nombre }}</h2>
-            <h3>{{ $nombreCategoria->nombre }}</h3>
+            <img src="{{ asset('fotos/equipos/' . $equipo->foto) }}" alt="Foto del equipo">
+            <h1>{{ $equipo->nombre }}</h1>
+            <h2>{{ $nombreCategoria->nombre }}</h2>
         </div>
         <!-- Logo del torneo -->
-        <img class="logo" src="{{ public_path('fotos/Logo_Mitai_SinFondo.png') }}" alt="Logo del torneo">
+        <img class="logo" src="{{ asset('fotos/Logo_Mitai_SinFondo.png') }}" alt="Logo del torneo">
     </div>
     <h1>Reporte de Jugadores</h1>
     <table>
@@ -66,12 +66,20 @@
         </thead>
         <tbody>
             @foreach ($jugadores as $jugador)
-                <tr>
-                    <td>{{ $jugador->nombre }}</td>
-                    <td>{{ $jugador->apellido }}</td>
-                    <td>{{ $jugador->dni }}</td>
-                    <td>{{ \Carbon\Carbon::parse($jugador->fecha_nacimiento)->format('d-m-Y') }}</td>
-                </tr>
+            <tr>
+                <td>{{ $jugador->nombre }}</td>
+                <td>{{ $jugador->apellido }}</td>
+                <td>
+                @if (strlen($jugador->dni) === 8)
+                    {{ substr($jugador->dni, 0, 2) . '.' . substr($jugador->dni, 2, 3) . '.' . substr($jugador->dni, 5, 3) }}
+                @elseif (strlen($jugador->dni) === 7)
+                    {{ substr($jugador->dni, 0, 1) . '.' . substr($jugador->dni, 1, 3) . '.' . substr($jugador->dni, 4, 3) }}
+                @else
+                    {{ $jugador->dni }}
+                @endif
+                </td>
+                <td>{{ \Carbon\Carbon::parse($jugador->fecha_nacimiento)->format('d-m-Y') }}</td>
+            </tr>
             @endforeach
         </tbody>
     </table>
