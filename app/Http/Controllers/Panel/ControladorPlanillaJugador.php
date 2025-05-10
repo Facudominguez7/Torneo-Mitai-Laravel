@@ -11,9 +11,10 @@ use App\Models\Partido;
 use App\Models\InstanciaFinal;
 use App\Models\PlanillaJugador;
 use App\Models\TablaGoleador;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class ControladorPlanillaJugador extends Controller
 {
@@ -404,14 +405,12 @@ class ControladorPlanillaJugador extends Controller
             ->leftJoin('ediciones', 'equipo_ediciones.idEdicion', '=', 'ediciones.id')
             ->select('equipos.nombre', 'equipos.foto', 'equipo_ediciones.*')
             ->first();
-        
-        dd(asset('fotos/equipos/' . $equipo->foto));
 
 
         // Generar el PDF
         $pdf = Pdf::loadView('Panel.reporte.jugadores', compact('jugadores', 'equipo', 'nombreCategoria'));
 
-        // Descargar el PDF
-        return $pdf->download('reporte_jugadores_equipo_' . $equipo->nombre . '_categoria_' . $nombreCategoria->nombre . '.pdf');
+        // Ver PDF en el navegador
+        return $pdf->stream('reporte_jugadores_equipo_' . $equipo->nombre . '_categoria_' . $nombreCategoria->nombre . '.pdf', ['Attachment' => false]);
     }
 }
