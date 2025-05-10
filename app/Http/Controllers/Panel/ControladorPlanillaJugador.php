@@ -12,6 +12,7 @@ use App\Models\PlanillaJugador;
 use App\Models\TablaGoleador;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ControladorPlanillaJugador extends Controller
 {
@@ -276,5 +277,45 @@ class ControladorPlanillaJugador extends Controller
             'tipoPartido' => $tipoPartido,
             'horario' => $horarioSeleccionado,
         ])->with('status', 'Jugadores actualizados correctamente.');
+    }
+
+    public function generarReportePDF($equipoId, $idEdicion, $partidoId)
+    {
+        // Obtener los jugadores únicos del equipo en la edición especificada
+        $jugadores = PlanillaJugador::where('idEquipo', $equipoId)
+            ->where('idEdicion', $idEdicion)
+            ->join('jugadores', 'planilla_jugadores.dni_jugador', '=', 'jugadores.dni')
+            ->select(
+                'jugadores.dni',
+                'jugadores.nombre',
+                'jugadores.apellido',
+                'planilla_jugadores.fecha_nacimiento'
+            )
+            ->distinct() // Eliminar duplicados
+            ->get();
+
+
+        // Obtener la categoría del partido
+        $nombreCategoria = Partido::where('partidos.id', $partidoId)
+            ->leftJoin('categorias', 'partidos.idCategoria', '=', 'categorias.id')
+            ->select('categorias.nombreCategoria as nombre')
+            ->first();
+
+
+        // Obtener información del equipo
+        $equipo = EquipoEdicion::where('equipo_ediciones.idEquipo', $equipoId)
+            ->leftJoin('equipos', 'equipo_ediciones.idEquipo', '=', 'equipos.id')
+            ->leftJoin('ediciones', 'equipo_ediciones.idEdicion', '=', 'ediciones.id')
+            ->select('equipos.nombre', 'equipos.foto', 'equipo_ediciones.*')
+            ->first();
+        
+        dd(asset('fotos/equipos/' . $equipo->foto));
+
+
+        // Generar el PDF
+        $pdf = Pdf::loadView('Panel.reporte.jugadores', compact('jugadores', 'equipo', 'nombreCategoria'));
+
+        // Descargar el PDF
+        return $pdf->download('reporte_jugadores_equipo_' . $equipo->nombre . '_categoria_' . $nombreCategoria->nombre . '.pdf');
     }
 }

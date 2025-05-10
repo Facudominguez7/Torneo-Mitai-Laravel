@@ -82,6 +82,7 @@ Route::group(['prefix' => 'Panel', 'middleware' => ['auth', 'verified', UserAcce
     // En routes/web.php
     Route::get('/categorias-por-edicion/{id}', [ControladorEdicion::class, 'categoriasPorEdicion'])->name('categorias.por.edicion');
     Route::get('/equipos-por-categoria/{id}', [ControladorEdicion::class, 'equiposPorCategoria']);
+    Route::get('/reporte-jugadores/{equipoId}/{idEdicion}/{partidoId}', [ControladorPlanillaJugador::class, 'generarReportePDF'])->name('reporte.jugadores');
 });
 
 
