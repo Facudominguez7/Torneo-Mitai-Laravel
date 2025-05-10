@@ -267,9 +267,8 @@
                         <select id="horario" name="horario"
                             class="appearance-none bg-white text-gray-800 font-medium border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none hover:border-gray-400 px-4 py-2 rounded-lg shadow-md w-auto transition ease-in-out duration-200">
                             <option value="">Mostrar Todos</option>
-                            @foreach (['15:00', '16:00', '17:00', '18:00', '19:00'] as $horario)
-                            <option value="{{ $horario }}"
-                                {{ request('horario') == $horario ? 'selected' : '' }}>
+                            @foreach ($horariosDisponibles as $horario)
+                            <option value="{{ $horario }}" {{ request('horario') == $horario ? 'selected' : '' }}>
                                 {{ $horario }} hs
                             </option>
                             @endforeach
@@ -370,7 +369,7 @@
                 <script>
                     setTimeout(function() {
                         document.getElementById('status-message').remove();
-                    }, 5000);
+                    }, 60000);
                 </script>
                 @endif
                 @if (Str::endsWith(request()->route()->getName(), '.show'))
