@@ -69,7 +69,6 @@
         <tbody>
             @foreach ($jugadores as $jugador)
             <tr>
-                <td></td>
                 <td>{{ $jugador->nombre }}</td>
                 <td>{{ $jugador->apellido }}</td>
                 <td>
@@ -82,7 +81,6 @@
                 @endif
                 </td>
                 <td>{{ \Carbon\Carbon::parse($jugador->fecha_nacimiento)->format('d-m-Y') }}</td>
-                <td></td>
             </tr>
             @endforeach
         </tbody>
