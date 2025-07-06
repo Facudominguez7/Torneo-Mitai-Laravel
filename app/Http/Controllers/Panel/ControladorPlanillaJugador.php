@@ -277,7 +277,7 @@ class ControladorPlanillaJugador extends Controller
                 'partidoId' => $partidoId,
                 'idEdicion' => $idEdicion,
                 'tipoPartido' => $tipoPartido,
-                'idFecha' => 0,
+                'horario' => 0,
             ])->with('status', 'Jugador agregado a la planilla con éxito.');
         } else {
             return redirect()->route('planilla.show', [
