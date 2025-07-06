@@ -272,12 +272,21 @@ class ControladorPlanillaJugador extends Controller
             'asistio' => false,
         ]);
 
-        return redirect()->route('planilla.show', [
-            'partidoId' => $partidoId,
-            'idEdicion' => $idEdicion,
-            'tipoPartido' => $tipoPartido,
-            'horario' => $horarioSeleccionado,
-        ])->with('status', 'Jugador agregado a la planilla con éxito.');
+        if ($tipoPartido === 'instanciaFinal') {
+            return redirect()->route('planilla.show', [
+                'partidoId' => $partidoId,
+                'idEdicion' => $idEdicion,
+                'tipoPartido' => $tipoPartido,
+                'idFecha' => 0,
+            ])->with('status', 'Jugador agregado a la planilla con éxito.');
+        } else {
+            return redirect()->route('planilla.show', [
+                'partidoId' => $partidoId,
+                'idEdicion' => $idEdicion,
+                'tipoPartido' => $tipoPartido,
+                'horario' => $horarioSeleccionado,
+            ])->with('status', 'Jugador agregado a la planilla con éxito.');
+        }
     }
 
     /**
@@ -347,6 +356,7 @@ class ControladorPlanillaJugador extends Controller
             // Actualizar los datos en la tabla de goleadores
             $goleador = TablaGoleador::where('dni_jugador', $dni)
                 ->where('idEdicion', $idEdicion)
+                ->where('idCategoria', $planilla->idCategoria)
                 ->first();
             if ($goleador) {
                 // Ajustar los goles totales del goleador
@@ -368,12 +378,21 @@ class ControladorPlanillaJugador extends Controller
         }
 
         // Redirigir de vuelta a la vista con un mensaje de éxito
-        return redirect()->route('planilla.show', [
-            'partidoId' => $request->partido_id,
-            'idEdicion' => $idEdicion,
-            'tipoPartido' => $tipoPartido,
-            'horario' => $horarioSeleccionado,
-        ])->with('status', 'Jugadores actualizados correctamente.');
+        if ($tipoPartido === 'instanciaFinal') {
+            return redirect()->route('planilla.show', [
+                'partidoId' => $request->partido_id,
+                'idEdicion' => $idEdicion,
+                'tipoPartido' => $tipoPartido,
+                'horario' => 0,
+            ])->with('status', 'Jugadores actualizados correctamente.');
+        } else {
+            return redirect()->route('planilla.show', [
+                'partidoId' => $request->partido_id,
+                'idEdicion' => $idEdicion,
+                'tipoPartido' => $tipoPartido,
+                'horario' => $horarioSeleccionado,
+            ])->with('status', 'Jugadores actualizados correctamente.');
+        }
     }
 
     public function generarReportePDF($equipoId, $idEdicion, $partidoId)
