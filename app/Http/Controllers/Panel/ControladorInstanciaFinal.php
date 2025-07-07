@@ -49,13 +49,14 @@ class ControladorInstanciaFinal extends Controller
 
         $partidos = $query
             ->with([
-                'equipoLocal:id,nombre,foto',
-                'equipoVisitante:id,nombre,foto',
-                'fase:id,nombre',
-                'categoria:id,nombreCategoria'
+            'equipoLocal:id,nombre,foto',
+            'equipoVisitante:id,nombre,foto',
+            'fase:id,nombre',
+            'categoria:id,nombreCategoria'
             ])
             ->select('instancias_finales.*')
-            ->orderByDesc('instancias_finales.id')
+            ->orderByRaw('DATE(instancias_finales.horario) desc')
+            ->orderBy('instancias_finales.horario', 'asc')
             ->get();
 
         $categorias = Categoria::where('idEdicion', $idEdicion)
