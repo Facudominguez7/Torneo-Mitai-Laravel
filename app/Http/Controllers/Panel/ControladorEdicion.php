@@ -43,11 +43,13 @@ class ControladorEdicion extends Controller
 
     public function equiposPorCategoria($id)
     {
-        // Obtener los equipos asociados a la categoría seleccionada
+        // Obtener la categoría y los equipos asociados
+        $categoria = Categoria::find($id);
         $equipos = Equipo::where('idCategoria', $id)->get();
 
         return response()->json([
-            'equipos' => $equipos
+            'equipos' => $equipos,
+            'categoria' => $categoria ? $categoria->nombreCategoria : 'Categoría'
         ]);
     }
 
@@ -56,8 +58,8 @@ class ControladorEdicion extends Controller
      */
     public function create(Request $request)
     {
-        // Obtener todas las ediciones
-        $ediciones = Edicion::all();
+        // Obtener las 3 últimas ediciones ordenadas por ID descendente
+        $ediciones = Edicion::orderBy('id', 'desc')->take(3)->get();
         $edicion = new Edicion();
 
         // Inicializar variables
