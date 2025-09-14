@@ -15,6 +15,15 @@
         </a>
         <h1 class="text-2xl font-bold mb-4">Planilla de Jugadores - Partido {{ $partido->id }}</h1>
 
+        <div class="mb-4">
+            <a href="{{ route($tipoPartido === 'instanciaFinal' ?
+                    'cargar-resultado-instancia' : 'cargar-resultado',
+                    ['idEdicion'=>$EdicionSeleccionada->id, 'idPartido'=>$partido->id]) }}"
+                class="px-4 py-2 bg-blue-600 text-white rounded-md">
+                Cargar resultado
+            </a>
+        </div>
+
         <!-- Equipo Local -->
         <h2 class="text-xl font-semibold mb-2 text-center">{{ $partido->equipoLocal->nombre }}</h2>
         <!-- Botón para generar el PDF -->
