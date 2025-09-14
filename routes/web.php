@@ -78,7 +78,6 @@ Route::group(['prefix' => 'Panel', 'middleware' => ['auth', 'verified', UserAcce
         Route::post('/agregar-jugador', [ControladorPlanillaJugador::class, 'agregarJugador'])->name('planilla.agregarJugador');
         Route::post('/actualizar-jugador', [ControladorPlanillaJugador::class, 'actualizarJugadores'])->name('planilla.actualizarJugadores');
     });
-    // Rutas para obtener las categorías y equipos por AJAX
     // En routes/web.php
     Route::get('/categorias-por-edicion/{id}', [ControladorEdicion::class, 'categoriasPorEdicion'])->name('categorias.por.edicion');
     Route::get('/equipos-por-categoria/{id}', [ControladorEdicion::class, 'equiposPorCategoria']);

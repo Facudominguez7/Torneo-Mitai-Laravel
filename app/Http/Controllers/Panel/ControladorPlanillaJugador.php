@@ -147,10 +147,6 @@ class ControladorPlanillaJugador extends Controller
         $jugador = Jugador::where('dni', $request->dni_jugador)->first();
 
         if ($jugador) {
-            // Validar si el nombre o apellido no coincide
-            if ($jugador->nombre !== $request->nombre_jugador || $jugador->apellido !== $request->apellido_jugador) {
-                return redirect()->back()->with('status', 'Ya existe un jugador con este DNI, pero con un nombre o apellido diferente.');
-            }
 
             // Verificar si el jugador ya está asignado al equipo actual
             if (PlanillaJugador::where('dni_jugador', $request->dni_jugador)
@@ -315,13 +311,26 @@ class ControladorPlanillaJugador extends Controller
 
         // Recorrer todos los jugadores enviados en el formulario
         foreach ($request->jugadores as $dni => $datos) {
-            // Buscar la planilla del jugador
+            // Buscar la planilla y el jugador
             $planilla = PlanillaJugador::where('partido_id', $request->partido_id)
                 ->where('dni_jugador', $dni)
                 ->first();
 
-            if (!$planilla) {
-                continue; // Si no se encuentra la planilla, pasar al siguiente jugador
+            $jugador = Jugador::where('dni', $dni)->first();
+
+            if (!$planilla || !$jugador) {
+                continue; // Si no se encuentra la planilla o el jugador, pasar al siguiente
+            }
+
+            // Capturar los nuevos datos
+            $nuevoDni  = $datos['dni'] ?? $dni;
+            $nombre    = $datos['nombre'] ?? $jugador->nombre;
+            $apellido  = $datos['apellido'] ?? $jugador->apellido;
+            $nacimiento = $datos['fecha_nacimiento'] ?? $jugador->fecha_nacimiento;
+
+            // Validar si el nuevo DNI ya existe en otro registro
+            if (Jugador::where('dni', $nuevoDni)->where('dni', '!=', $dni)->exists()) {
+                return redirect()->back()->with('status', 'El DNI ' . $nuevoDni . ' ya está registrado.');
             }
 
             // Guardar los valores actuales antes de actualizar
@@ -332,38 +341,44 @@ class ControladorPlanillaJugador extends Controller
             $planilla->goles = $datos['goles'] ?? $planilla->goles;
             $planilla->asistio = isset($datos['asistencia']);
             $planilla->numero_camiseta = $datos['numero_camiseta'] ?? $planilla->numero_camiseta;
+            $planilla->fecha_nacimiento = $nacimiento;
             $planilla->save();
 
-            // Actualizar los datos del jugador en la tabla jugadores
-            $jugador = Jugador::where('dni', $dni)->first();
-            if ($jugador) {
-                // Ajustar los goles totales del jugador
-                $jugador->goles_totales += ($planilla->goles - $golesAnteriores);
+            // Actualizar los datos del jugador
+            $jugador->goles_totales += ($planilla->goles - $golesAnteriores);
 
-                // Ajustar los partidos totales del jugador
-                if ($planilla->goles > 0 || $planilla->asistio) {
-                    if (!$asistioAnteriormente) {
-                        $jugador->partidos_totales += 1;
-                    }
-                } else {
-                    if ($asistioAnteriormente) {
-                        $jugador->partidos_totales -= 1;
-                    }
+            if ($planilla->goles > 0 || $planilla->asistio) {
+                if (!$asistioAnteriormente) {
+                    $jugador->partidos_totales += 1;
                 }
-                $jugador->save();
+            } else {
+                if ($asistioAnteriormente) {
+                    $jugador->partidos_totales -= 1;
+                }
             }
 
-            // Actualizar los datos en la tabla de goleadores
+            $jugador->nombre = $nombre;
+            $jugador->apellido = $apellido;
+            $jugador->dni = $nuevoDni;
+            $jugador->save();
+
+            // Si el DNI cambió, actualizar referencias en otras tablas
+            if ($nuevoDni != $dni) {
+                PlanillaJugador::where('dni_jugador', $dni)->update(['dni_jugador' => $nuevoDni]);
+                TablaGoleador::where('dni_jugador', $dni)->update(['dni_jugador' => $nuevoDni]);
+                $dni = $nuevoDni;
+            }
+
+            // Actualizar o crear el registro en la tabla de goleadores
             $goleador = TablaGoleador::where('dni_jugador', $dni)
                 ->where('idEdicion', $idEdicion)
                 ->where('idCategoria', $planilla->idCategoria)
                 ->first();
+
             if ($goleador) {
-                // Ajustar los goles totales del goleador
                 $goleador->cantidadGoles += ($planilla->goles - $golesAnteriores);
                 $goleador->save();
             } else {
-                // Crear un nuevo registro en la tabla de goleadores si no existe y si tiene 1 gol o más
                 if ($planilla->goles > 0) {
                     TablaGoleador::create([
                         'dni_jugador' => $dni,
