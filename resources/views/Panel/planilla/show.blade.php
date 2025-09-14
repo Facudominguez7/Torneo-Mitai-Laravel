@@ -15,20 +15,16 @@
         </a>
         <h1 class="text-2xl font-bold mb-4">Planilla de Jugadores - Partido {{ $partido->id }}</h1>
 
-        <div class="mb-4">
-            <p class="text-gray-700"> {{ $partido->categoria->nombreCategoria }}</p>
-            <p class="text-gray-700"><strong>Horario:</strong> {{ $partido->horario ? $partido->horario : \Carbon\Carbon::parse($partido->horario_datetime)->format('d-m-Y H:i') }}</p>
-            <p class="text-gray-700"><strong>Cancha:</strong> {{ $partido->cancha }}</p>
-        </div>
-
-        <div class="mb-4">
-            <a href="{{ route($tipoPartido === 'instanciaFinal' ?
-                    'cargar-resultado-instancia' : 'cargar-resultado',
-                    ['idEdicion'=>$EdicionSeleccionada->id, 'idPartido'=>$partido->id]) }}"
-                class="px-4 py-2 bg-blue-600 text-white rounded-md">
-                Cargar resultado
-            </a>
-        </div>
+        @if(is_null($partido->golesEquipoLocal) && is_null($partido->golesEquipoVisitante))
+            <div class="mb-4">
+                <a href="{{ route($tipoPartido === 'instanciaFinal' ?
+                        'cargar-resultado-instancia' : 'cargar-resultado',
+                        ['idEdicion'=>$EdicionSeleccionada->id, 'idPartido'=>$partido->id]) }}"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-md">
+                    Cargar resultado
+                </a>
+            </div>
+        @endif
 
         <!-- Equipo Local -->
         <h2 class="text-xl font-semibold mb-2 text-center">{{ $partido->equipoLocal->nombre }}</h2>
